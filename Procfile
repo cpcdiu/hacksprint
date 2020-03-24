@@ -1,2 +1,2 @@
 release: python manage.py migrate --noinput
-web: gunicorn crud.wsgi --log-file -
+web: gunicorn hacksprint.wsgi --log-file -
