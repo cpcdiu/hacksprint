@@ -113,15 +113,14 @@
     <div class="ui large top fixed hidden menu">
         <div class="ui container">
             <a class="active item">Home</a>
-            <a class="item">Work</a>
-            <a class="item">Company</a>
-            <a class="item">Careers</a>
+            <a class="item">About</a>
+            <a class="item">Blog</a>
             <div class="right menu">
                 <div class="item">
-                    <a class="ui button">Log in</a>
+                    <a class="ui button" href="{% url 'login' %}">Log in</a>
                 </div>
                 <div class="item">
-                    <a class="ui primary button">Sign Up</a>
+                    <a class="ui primary button" href="{% url 'register' %}">Sign Up</a>
                 </div>
             </div>
         </div>
@@ -130,11 +129,10 @@
     <!-- Sidebar Menu -->
     <div class="ui vertical inverted sidebar menu">
         <a class="active item">Home</a>
-        <a class="item">Work</a>
-        <a class="item">Company</a>
-        <a class="item">Careers</a>
-        <a class="item">Login</a>
-        <a class="item">Signup</a>
+        <a class="item">About</a>
+        <a class="item">Blog</a>
+        <a class="item" href="{% url 'login' %}">Login</a>
+        <a class="item" href="{% url 'register' %}">Signup</a>
     </div>
 
 
@@ -144,19 +142,7 @@
              style="background-image: url('/media/bg.jpg')">
             <div class="shadow-wrapper">
                 <div class="ui container pt-3">
-                    <div class="ui large secondary inverted pointing menu m-menu">
-                        <a class="toc item">
-                            <i class="sidebar icon"></i>
-                        </a>
-                        <a class="active item">Home</a>
-                        <a class="item">About</a>
-                        <a class="item">Company</a>
-                        <a class="item">Careers</a>
-                        <div class="right item">
-                            <a class="ui inverted button">Log in</a>
-                            <a class="ui inverted button">Sign Up</a>
-                        </div>
-                    </div>
+                    {% include 'main/partials/navbar.html' %}
                 </div>
                 <div class="ui text container">
                     <h1 class="ui inverted header">
