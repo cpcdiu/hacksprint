@@ -139,7 +139,7 @@
     <!-- Page Contents -->
     <div class="pusher">
         <div class="ui inverted vertical masthead center aligned segment hero"
-             style="background-image: url('/media/bg.jpg')">
+             style="background-image: url({% static 'main/img/bg.jpg'%})">
             <div class="shadow-wrapper">
                 <div class="ui container pt-3">
                     {% include 'main/partials/navbar.html' %}
@@ -167,7 +167,7 @@
                             bioengineered.</p>
                     </div>
                     <div class="six wide right floated column">
-                        <img src="media/white-image.png" class="ui large bordered rounded image">
+                        <img src="{% static 'main/img/white-image.png' %}" class="ui large bordered rounded image">
                     </div>
                 </div>
                 <div class="row">
@@ -189,7 +189,7 @@
                     <div class="column">
                         <h3>"I shouldn't have gone with their competitor."</h3>
                         <p>
-                            <img src="media/nan.jpg" class="ui avatar image"> <b>Nan</b> Chief Fun
+                            <img src="{% static 'main/img/nan.jpg' %}" class="ui avatar image"> <b>Nan</b> Chief Fun
                             Officer Acme Toys
                         </p>
                     </div>
