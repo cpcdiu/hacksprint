@@ -1,0 +1,10 @@
+@import '_variables.scss';
+
+a {
+  color: inherit;
+
+  &:hover {
+    color: inherit;
+    text-decoration: none;
+  }
+}

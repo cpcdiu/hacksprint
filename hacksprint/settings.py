@@ -5,7 +5,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 SECRET_KEY = env('SECRET_KEY')
 
-DEBUG = env('DEBUG')
+DEBUG = env('DEBUG', False, var_type='boolean')
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
@@ -16,6 +16,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'main.apps.MainConfig',
+    'adminpanel.apps.AdminpanelConfig',
 ]
 
 MIDDLEWARE = [
@@ -88,3 +90,7 @@ USE_TZ = True
 STATIC_URL = '/assets/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

@@ -1,0 +1,22 @@
+@import "../utilities/variables";
+@import "../partials/slider";
+
+
+.hero {
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  padding: 0px !important;
+  min-height: calc(100vh - 0px) !important;
+  height: calc(100vh - 0px) !important;
+
+  .shadow-wrapper {
+    width: 100%;
+    height: 100%;
+    background: rgba(black, 0.8);
+  }
+
+  .m-menu {
+    border: none !important;
+  }
+}

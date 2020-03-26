@@ -1,0 +1,21 @@
+{% load static %}
+
+<!doctype html>
+<html lang="en">
+<head>
+    {% include 'adminpanel/partials/meta.html' %}
+    {% block meta %}
+    {% endblock %}
+    {% include 'adminpanel/partials/styles.html' %}
+    {% block styles %}
+    {% endblock %}
+</head>
+<body>
+    {% block body %}
+    {% endblock %}
+
+    {% include 'adminpanel/partials/scripts.html' %}
+    {% block scripts %}
+    {% endblock %}
+</body>
+</html>
