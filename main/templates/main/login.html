@@ -1,4 +1,5 @@
 {% extends 'main/base.html' %}
+{% load static %}
 
 {% block meta %}
     <title>Login - Hacksprint</title>
@@ -25,7 +26,7 @@
     <div class="ui middle aligned center aligned grid">
   <div class="column">
     <h2 class="ui teal image header">
-      <img src="/media/logo.png" class="image">
+      <img src="{% static 'main/img/logo.png' %}" class="image">
       <div class="content">
         Log-in to your account
       </div>
