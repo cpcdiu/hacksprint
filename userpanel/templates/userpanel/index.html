@@ -1,13 +1,85 @@
 {% extends 'userpanel/base.html' %}
+{% load static %}
 
 {% block styles %}
-    <link rel="stylesheet" href="https://semantic-ui.com/dist/components/dropdown.css">
 {% endblock %}
 
 {% block body %}
     {% include 'userpanel/partials/navbar.html' %}
+    <section class="tracks pt-4">
+        <div class="container">
+            <div class="section-title">
+                <h2>All Tracks</h2>
+            </div>
+            <div class="ui four column cards mt-1">
+                <div class="card">
+                    <div class="content">
+                        <div class="ui two column grid">
+                            <div class="six wide column pr-0">
+                                <img src="{% static 'userpanel/img/web.jpg' %}" alt="web" class="img-fluid"
+                                     style="width: 100%; height: auto">
+                            </div>
+                            <div class="ten wide column">
+                                <h4 class="mb-2">Web Development</h4>
+                                <div class="description">
+                                    Elliot Fu is a film-maker from New York.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <div class="ui two column grid">
+                            <div class="six wide column pr-0">
+                                <img src="{% static 'userpanel/img/mobile.jpg' %}" alt="mobile" class="img-fluid"
+                                     style="width: 100%; height: auto">
+                            </div>
+                            <div class="ten wide column">
+                                <h4 class="mb-2">Android Development</h4>
+                                <div class="description">
+                                    Elliot Fu is a film-maker from New York.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <div class="ui two column grid">
+                            <div class="six wide column pr-0">
+                                <img src="{% static 'userpanel/img/game.jpg' %}" alt="game" class="img-fluid"
+                                     style="width: 100%; height: auto">
+                            </div>
+                            <div class="ten wide column">
+                                <h4 class="mb-2">Game Development</h4>
+                                <div class="description">
+                                    Elliot Fu is a film-maker from New York.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="content">
+                        <div class="ui two column grid">
+                            <div class="six wide column pr-0">
+                                <img src="{% static 'userpanel/img/ds.jpg' %}" alt="web" class="img-fluid"
+                                     style="width: 100%; height: auto">
+                            </div>
+                            <div class="ten wide column">
+                                <h4 class="mb-2">Data Science</h4>
+                                <div class="description">
+                                    Elliot Fu is a film-maker from New York.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
 
 {% block scripts %}
-    <script src="https://semantic-ui.com/dist/components/dropdown.js"></script>
 {% endblock %}
