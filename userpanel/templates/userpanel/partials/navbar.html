@@ -1,7 +1,7 @@
 <div class="ui sticky inverted menu rounded-0">
     <div class="container">
-        <a href="#" class="header item">
-            Hacksprint
+        <a href="{% url 'home' %}" class="header item">
+            <h3>Hacksprint</h3>
         </a>
         <a href="#" class="item">Practice</a>
         <a href="#" class="item">Jobs</a>
@@ -20,7 +20,7 @@
                 <img src="https://he-s3.s3.amazonaws.com/media/avatars/shakil16/resized/30/6dd0c83shakil.jpg" alt="">
                 <i class="dropdown icon"></i>
                 <div class="menu">
-                    <a class="item" href="#">Profile</a>
+                    <a class="item" href="{% url 'profile' %}">Profile</a>
                     <a class="item" href="#">Settings</a>
                     <a class="item" href="{% url 'logout' %}">Logout</a>
                 </div>
