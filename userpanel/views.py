@@ -19,3 +19,7 @@ def practices(request):
 
 def jobs(request):
     return render(request, 'userpanel/jobs.html')
+
+
+def settings(request):
+    return render(request, 'userpanel/settings.html')

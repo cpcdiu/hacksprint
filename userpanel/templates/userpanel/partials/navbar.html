@@ -1,7 +1,8 @@
 <div class="ui sticky inverted menu rounded-0 mb-0">
     <div class="container">
         <a href="{% url 'home' %}" class="header item">
-            <h3>Hacksprint</h3>
+{#            <h3>Hacksprint</h3>#}
+            <img src="https://hrcdn.net/fcore/assets/brand/h_mark_sm-966d2b45e3.svg" alt="">
         </a>
         <a href="{% url 'challenges' %}" class="item">Challenges</a>
         <a href="{% url 'practice' %}" class="item">Practice</a>
@@ -22,7 +23,7 @@
                 <i class="dropdown icon"></i>
                 <div class="menu">
                     <a class="item" href="{% url 'profile' %}">Profile</a>
-                    <a class="item" href="#">Settings</a>
+                    <a class="item" href="{% url 'settings' %}">Settings</a>
                     <a class="item" href="{% url 'logout' %}">Logout</a>
                 </div>
             </div>
