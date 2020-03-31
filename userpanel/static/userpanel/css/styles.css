@@ -5,7 +5,8 @@ a {
     text-decoration: none; }
 
 body {
-  font-family: "Lato", sans-serif; }
+  font-family: "Lato", sans-serif;
+  background: #f3f7f7; }
 
 .section-title {
   font-size: 40px;
@@ -21,7 +22,18 @@ body {
 .sp-bottom {
   padding-bottom: 80px; }
 
+footer {
+  background: white; }
+  footer .footer-nav {
+    list-style: none; }
+    footer .footer-nav li {
+      display: inline;
+      margin-left: 10px; }
+
 .card-img {
   width: 200px; }
+
+.square.image {
+  padding-top: 70% !important; }
 
 /*# sourceMappingURL=styles.css.map */

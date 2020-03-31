@@ -13,6 +13,8 @@ urlpatterns = [
 
     path('admin/', admin_views.index, name='adminpanel'),
 
-    path('dashboard/', user_views.index, name='userpanel'),
-    path('profile/', user_views.profile, name='profile')
+    path('profile/', user_views.profile, name='profile'),
+    path('challenges/', user_views.challenges, name='challenges'),
+    path('practice/', user_views.practices, name='practice'),
+    path('jobs/', user_views.jobs, name='jobs')
 ]
