@@ -17,5 +17,6 @@ urlpatterns = [
     path('settings/', user_views.settings, name='settings'),
     path('challenges/', user_views.challenges, name='challenges'),
     path('practice/', user_views.practices, name='practice'),
-    path('jobs/', user_views.jobs, name='jobs')
+    path('jobs/', user_views.jobs, name='jobs'),
+    path('notifications/', user_views.notification, name='notification')
 ]

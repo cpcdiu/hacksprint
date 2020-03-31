@@ -23,3 +23,7 @@ def jobs(request):
 
 def settings(request):
     return render(request, 'userpanel/settings.html')
+
+
+def notification(request):
+    return render(request, 'userpanel/notification.html')

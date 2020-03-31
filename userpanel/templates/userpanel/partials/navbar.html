@@ -1,4 +1,4 @@
-<div class="ui sticky inverted menu rounded-0 mb-0">
+<div class="ui sticky inverted menu rounded-0 mb-0" style="height: 50px">
     <div class="container">
         <a href="{% url 'home' %}" class="header item">
 {#            <h3>Hacksprint</h3>#}
@@ -15,7 +15,7 @@
                     <input type="text" placeholder="Search">
                 </div>
             </div>
-            <a class="item" style="height: 100%">
+            <a href="{% url 'notification' %}" class="item" style="height: 100%">
                 <i class="bell icon m-0"></i>
             </a>
             <div class="ui simple dropdown item">
