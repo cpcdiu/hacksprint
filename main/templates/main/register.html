@@ -32,31 +32,36 @@
             <h2 class="ui teal image header">
                 <img src="{% static 'main/img/logo.png' %}" class="image">
                 <div class="content">
-                    Create an account
+                    Sign up for beta testing
                 </div>
             </h2>
-            <form class="ui large form" method="POST">
+            <form class="ui form" method="POST">
                 {% csrf_token %}
                 <div class="ui stacked segment">
-                    <div class="field">
-                        <div class="ui left icon input">
-                            <i class="envelope icon"></i>
-                            <input type="text" name="email" placeholder="E-mail address">
-                        </div>
+                    <div class="two fields">
+                        <div class="field"><input type="text" placeholder="First Name" name="first_name"></div>
+                        <div class="field"><input type="text" placeholder="Second Name" name="last_name"></div>
                     </div>
                     <div class="field">
                         <div class="ui left icon input">
-                            <i class="user icon"></i>
-                            <input type="text" name="username" placeholder="Username [Must be unique]">
+                            <i class="at icon"></i>
+                            <input type="text" placeholder="Username" name="username">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon right labeled input">
+                            <i class="envelope icon"></i>
+                            <input type="text" name="email" placeholder="example15-0000">
+                            <div class="ui basic label">@diu.edu.bd</div>
                         </div>
                     </div>
                     <div class="field">
                         <div class="ui left icon input">
                             <i class="lock icon"></i>
-                            <input type="password" name="password" placeholder="Password">
+                            <input type="password" placeholder="Password" name="password">
                         </div>
                     </div>
-                    <div class="ui fluid large teal submit button">Sign Up</div>
+                    <input type="submit" class="ui fluid large teal submit button" value="Sign Up">
                 </div>
                 <div class="ui error message"></div>
             </form>
@@ -69,43 +74,43 @@
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        $(document)
-            .ready(function () {
-                $('.ui.form')
-                    .form({
-                        fields: {
-                            email: {
-                                identifier: 'email',
-                                rules: [
-                                    {
-                                        type: 'empty',
-                                        prompt: 'Please enter your e-mail'
-                                    },
-                                    {
-                                        type: 'email',
-                                        prompt: 'Please enter a valid e-mail'
-                                    }
-                                ]
-                            },
-                            password: {
-                                identifier: 'password',
-                                rules: [
-                                    {
-                                        type: 'empty',
-                                        prompt: 'Please enter your password'
-                                    },
-                                    {
-                                        type: 'length[6]',
-                                        prompt: 'Your password must be at least 6 characters'
-                                    }
-                                ]
-                            }
-                        }
-                    })
-                ;
-            })
-        ;
-    </script>
+{#    <script>#}
+{#        $(document)#}
+{#            .ready(function () {#}
+{#                $('.ui.form')#}
+{#                    .form({#}
+{#                        fields: {#}
+{#                            email: {#}
+{#                                identifier: 'email',#}
+{#                                rules: [#}
+{#                                    {#}
+{#                                        type: 'empty',#}
+{#                                        prompt: 'Please enter your e-mail'#}
+{#                                    },#}
+{#                                    {#}
+{#                                        type: 'email',#}
+{#                                        prompt: 'Please enter a valid e-mail'#}
+{#                                    }#}
+{#                                ]#}
+{#                            },#}
+{#                            password: {#}
+{#                                identifier: 'password',#}
+{#                                rules: [#}
+{#                                    {#}
+{#                                        type: 'empty',#}
+{#                                        prompt: 'Please enter your password'#}
+{#                                    },#}
+{#                                    {#}
+{#                                        type: 'length[6]',#}
+{#                                        prompt: 'Your password must be at least 6 characters'#}
+{#                                    }#}
+{#                                ]#}
+{#                            }#}
+{#                        }#}
+{#                    })#}
+{#                ;#}
+{#            })#}
+{#        ;#}
+{#    </script>#}
 {% endblock %}
 
