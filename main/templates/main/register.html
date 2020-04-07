@@ -66,6 +66,16 @@
                 <div class="ui error message"></div>
             </form>
 
+            {% if messages %}
+                <div class="ui error message">
+                    <ul class="list">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
             <div class="ui message">
                 Already have an account? <a href="{% url 'login' %}">Login</a>
             </div>
@@ -74,43 +84,66 @@
 {% endblock %}
 
 {% block scripts %}
-{#    <script>#}
-{#        $(document)#}
-{#            .ready(function () {#}
-{#                $('.ui.form')#}
-{#                    .form({#}
-{#                        fields: {#}
-{#                            email: {#}
-{#                                identifier: 'email',#}
-{#                                rules: [#}
-{#                                    {#}
-{#                                        type: 'empty',#}
-{#                                        prompt: 'Please enter your e-mail'#}
-{#                                    },#}
-{#                                    {#}
-{#                                        type: 'email',#}
-{#                                        prompt: 'Please enter a valid e-mail'#}
-{#                                    }#}
-{#                                ]#}
-{#                            },#}
-{#                            password: {#}
-{#                                identifier: 'password',#}
-{#                                rules: [#}
-{#                                    {#}
-{#                                        type: 'empty',#}
-{#                                        prompt: 'Please enter your password'#}
-{#                                    },#}
-{#                                    {#}
-{#                                        type: 'length[6]',#}
-{#                                        prompt: 'Your password must be at least 6 characters'#}
-{#                                    }#}
-{#                                ]#}
-{#                            }#}
-{#                        }#}
-{#                    })#}
-{#                ;#}
-{#            })#}
-{#        ;#}
-{#    </script>#}
+    <script>
+        $(document)
+            .ready(function () {
+                $('.ui.form')
+                    .form({
+                        fields: {
+                            first_name: {
+                                identifier: 'first_name',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter First Name'
+                                    }
+                                ]
+                            },
+                            last_name: {
+                                identifier: 'last_name',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter Last Name'
+                                    }
+                                ]
+                            },
+                            username: {
+                                identifier: 'username',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter Username'
+                                    }
+                                ]
+                            },
+                            email: {
+                                identifier: 'email',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please enter your e-mail'
+                                    },
+                                ]
+                            },
+                            password: {
+                                identifier: 'password',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please enter your password'
+                                    },
+                                    {
+                                        type: 'length[6]',
+                                        prompt: 'Your password must be at least 6 characters'
+                                    }
+                                ]
+                            }
+                        }
+                    })
+                ;
+            })
+        ;
+    </script>
 {% endblock %}
 

@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
@@ -27,7 +28,8 @@ def login_fn(request):
                 login(request, user)
                 return redirect('home')
             else:
-                return render(request, 'main/login.html', {'msg': 'Invalid username and password'})
+                messages.error(request, 'Invalid Username and Password')
+                return render(request, 'main/login.html')
 
 
 def logout_fn(request):
@@ -49,15 +51,22 @@ def register_fn(request):
             email = request.POST['email'] + '@diu.edu.bd'
             password = request.POST['password']
 
+            if first_name == '' or last_name == '' or username == '' or email == '' or password == '':
+                messages.error(request, 'Fields sould not be blank')
+                return render(request, 'main/register.html')
+
             username_count = User.objects.filter(username=username).count()
             email_count = User.objects.filter(email=email).count()
 
             if username_count == 0 and email_count == 0:
-                User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email, password=password, is_active=False)
+                User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
+                                         password=password, is_active=False)
                 return redirect('login')
 
-            elif username_count > 0:
-                return render(request, 'main/register.html', {'msg': 'This username is in used'})
+            if username_count > 0:
+                messages.error(request, 'Username is in used')
 
-            elif email_count > 0:
-                return render(request, 'main/register.html', {'msg': 'This email is in used'})
+            if email_count > 0:
+                messages.error(request, 'Email is in used')
+
+            return render(request, 'main/register.html')

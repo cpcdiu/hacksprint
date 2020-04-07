@@ -1,9 +1,13 @@
 from django.conf.urls import url
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
 
+@login_required(login_url='/admin/login')
 def index(request):
     return render(request, 'adminpanel/index.html')
 
@@ -26,3 +30,21 @@ def user_action(request, action, uid):
         user = User.objects.filter(id=uid)
         user.delete()
     return redirect('admin-users')
+
+
+def admin_login(request):
+    if request.method == 'GET':
+        return render(request, 'adminpanel/login.html')
+
+    elif request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+
+        if user is not None and user.is_superuser:
+            login(request, user)
+            return redirect('adminpanel')
+        else:
+            messages.error(request, 'No such account')
+            return render(request, 'adminpanel/login.html')

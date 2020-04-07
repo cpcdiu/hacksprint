@@ -53,14 +53,57 @@
                     </div>
                     <input class="ui fluid large teal submit button" type="submit" value="Login">
                 </div>
-
+                <div class="ui error message"></div>
             </form>
+
+            {% if messages %}
+                <div class="ui error message">
+                    <ul class="list">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
 
             <div class="ui message">
                 New to us? <a href="{% url 'register' %}">Sign Up</a>
             </div>
         </div>
     </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document)
+            .ready(function () {
+                $('.ui.form')
+                    .form({
+                        fields: {
+                            email: {
+                                identifier: 'username',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please enter your username'
+                                    },
+                                ]
+                            },
+                            password: {
+                                identifier: 'password',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Password can\'t be blank'
+                                    }
+                                ]
+                            }
+                        }
+                    })
+                ;
+            })
+        ;
+    </script>
 {% endblock %}
 
 

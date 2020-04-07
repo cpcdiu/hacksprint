@@ -132,12 +132,12 @@
                                                     <td>{{ user.last_login }}</td>
                                                     <td>
                                                         {% if user.is_active %}
-                                                            <a href="{% url 'user-action' 'edit' user.id %}" class="btn btn-primary">
+                                                            <a href="{% url 'user-action' 'edit' user.id %}" class="btn btn-primary" style="padding: .65rem 1.2rem">
                                                                 <i class="fas fa-user-edit"></i>
                                                             </a>
                                                         {% else %}
                                                             <a href="{% url 'user-action' 'approve' user.id %}" class="btn btn-warning">
-                                                                <i class="fas fa-check"></i>
+                                                                <i class="fas fa-hourglass"></i>
                                                             </a>
                                                         {% endif %}
                                                         <a href="{% url 'user-action' 'delete' user.id %}" class="btn btn-danger">
