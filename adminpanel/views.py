@@ -1,26 +1,29 @@
 from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 
 
-@login_required(login_url='/admin/login')
+@user_passes_test(lambda u: u.is_superuser)
 def index(request):
     return render(request, 'adminpanel/index.html')
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def users(request):
-    all_user = User.objects.all().order_by('-id')
+    all_user = User.objects.all().order_by('-date_joined')
     return render(request, 'adminpanel/users.html', {'users': all_user})
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def settings(request):
     return render(request, 'adminpanel/settings.html')
 
 
+@user_passes_test(lambda u: u.is_superuser)
 def user_action(request, action, uid):
     if action == 'approve':
         user = User.objects.filter(id=uid)

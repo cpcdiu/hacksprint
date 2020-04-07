@@ -7,6 +7,8 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG', False, var_type='boolean')
 
+LOGIN_URL = '/admin/login/'
+
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
