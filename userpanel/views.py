@@ -1,5 +1,7 @@
 from django.shortcuts import render
 
+from userpanel.models import Track
+
 
 def index(request):
     return render(request, 'userpanel/index.html')
@@ -14,7 +16,8 @@ def challenges(request):
 
 
 def practices(request):
-    return render(request, 'userpanel/practice.html')
+    tracks = Track.objects.all()
+    return render(request, 'userpanel/practice.html', {'tracks': tracks})
 
 
 def jobs(request):

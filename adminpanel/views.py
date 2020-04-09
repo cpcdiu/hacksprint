@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from cloudinary import uploader
 
 from userpanel.models import Track
 
@@ -66,8 +67,9 @@ def tracks(request):
         title = request.POST['title']
         desc = request.POST['desc']
         avatar = request.FILES['avatar']
+        info = uploader.upload(avatar)
 
-        track = Track(title=title, desc=desc, avatar=avatar.name)
+        track = Track(title=title, desc=desc, avatar=info['url'])
         track.save()
 
         return redirect('tracks')

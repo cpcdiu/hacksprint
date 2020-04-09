@@ -108,14 +108,29 @@
                                             <th scope="col">Avatar</th>
                                             <th scope="col">Title</th>
                                             <th scope="col">Description</th>
+                                            <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
                                         {% for track in tracks %}
                                             <tr>
-                                                <td>{{ forloop.counter }}</td>
+                                                <td>
+                                                    <div class="img-wrapper" style="width: 50px"><img
+                                                            src={{ track.avatar }} alt={{ track.title }}
+                                                            style="width: 100%; height: auto"></div>
+                                                </td>
                                                 <td>{{ track.title }}</td>
                                                 <td>{{ track.desc }}</td>
+                                                <td>
+                                                    <a href="{% url 'user-action' 'edit' user.id %}"
+                                                       class="btn btn-primary" style="padding: .65rem 1.2rem">
+                                                        <i class="fas fa-user-edit"></i>
+                                                    </a>
+                                                    <a href="{% url 'user-action' 'delete' user.id %}"
+                                                       class="btn btn-danger">
+                                                        <i class="fas fa-trash"></i>
+                                                    </a>
+                                                </td>
                                             </tr>
                                         {% endfor %}
                                         </tbody>

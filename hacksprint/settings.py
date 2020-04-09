@@ -1,4 +1,5 @@
 import os
+import cloudinary
 from envs import env
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -7,11 +8,18 @@ SECRET_KEY = env('SECRET_KEY')
 
 DEBUG = env('DEBUG', False, var_type='boolean')
 
+cloudinary.config(
+    cloud_name = env('CLOUDINARY_CLOUD_NAME'),
+    api_key = env('CLOUDINARY_API_KEY'),
+    api_secret = env('CLOUDINARY_API_SECRET')
+)
+
 LOGIN_URL = '/admin/login/'
 
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
+    'cloudinary',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
