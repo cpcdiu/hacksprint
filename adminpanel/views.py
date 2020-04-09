@@ -2,9 +2,11 @@ from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+
+from userpanel.models import Track
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -42,12 +44,30 @@ def admin_login(request):
     elif request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
-
         user = authenticate(username=username, password=password)
 
         if user is not None and user.is_superuser:
             login(request, user)
+            if request.GET:
+                return redirect(request.GET['next'])
             return redirect('adminpanel')
+
         else:
             messages.error(request, 'No such account')
             return render(request, 'adminpanel/login.html')
+
+
+def tracks(request):
+    if request.method == 'GET':
+        all_tracks = Track.objects.all()
+        return render(request, 'adminpanel/tracks.html', {'tracks': all_tracks})
+
+    elif request.method == 'POST':
+        title = request.POST['title']
+        desc = request.POST['desc']
+        avatar = request.FILES['avatar']
+
+        track = Track(title=title, desc=desc, avatar=avatar.name)
+        track.save()
+
+        return redirect('tracks')
