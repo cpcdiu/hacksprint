@@ -7,7 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from cloudinary import uploader
 
-from userpanel.models import Track
+from adminpanel.models import Track, Practice
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -73,3 +73,21 @@ def tracks(request):
         track.save()
 
         return redirect('tracks')
+
+
+def single_track(request, id):
+    if request.method == 'GET':
+        practices = Practice.objects.filter(track__id=id)
+        return render(request, 'adminpanel/practices.html', {'practices': practices})
+    if request.method == 'POST':
+        title = request.POST['title']
+        body = request.POST['body']
+        author = request.user
+        track = Track.objects.get(id=id)
+
+        practice = Practice(title=title, author=author, track=track, body=body)
+        practice.save()
+
+        return redirect('/admin/tracks/' + str(id))
+
+        # return HttpResponse(track)

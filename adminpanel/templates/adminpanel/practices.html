@@ -30,7 +30,7 @@
                         <button class="btn btn-primary btn-border btn-round ml-auto" data-toggle="modal"
                                 data-target="#addRowModal">
                             <i class="fa fa-plus"></i>
-                            Add Tracks
+                            Add Practice
                         </button>
                     </div>
                     <div class="row">
@@ -46,7 +46,7 @@
 														<span class="fw-mediumbold">
 														New</span>
                                                         <span class="fw-light">
-															Track
+															Practice
 														</span>
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -55,7 +55,7 @@
                                                     </button>
                                                 </div>
                                                 <div class="modal-body">
-                                                    <p class="small">Create a new Track using this form, make sure you
+                                                    <p class="small">Create a new Practice using this form, make sure you
                                                         fill them all</p>
                                                     <form method="POST" enctype="multipart/form-data">
                                                         {% csrf_token %}
@@ -74,16 +74,8 @@
                                                                               class="form-control"
                                                                               rows="5"
                                                                               cols="30"
-                                                                              name="desc"
+                                                                              name="body"
                                                                     ></textarea>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <input id="addFile" type="file"
-                                                                           class="form-control"
-                                                                           name="avatar"
-                                                                    >
                                                                 </div>
                                                             </div>
                                                         </div>
@@ -105,28 +97,22 @@
                                     <table class="table table-hover mt-3">
                                         <thead>
                                         <tr>
-                                            <th scope="col">Avatar</th>
                                             <th scope="col">Title</th>
-                                            <th scope="col">Description</th>
+                                            <th scope="col">Tags</th>
                                             <th scope="col">Action</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for track in tracks %}
+                                        {% for practice in practices %}
                                             <tr>
+                                                <td><strong><a href={{ practice.id }}>{{ practice.title }}</a></strong></td>
+                                                <td>Some, Tags</td>
                                                 <td>
-                                                    <div class="img-wrapper" style="width: 50px"><img
-                                                            src={{ track.avatar }} alt={{ track.title }}
-                                                            style="width: 100%; height: auto"></div>
-                                                </td>
-                                                <td><strong><a href={{ track.id }}>{{ track.title }}</a></strong></td>
-                                                <td>{{ track.desc }}</td>
-                                                <td>
-                                                    <a href="{% url 'user-action' 'edit' user.id %}"
+                                                    <a href="#"
                                                        class="btn btn-primary" style="padding: .65rem 1.2rem">
                                                         <i class="fas fa-user-edit"></i>
                                                     </a>
-                                                    <a href="{% url 'user-action' 'delete' user.id %}"
+                                                    <a href="#"
                                                        class="btn btn-danger">
                                                         <i class="fas fa-trash"></i>
                                                     </a>
