@@ -19,18 +19,25 @@ LOGIN_URL = '/admin/login/'
 ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
+    'main.apps.MainConfig',
+    'adminpanel.apps.AdminpanelConfig',
+    'userpanel.apps.UserpanelConfig',
     'cloudinary',
     'rest_framework',
+    'rest_framework.authtoken',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
-    'adminpanel.apps.AdminpanelConfig',
-    'userpanel.apps.UserpanelConfig'
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

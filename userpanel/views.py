@@ -1,10 +1,79 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from userpanel.models import Track
 
 
-def index(request):
-    return render(request, 'userpanel/index.html')
+class IndexView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is dashboard page"
+        }
+        return Response(content)
+
+
+class ChallengesView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is challenge page"
+        }
+        return Response(content)
+
+
+class PracticeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is practice page"
+        }
+        return Response(content)
+
+
+class JobsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is jobs page"
+        }
+        return Response(content)
+
+
+class NotificationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is notification page"
+        }
+        return Response(content)
+
+
+class ProfileView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is profile page"
+        }
+        return Response(content)
+
+
+class SettingsView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        content = {
+            "message": "this is settings page"
+        }
+        return Response(content)
 
 
 def profile(request):
