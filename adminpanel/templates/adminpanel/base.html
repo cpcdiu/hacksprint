@@ -6,16 +6,29 @@
     {% include 'adminpanel/partials/meta.html' %}
     {% block meta %}
     {% endblock %}
+    <script src="{% static 'adminpanel/js/plugin/webfont/webfont.min.js' %}"></script>
+    <script>
+        WebFont.load({
+            google: {"families": ["Lato:300,400,700,900"]},
+            custom: {
+                "families": ["Flaticon", "Font Awesome 5 Solid", "Font Awesome 5 Regular", "Font Awesome 5 Brands", "simple-line-icons"],
+                urls: ['{% static "adminpanel/css/fonts.min.css" %}']
+            },
+            active: function () {
+                sessionStorage.fonts = true;
+            }
+        });
+    </script>
     {% include 'adminpanel/partials/styles.html' %}
     {% block styles %}
     {% endblock %}
 </head>
 <body>
-    {% block body %}
-    {% endblock %}
+{% block body %}
+{% endblock %}
 
-    {% include 'adminpanel/partials/scripts.html' %}
-    {% block scripts %}
-    {% endblock %}
+{% include 'adminpanel/partials/scripts.html' %}
+{% block scripts %}
+{% endblock %}
 </body>
 </html>

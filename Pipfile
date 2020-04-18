@@ -12,6 +12,7 @@ envs = "*"
 whitenoise = "*"
 gunicorn = "*"
 mysqlclient = "*"
+cloudinary = "*"
 
 [requires]
 python_version = "3.7"

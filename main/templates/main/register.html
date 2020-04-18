@@ -2,101 +2,148 @@
 {% load static %}
 
 {% block meta %}
-    <title>Login - Hacksprint</title>
+    <title>Registration - Hacksprint</title>
 {% endblock %}
 
 {% block styles %}
     <style type="text/css">
-    body {
-      background-color: #DADADA;
-    }
-    body > .grid {
-      height: 100%;
-    }
-    .image {
-      margin-top: -100px;
-    }
-    .column {
-      max-width: 450px;
-    }
-  </style>
+        body {
+            background-color: #DADADA;
+        }
+
+        body > .grid {
+            height: 100%;
+        }
+
+        .image {
+            margin-top: -100px;
+        }
+
+        .column {
+            max-width: 450px;
+        }
+    </style>
 {% endblock %}
 
 {% block body %}
+    <h1>{{ msg }}</h1>
     <div class="ui middle aligned center aligned grid">
-  <div class="column">
-    <h2 class="ui teal image header">
-      <img src="{% static 'main/img/logo.png' %}" class="image">
-      <div class="content">
-        Create an account
-      </div>
-    </h2>
-    <form class="ui large form">
-      <div class="ui stacked segment">
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="user icon"></i>
-            <input type="text" name="email" placeholder="E-mail address">
-          </div>
+        <div class="column">
+            <h2 class="ui teal image header">
+                <img src="{% static 'main/img/logo.png' %}" class="image">
+                <div class="content">
+                    Sign up for beta testing
+                </div>
+            </h2>
+            <form class="ui form" method="POST">
+                {% csrf_token %}
+                <div class="ui stacked segment">
+                    <div class="two fields">
+                        <div class="field"><input type="text" placeholder="First Name" name="first_name"></div>
+                        <div class="field"><input type="text" placeholder="Second Name" name="last_name"></div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="at icon"></i>
+                            <input type="text" placeholder="Username" name="username">
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon right labeled input">
+                            <i class="envelope icon"></i>
+                            <input type="text" name="email" placeholder="example15-0000">
+                            <div class="ui basic label">@diu.edu.bd</div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="ui left icon input">
+                            <i class="lock icon"></i>
+                            <input type="password" placeholder="Password" name="password">
+                        </div>
+                    </div>
+                    <input type="submit" class="ui fluid large teal submit button" value="Sign Up">
+                </div>
+                <div class="ui error message"></div>
+            </form>
+
+            {% if messages %}
+                <div class="ui error message">
+                    <ul class="list">
+                        {% for message in messages %}
+                            <li>{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+
+            <div class="ui message">
+                Already have an account? <a href="{% url 'login' %}">Login</a>
+            </div>
         </div>
-        <div class="field">
-          <div class="ui left icon input">
-            <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
-          </div>
-        </div>
-        <div class="ui fluid large teal submit button">Login</div>
-      </div>
-
-      <div class="ui error message"></div>
-
-    </form>
-
-    <div class="ui message">
-      Already have an account? <a href="{% url 'login' %}">Login</a>
     </div>
-  </div>
-</div>
 {% endblock %}
 
 {% block scripts %}
     <script>
-  $(document)
-    .ready(function() {
-      $('.ui.form')
-        .form({
-          fields: {
-            email: {
-              identifier  : 'email',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your e-mail'
-                },
-                {
-                  type   : 'email',
-                  prompt : 'Please enter a valid e-mail'
-                }
-              ]
-            },
-            password: {
-              identifier  : 'password',
-              rules: [
-                {
-                  type   : 'empty',
-                  prompt : 'Please enter your password'
-                },
-                {
-                  type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters'
-                }
-              ]
-            }
-          }
-        })
-      ;
-    })
-  ;
-  </script>
+        $(document)
+            .ready(function () {
+                $('.ui.form')
+                    .form({
+                        fields: {
+                            first_name: {
+                                identifier: 'first_name',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter First Name'
+                                    }
+                                ]
+                            },
+                            last_name: {
+                                identifier: 'last_name',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter Last Name'
+                                    }
+                                ]
+                            },
+                            username: {
+                                identifier: 'username',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please Enter Username'
+                                    }
+                                ]
+                            },
+                            email: {
+                                identifier: 'email',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please enter your e-mail'
+                                    },
+                                ]
+                            },
+                            password: {
+                                identifier: 'password',
+                                rules: [
+                                    {
+                                        type: 'empty',
+                                        prompt: 'Please enter your password'
+                                    },
+                                    {
+                                        type: 'length[6]',
+                                        prompt: 'Your password must be at least 6 characters'
+                                    }
+                                ]
+                            }
+                        }
+                    })
+                ;
+            })
+        ;
+    </script>
 {% endblock %}
 
