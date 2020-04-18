@@ -5,3 +5,4 @@ db.sqlite3
 *.pyc
 *.*.pyc
 *.scssc
+/node_modules/

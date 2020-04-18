@@ -6,7 +6,9 @@ from userpanel import views as user_views
 from adminpanel import views as admin_views
 
 urlpatterns = [
-    path('', main_views.index, name='home'),
+    path('', main_views.index, name='index'),
+
+    path('home/', main_views.home, name='home'),
     path('login/', main_views.login_fn, name='login'),
     path('logout/', main_views.logout_fn, name='logout'),
     path('register/', main_views.register_fn, name='register'),

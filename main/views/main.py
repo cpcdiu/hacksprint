@@ -6,6 +6,10 @@ from django.contrib.auth.models import User
 
 
 def index(request):
+    return render(request, 'index.html')
+
+
+def home(request):
     if request.user.is_authenticated:
         return render(request, 'userpanel/index.html')
     else:

@@ -1,0 +1,14 @@
+@import '../utilities/_variables.scss';
+
+footer {
+  background: white;
+
+  .footer-nav {
+    list-style: none;
+
+    li {
+      display: inline;
+      margin-left: 10px;
+    }
+  }
+}
