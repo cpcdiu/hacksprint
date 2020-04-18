@@ -15,10 +15,11 @@ import {
 	Sidebar,
 	Visibility,
 } from "semantic-ui-react";
+import { Link } from "react-router-dom";
 
-import bg from "../../assets/img/bg.jpg";
-import dummy from "../../assets/img/white-image.png";
-import dummy2 from "../../assets/img/nan.jpg";
+import bg from "../assets/img/bg.jpg";
+import dummy from "../assets/img/white-image.png";
+import dummy2 from "../assets/img/nan.jpg";
 
 // Heads up!
 // We using React Static to prerender our docs with server side rendering, this is a quite simple solution.
@@ -109,14 +110,15 @@ class DesktopContainer extends Component {
 								<Menu.Item as="a">Company</Menu.Item>
 								<Menu.Item as="a">Careers</Menu.Item>
 								<Menu.Item position="right">
-									<Button as="a" inverted={!fixed}>
+									<Button as={Link} inverted={!fixed} to="/login">
 										Log in
 									</Button>
 									<Button
-										as="a"
+										as={Link}
 										inverted={!fixed}
 										primary={fixed}
 										style={{ marginLeft: "0.5em" }}
+										to="/register"
 									>
 										Sign Up
 									</Button>

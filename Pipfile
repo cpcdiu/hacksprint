@@ -13,6 +13,8 @@ whitenoise = "*"
 gunicorn = "*"
 mysqlclient = "*"
 cloudinary = "*"
+djangorestframework = "*"
+django-rest-knox = "*"
 
 [requires]
 python_version = "3.7"

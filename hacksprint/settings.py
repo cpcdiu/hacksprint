@@ -9,9 +9,9 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = env('DEBUG', False, var_type='boolean')
 
 cloudinary.config(
-    cloud_name = env('CLOUDINARY_CLOUD_NAME'),
-    api_key = env('CLOUDINARY_API_KEY'),
-    api_secret = env('CLOUDINARY_API_SECRET')
+    cloud_name=env('CLOUDINARY_CLOUD_NAME'),
+    api_key=env('CLOUDINARY_API_KEY'),
+    api_secret=env('CLOUDINARY_API_SECRET')
 )
 
 LOGIN_URL = '/admin/login/'
@@ -20,6 +20,7 @@ ALLOWED_HOSTS = env('ALLOWED_HOSTS')
 
 INSTALLED_APPS = [
     'cloudinary',
+    'rest_framework',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
