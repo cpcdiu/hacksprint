@@ -6,65 +6,70 @@ export default class Profile extends Component {
 		return (
 			<div>
 				<Navbar />
-				<div class="container py-5 bg-color">
-					<div class="ui two column grid">
-						<div class="four wide column">
-							<div class="ui fluid card">
-								<a class="image" href="#">
-									<img src="https://semantic-ui.com/images/avatar/large/steve.jpg" />
-								</a>
-								<div class="content">
-									<a class="header" href="#">
-										Steve Jobes
+				<div className="pt-4 pb-5 bg-color">
+					<div className="container">
+						<div className="ui two column grid">
+							<div className="four wide column">
+								<div className="ui fluid card">
+									<a className="image" href="/">
+										<img
+											src="https://semantic-ui.com/images/avatar/large/steve.jpg"
+											alt="dummy"
+										/>
 									</a>
-									<div class="meta">
-										<p class="mb-2">Founder, Apple Inc.</p>
-										<div class="d-flex mt-1">
-											<i class="map marker alternate icon"></i>
-											<p class="pl-1">Dhaka, Bangladesh</p>
-										</div>
-										<div class="d-flex mt-1">
-											<i class="envelope outline icon"></i>
-											<p class="pl-1">steve@mail.com</p>
-										</div>
-										<div class="d-flex mt-1">
-											<i class="linkify icon"></i>
-											<p class="pl-1">
-												<a href="#">www.steve.com</a>
-											</p>
+									<div className="content">
+										<a className="header" href="/">
+											Steve Jobes
+										</a>
+										<div className="meta">
+											<p className="mb-2">Founder, Apple Inc.</p>
+											<div className="d-flex mt-1">
+												<i className="map marker alternate icon"></i>
+												<p className="pl-1">Dhaka, Bangladesh</p>
+											</div>
+											<div className="d-flex mt-1">
+												<i className="envelope outline icon"></i>
+												<p className="pl-1">steve@mail.com</p>
+											</div>
+											<div className="d-flex mt-1">
+												<i className="linkify icon"></i>
+												<p className="pl-1">
+													<a href="/">www.steve.com</a>
+												</p>
+											</div>
 										</div>
 									</div>
 								</div>
+								<button className="fluid ui button">
+									<i className="edit outline icon mr-2"></i> Edit Profile
+								</button>
 							</div>
-							<button class="fluid ui button">
-								<i class="edit outline icon mr-2"></i> Edit Profile
-							</button>
-						</div>
-						<div class="twelve wide column">
-							<div class="work">
-								<h2 class="ui header">
-									<i class="briefcase icon"></i>
-									<div class="content">Work Experience</div>
-								</h2>
-								<div class="ui placeholder">
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
+							<div className="twelve wide column">
+								<div className="work">
+									<h2 className="ui header">
+										<i className="briefcase icon"></i>
+										<div className="content">Work Experience</div>
+									</h2>
+									<div className="ui placeholder">
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+									</div>
 								</div>
-							</div>
-							<div class="education mt-5">
-								<h2 class="ui header">
-									<i class="building icon"></i>
-									<div class="content">Education</div>
-								</h2>
-								<div class="ui placeholder">
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
-									<div class="line"></div>
+								<div className="education mt-5">
+									<h2 className="ui header">
+										<i className="building icon"></i>
+										<div className="content">Education</div>
+									</h2>
+									<div className="ui placeholder">
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+										<div className="line"></div>
+									</div>
 								</div>
 							</div>
 						</div>

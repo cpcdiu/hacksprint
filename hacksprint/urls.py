@@ -10,6 +10,7 @@ urlpatterns = [
     path('login/', obtain_auth_token),
     path('dashboard/', user_views.IndexView.as_view()),
     path('challenges/', user_views.ChallengesView.as_view()),
+    path('tracks/', user_views.TrackView.as_view()),
     path('practice/', user_views.PracticeView.as_view()),
     path('jobs/', user_views.JobsView.as_view()),
     path('notifications/', user_views.NotificationView.as_view()),

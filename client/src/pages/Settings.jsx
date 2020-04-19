@@ -6,45 +6,67 @@ export default class Settings extends Component {
 		return (
 			<div>
 				<Navbar />
-				<div class="py-5 bg-color">
-					<div class="container">
-						<div class="ui two column grid">
-							<div class="four wide column">
-								<div class="ui vertical menu">
-									<div class="item">
-										<div class="header">General</div>
-										<div class="menu">
-											<a class="item">Account</a>
-											<a class="item">Team</a>
-											<a class="item">Security</a>
+				<div className="py-5 bg-color">
+					<div className="container">
+						<div className="ui two column grid">
+							<div className="four wide column">
+								<div className="ui vertical menu">
+									<div className="item">
+										<div className="header">General</div>
+										<div className="menu">
+											<a href="/" className="item">
+												Account
+											</a>
+											<a href="/" className="item">
+												Team
+											</a>
+											<a href="/" className="item">
+												Security
+											</a>
 										</div>
 									</div>
-									<div class="item">
-										<div class="header">Preferences</div>
-										<div class="menu">
-											<a class="item">Email</a>
-											<a class="item">Language</a>
+									<div className="item">
+										<div className="header">Preferences</div>
+										<div className="menu">
+											<a href="/" className="item">
+												Email
+											</a>
+											<a href="/" className="item">
+												Language
+											</a>
 										</div>
 									</div>
-									<div class="item">
-										<div class="header">Notification</div>
-										<div class="menu">
-											<a class="item">Rails</a>
-											<a class="item">Python</a>
-											<a class="item">PHP</a>
+									<div className="item">
+										<div className="header">Notification</div>
+										<div className="menu">
+											<a href="/" className="item">
+												Rails
+											</a>
+											<a href="/" className="item">
+												Python
+											</a>
+											<a href="/" className="item">
+												PHP
+											</a>
 										</div>
 									</div>
-									<div class="item">
-										<div class="header">Jobs</div>
-										<div class="menu">
-											<a class="item">Shared</a>
-											<a class="item">Dedicated</a>
-											<a class="item">VPS</a>
+									<div className="item">
+										<div className="header">Jobs</div>
+										<div className="menu">
+											<a href="/" className="item">
+												Shared
+											</a>
+											<a href="/" className="item">
+												Dedicated
+											</a>
+											<a href="/" className="item">
+												VPS
+											</a>
 										</div>
 									</div>
 								</div>
 							</div>
-							<div class="twelve wide column"></div>
+							<div className="twelve wide column"></div>
 						</div>
 					</div>
 				</div>

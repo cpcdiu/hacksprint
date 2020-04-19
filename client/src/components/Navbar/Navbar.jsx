@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Dropdown, Image, Menu } from "semantic-ui-react";
+import { Container, Menu } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
 export default function Navbar() {

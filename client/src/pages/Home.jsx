@@ -17,7 +17,7 @@ import {
 } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 
-import bg from "../assets/img/bg.jpg";
+// import bg from "../assets/img/bg.jpg";
 import dummy from "../assets/img/white-image.png";
 import dummy2 from "../assets/img/nan.jpg";
 
@@ -300,7 +300,7 @@ const HomepageLayout = () => (
 					horizontal
 					style={{ margin: "3em 0em", textTransform: "uppercase" }}
 				>
-					<a href="#">Case Studies</a>
+					<a href="/">Case Studies</a>
 				</Divider>
 
 				<Header as="h3" style={{ fontSize: "2em" }}>

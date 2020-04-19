@@ -3,7 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from userpanel.models import Track
+from adminpanel.models import Track
+from userpanel.serializers import PracticeSerializer, TrackSerializer
 
 
 class IndexView(APIView):
@@ -24,6 +25,15 @@ class ChallengesView(APIView):
             "message": "this is challenge page"
         }
         return Response(content)
+
+
+class TrackView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        tracks = Track.objects.all()
+        serializer = TrackSerializer(tracks, many=True)
+        return Response(serializer.data)
 
 
 class PracticeView(APIView):

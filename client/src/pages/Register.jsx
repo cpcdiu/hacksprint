@@ -34,16 +34,16 @@ const RegistrationForm = () => (
 								iconPosition="left"
 							/>
 						</div>
-						<div class="field">
-							<div class="ui left icon right labeled input">
-								<i class="envelope icon"></i>
+						<div className="field">
+							<div className="ui left icon right labeled input">
+								<i className="envelope icon"></i>
 								<input type="text" name="email" placeholder="example15-0000" />
-								<div class="ui basic label">@diu.edu.bd</div>
+								<div className="ui basic label">@diu.edu.bd</div>
 							</div>
 						</div>
-						<div class="field">
-							<div class="ui left icon input">
-								<i class="lock icon"></i>
+						<div className="field">
+							<div className="ui left icon input">
+								<i className="lock icon"></i>
 								<input type="password" placeholder="Password" name="password" />
 							</div>
 						</div>
