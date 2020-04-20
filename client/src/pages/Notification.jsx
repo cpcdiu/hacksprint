@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar/DashNav";
+import Footer from "../components/Footer/Footer";
 
 export default class Notification extends Component {
 	render() {
@@ -186,6 +187,7 @@ export default class Notification extends Component {
 						</div>
 					</div>
 				</div>
+				<Footer />
 			</div>
 		);
 	}

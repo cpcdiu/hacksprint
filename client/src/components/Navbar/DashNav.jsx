@@ -18,7 +18,7 @@ export default class DashNav extends Component {
 					<Link to="/challenges" className="item">
 						Challenges
 					</Link>
-					<Link to="/practice" className="item">
+					<Link to="/tracks" className="item">
 						Practice
 					</Link>
 					<Link to="/jobs" className="item">

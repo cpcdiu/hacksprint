@@ -1,9 +1,10 @@
+from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adminpanel.models import Track
+from adminpanel.models import Track, Practice
 from userpanel.serializers import PracticeSerializer, TrackSerializer
 
 
@@ -36,14 +37,22 @@ class TrackView(APIView):
         return Response(serializer.data)
 
 
-class PracticeView(APIView):
+class SingleTrackView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request):
-        content = {
-            "message": "this is practice page"
-        }
-        return Response(content)
+    def get(self, request, track_id):
+        practices = Practice.objects.filter(track__id=track_id)
+        serializer = PracticeSerializer(practices, many=True)
+        return Response(serializer.data)
+
+
+class SinglePracticeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, track_id, practice_id):
+        practice = Practice.objects.get(id=practice_id)
+        serializer = PracticeSerializer(practice)
+        return Response(serializer.data)
 
 
 class JobsView(APIView):

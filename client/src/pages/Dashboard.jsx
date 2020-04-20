@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Navbar from "../components/Navbar/DashNav";
+import Footer from "../components/Footer/Footer";
 import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Tracks from "../components/Track/Tracks";
@@ -106,6 +107,7 @@ export default class Dashboard extends Component {
 						</div>
 					</div>
 				</main>
+				<Footer />
 			</React.Fragment>
 		);
 	}
