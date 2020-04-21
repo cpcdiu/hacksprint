@@ -16,7 +16,7 @@ class CakeContainer extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		numOfCakes: state.numOfCakes,
+		numOfCakes: state.cakeReducer.numOfCakes,
 	};
 };
 

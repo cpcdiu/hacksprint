@@ -1,24 +1,17 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import axios from "axios";
+import { showProfile } from "../actions/profileAction";
 
-export default class Profile extends Component {
+class Profile extends Component {
 	state = {
 		profile: {},
 	};
 
 	componentDidMount() {
-		axios
-			.get("http://localhost:8000/profile/", {
-				headers: {
-					Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
-				},
-			})
-			.then((res) => {
-				const profile = res.data;
-				this.setState({ profile });
-			});
+		this.props.showProfile();
 	}
 
 	render() {
@@ -38,9 +31,7 @@ export default class Profile extends Component {
 									</a>
 									<div className="content">
 										<div className="header">
-											{this.state.profile.first_name +
-												" " +
-												this.state.profile.last_name}
+											{this.props.first_name + " " + this.props.last_name}
 										</div>
 										<div className="meta">
 											<p className="mb-2">Founder, Apple Inc.</p>
@@ -131,3 +122,19 @@ export default class Profile extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		first_name: state.profileReducer.first_name,
+		last_name: state.profileReducer.last_name,
+		email: state.profileReducer.email,
+	};
+};
+
+const mapDispatchToProps = (dispatch) => {
+	return {
+		showProfile: () => dispatch(showProfile()),
+	};
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Profile);
