@@ -16,6 +16,7 @@ urlpatterns = [
     path('jobs/', user_views.JobsView.as_view()),
     path('notifications/', user_views.NotificationView.as_view()),
     path('profile/', user_views.ProfileView.as_view()),
+    path('profile/<int:pid>', user_views.PublicProfileView.as_view()),
     path('settings/', user_views.SettingsView.as_view()),
 
     path('admin/', include('adminpanel.urls')),

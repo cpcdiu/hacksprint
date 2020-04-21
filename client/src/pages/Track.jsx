@@ -23,7 +23,7 @@ export default class Track extends Component {
 									<Tracks />
 								</div>
 							</div>
-							<div className="four wide column">
+							<div className="four wide column mt-5">
 								<AdOne />
 								<Sidebar />
 							</div>

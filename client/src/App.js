@@ -1,8 +1,8 @@
 import React from "react";
-import { Switch, Route } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import Login from "./pages/Login";
+import Login, { Logout } from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Challenges from "./pages/Challenges";
 import Jobs from "./pages/jobs/Jobs";
@@ -21,22 +21,57 @@ function App() {
 				<Route exact path="/" component={Home} />
 				<Route exact path="/register" component={Register} />
 				<Route exact path="/login" component={Login} />
-				<Route exact path="/dashboard" component={Dashboard} />
-				<Route exact path="/challenges" component={Challenges} />
-				<Route exact path="/jobs" component={Jobs} />
-				<Route exact path="/notification" component={Notification} />
-				<Route exact path="/tracks" component={Track} />
-				<Route exact path="/tracks/:trackId" component={Practice} />
-				<Route
-					exact
-					path="/tracks/:trackId/:practiceId"
-					component={SinglePractice}
-				/>
-				<Route exact path="/profile" component={Profile} />
-				<Route exact path="/settings" component={Settings} />
+				<Route exact path="/logout" component={Logout} />
+				<PrivateRoute exact path="/dashboard">
+					<Dashboard />
+				</PrivateRoute>
+				<PrivateRoute exact path="/challenges">
+					<Challenges />
+				</PrivateRoute>
+				<PrivateRoute exact path="/jobs">
+					<Jobs />
+				</PrivateRoute>
+				<PrivateRoute exact path="/notification">
+					<Notification />
+				</PrivateRoute>
+				<PrivateRoute exact path="/tracks">
+					<Track />
+				</PrivateRoute>
+				<PrivateRoute exact path="/tracks/:trackId">
+					<Practice />
+				</PrivateRoute>
+				<PrivateRoute exact path="/tracks/:trackId/:practiceId">
+					<SinglePractice />
+				</PrivateRoute>
+				<PrivateRoute exact path="/profile">
+					<Profile />
+				</PrivateRoute>
+				<PrivateRoute exact path="/settings">
+					<Settings />
+				</PrivateRoute>
 			</Switch>
 		</div>
 	);
 }
 
 export default App;
+
+function PrivateRoute({ children, ...rest }) {
+	return (
+		<Route
+			{...rest}
+			render={({ location }) =>
+				localStorage.getItem("token") ? (
+					children
+				) : (
+					<Redirect
+						to={{
+							pathname: "/login",
+							state: { from: location },
+						}}
+					/>
+				)
+			}
+		/>
+	);
+}

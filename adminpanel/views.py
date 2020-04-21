@@ -89,5 +89,3 @@ def single_track(request, id):
         practice.save()
 
         return redirect('/admin/tracks/' + str(id))
-
-        # return HttpResponse(track)

@@ -10,7 +10,7 @@ export default class Settings extends Component {
 				<div className="py-5 bg-color">
 					<div className="container">
 						<div className="ui two column grid">
-							<div className="four wide column">
+							<div className="three wide column">
 								<div className="ui vertical menu">
 									<div className="item">
 										<div className="header">General</div>
@@ -67,7 +67,48 @@ export default class Settings extends Component {
 									</div>
 								</div>
 							</div>
-							<div className="twelve wide column"></div>
+							<div className="thirteen wide column">
+								<div className="ml-4">
+									<div className="ui card w-100">
+										<div className="content">
+											<div className="header">some title</div>
+											<div className="meta">2 days ago</div>
+											<div className="description">
+												<p>
+													Lorem ipsum dolor, sit amet consectetur adipisicing
+													elit. Tenetur, provident beatae! Id architecto, porro
+													inventore alias, quis consectetur aliquid tenetur
+													perspiciatis atque in nihil sed magnam necessitatibus
+													rerum obcaecati possimus nesciunt quibusdam quasi
+													soluta illum dolorem magni saepe odit. Inventore
+													nesciunt officiis praesentium cum enim tempora
+													recusandae, animi consectetur alias.
+												</p>
+												<p>
+													Lorem ipsum dolor, sit amet consectetur adipisicing
+													elit. Tenetur, provident beatae! Id architecto, porro
+													inventore alias, quis consectetur aliquid tenetur
+													perspiciatis atque in nihil sed magnam necessitatibus
+													rerum obcaecati possimus nesciunt quibusdam quasi
+													soluta illum dolorem magni saepe odit. Inventore
+													nesciunt officiis praesentium cum enim tempora
+													recusandae, animi consectetur alias.
+												</p>
+												<p>
+													Lorem ipsum dolor, sit amet consectetur adipisicing
+													elit. Tenetur, provident beatae! Id architecto, porro
+													inventore alias, quis consectetur aliquid tenetur
+													perspiciatis atque in nihil sed magnam necessitatibus
+													rerum obcaecati possimus nesciunt quibusdam quasi
+													soluta illum dolorem magni saepe odit. Inventore
+													nesciunt officiis praesentium cum enim tempora
+													recusandae, animi consectetur alias.
+												</p>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
 						</div>
 					</div>
 				</div>

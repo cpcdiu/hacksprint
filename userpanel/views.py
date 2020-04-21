@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 from rest_framework.permissions import IsAuthenticated
@@ -5,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminpanel.models import Track, Practice
-from userpanel.serializers import PracticeSerializer, TrackSerializer
+from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer
 
 
 class IndexView(APIView):
@@ -79,10 +80,16 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        content = {
-            "message": "this is profile page"
-        }
-        return Response(content)
+        user = User.objects.get(username=request.user)
+        serializer = UserSerializer(user)
+        return Response(serializer.data)
+
+
+class PublicProfileView(APIView):
+    def get(self, request, pid):
+        user = User.objects.get(id=pid)
+        serializer = PublicProfileSerializer(user)
+        return Response(serializer.data)
 
 
 class SettingsView(APIView):

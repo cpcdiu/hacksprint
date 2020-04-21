@@ -100,7 +100,7 @@ export default class Dashboard extends Component {
 									</div>
 								</div>
 							</div>
-							<div className="four wide column">
+							<div className="four wide column mt-5">
 								<AdOne />
 								<Sidebar />
 							</div>

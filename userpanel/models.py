@@ -1,7 +1,26 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
-class Track(models.Model):
-    title = models.CharField(max_length=100)
-    desc = models.TextField()
-    avatar = models.CharField(max_length=100)
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    works_at = models.CharField(max_length=300)
+    location = models.CharField(max_length=300)
+    contact = models.CharField(max_length=200)
+    website = models.CharField(max_length=300)
+
+
+class WorkExperience(models.Model):
+    position = models.TextField()
+    company = models.TextField()
+    started_at = models.DateField()
+    end_date = models.DateField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+
+
+class Education(models.Model):
+    subject = models.TextField()
+    institution = models.TextField()
+    started_at = models.DateField()
+    end_date = models.DateField()
+    profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
