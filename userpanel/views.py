@@ -9,7 +9,7 @@ from adminpanel.models import Track, Practice
 from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer
 
 
-class IndexView(APIView):
+class DashboardView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

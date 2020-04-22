@@ -12,6 +12,7 @@ import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import logo from "../assets/img/logo.png";
 import axios from "axios";
+import { getCookie } from "../utils/main";
 
 export default class LoginPage extends Component {
 	state = {
@@ -72,15 +73,20 @@ class Login extends Component {
 			username: this.state.username,
 			password: this.state.password,
 		};
+		let csrfToken = getCookie("csrftoken");
+		const headers = {
+			"Content-Type": "application/json",
+			"X-CSRFToken": csrfToken,
+		};
 		axios
-			.post("http://localhost:8000/login/", body)
+			.post("http://localhost:8000/api/login/", body)
 			.then((res) => {
 				var token = res.data.token;
 				localStorage.setItem("token", token);
 				this.setState({ isAuthenticated: true });
 			})
 			.catch((err) => {
-				console.log(err);
+				console.log(err, "didnt work");
 			})
 			.then(() => {
 				this.props.checkAuth(this.state.isAuthenticated);
