@@ -13,6 +13,7 @@ import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
 import { SinglePractice } from "./pages/Practice";
 import "./App.scss";
+import NotFound from "./pages/404";
 
 function App() {
 	return (
@@ -35,6 +36,7 @@ function App() {
 				/>
 				<PrivateRoute exact path="/profile" component={Profile} />
 				<PrivateRoute exact path="/settings" component={Settings} />
+				<Route path="*" component={NotFound} />
 			</Switch>
 		</div>
 	);

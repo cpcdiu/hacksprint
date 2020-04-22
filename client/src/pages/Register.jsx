@@ -8,7 +8,7 @@ import {
 	Message,
 	Segment,
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
 import logo from "../assets/img/logo.png";
 
@@ -61,4 +61,14 @@ const RegistrationForm = () => (
 	</>
 );
 
-export default RegistrationForm;
+export default function SignUpPage() {
+	return (
+		<div>
+			{localStorage.getItem("token") ? (
+				<Redirect to="/dashboard" />
+			) : (
+				<RegistrationForm />
+			)}
+		</div>
+	);
+}
