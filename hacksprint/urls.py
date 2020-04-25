@@ -5,7 +5,8 @@ from main import views as main_views
 from userpanel import views as user_views
 
 urlpatterns = [
-    path('api/login/', obtain_auth_token),
+    path('api/login/', main_views.CustomAuthToken.as_view()),
+    path('api/user/', user_views.UserView.as_view()),
     path('api/dashboard/', user_views.DashboardView.as_view()),
     path('api/challenges/', user_views.ChallengesView.as_view()),
     path('api/tracks/', user_views.TrackView.as_view()),

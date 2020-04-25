@@ -19,6 +19,7 @@ import { Link, Redirect } from "react-router-dom";
 
 import dummy from "../assets/img/white-image.png";
 import dummy2 from "../assets/img/nan.jpg";
+import { connect } from "react-redux";
 
 const getWidth = () => {
 	const isSSR = typeof window === "undefined";
@@ -343,14 +344,28 @@ const HomepageLayout = () => (
 	</ResponsiveContainer>
 );
 
-export default function Homepage() {
-	return (
-		<div>
-			{localStorage.getItem("token") ? (
-				<Redirect to="/dashboard" />
-			) : (
-				<HomepageLayout />
-			)}
-		</div>
-	);
+class Homepage extends Component {
+	render() {
+		const { authReducer } = this.props;
+
+		return (
+			<div>
+				{authReducer.isLoading ? (
+					<h2></h2>
+				) : authReducer.isAuthenticated ? (
+					<Redirect to="/dashboard" />
+				) : (
+					<HomepageLayout />
+				)}
+			</div>
+		);
+	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		authReducer: state.authReducer,
+	};
+};
+
+export default connect(mapStateToProps)(Homepage);

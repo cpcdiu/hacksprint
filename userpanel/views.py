@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminpanel.models import Track, Practice
-from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer
+from userpanel.models import Profile
+from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer, \
+    ProfileSerializer
 
 
 class DashboardView(APIView):
@@ -80,6 +82,20 @@ class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
+        profile = Profile.objects.get(user=request.user)
+        serializer = ProfileSerializer(profile)
+        return Response(serializer.data)
+
+    def post(self, request):
+        profile = Profile(user=request.user, works_at='google', location='bangladesh', contact='ok@mail.com', website='hello.com')
+        profile.save()
+        return Response({"Success": "OK"})
+
+
+class UserView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
         user = User.objects.get(username=request.user)
         serializer = UserSerializer(user)
         return Response(serializer.data)
@@ -125,3 +141,4 @@ def settings(request):
 
 def notification(request):
     return render(request, 'userpanel/notification.html')
+

@@ -8,57 +8,42 @@ import {
 	Message,
 	Segment,
 } from "semantic-ui-react";
+import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
+import { handleLogin } from "../actions/authAction";
 import logo from "../assets/img/logo.png";
-import axios from "axios";
-import { getCookie } from "../utils/main";
 
-export default class LoginPage extends Component {
-	state = {
-		isAuthenticated: false,
-	};
-
-	componentDidMount() {
-		if (localStorage.getItem("token")) {
-			this.setState({ isAuthenticated: true });
-		} else {
-			this.setState({ isAuthenticated: false });
-		}
-	}
-
-	updateAuth = (isAuthenticated) => {
-		this.setState({ isAuthenticated });
-	};
-
+class LoginPage extends Component {
 	render() {
+		const { authReducer, handleLogin } = this.props;
+
 		return (
 			<div>
-				{this.state.isAuthenticated ? (
+				{authReducer.isLoading ? (
+					<h2></h2>
+				) : authReducer.isAuthenticated ? (
 					<Redirect to="/dashboard" />
 				) : (
-					<Login checkAuth={this.updateAuth} />
+					<Login handleLogin={handleLogin} />
 				)}
 			</div>
 		);
 	}
 }
 
-export class Logout extends Component {
-	componentDidMount() {
-		localStorage.removeItem("token");
-	}
+const mapStateToProps = (state) => {
+	return {
+		authReducer: state.authReducer,
+	};
+};
 
-	render() {
-		return <Redirect to="/" />;
-	}
-}
+export default connect(mapStateToProps, { handleLogin })(LoginPage);
 
 class Login extends Component {
 	state = {
 		username: "",
 		password: "",
-		isAuthenticated: false,
 	};
 
 	handleFormInput = (e) => {
@@ -69,28 +54,7 @@ class Login extends Component {
 
 	handleFormSubmit = (e) => {
 		e.preventDefault();
-		var body = {
-			username: this.state.username,
-			password: this.state.password,
-		};
-		let csrfToken = getCookie("csrftoken");
-		const headers = {
-			"Content-Type": "application/json",
-			"X-CSRFToken": csrfToken,
-		};
-		axios
-			.post("http://localhost:8000/api/login/", body)
-			.then((res) => {
-				var token = res.data.token;
-				localStorage.setItem("token", token);
-				this.setState({ isAuthenticated: true });
-			})
-			.catch((err) => {
-				console.log(err, "didnt work");
-			})
-			.then(() => {
-				this.props.checkAuth(this.state.isAuthenticated);
-			});
+		this.props.handleLogin(this.state);
 	};
 
 	render() {

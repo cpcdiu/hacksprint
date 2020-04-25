@@ -1,8 +1,16 @@
-import React from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import React, { Component } from "react";
+import {
+	BrowserRouter as Router,
+	Switch,
+	Route,
+	Redirect,
+} from "react-router-dom";
+import { Provider } from "react-redux";
+import store from "./store";
 import Home from "./pages/Home";
 import Register from "./pages/Register";
-import Login, { Logout } from "./pages/Login";
+import Login from "./pages/Login";
+import Logout from "./pages/Logout";
 import Dashboard from "./pages/Dashboard";
 import Challenges from "./pages/Challenges";
 import Jobs from "./pages/jobs/Jobs";
@@ -14,45 +22,47 @@ import Practice from "./pages/Practice";
 import { SinglePractice } from "./pages/Practice";
 import "./App.scss";
 import NotFound from "./pages/404";
+import PrivateRoute from "./pages/PrivateRoute";
+import { loadUser } from "./actions/authAction";
 
-function App() {
-	return (
-		<div>
-			<Switch>
-				<Route exact path="/" component={Home} />
-				<Route exact path="/register" component={Register} />
-				<Route exact path="/login" component={Login} />
-				<Route exact path="/logout" component={Logout} />
-				<PrivateRoute exact path="/dashboard" component={Dashboard} />
-				<PrivateRoute exact path="/challenges" component={Challenges} />
-				<PrivateRoute exact path="/jobs" component={Jobs} />
-				<PrivateRoute exact path="/notification" component={Notification} />
-				<PrivateRoute exact path="/tracks" component={Track} />
-				<PrivateRoute exact path="/tracks/:trackId" component={Practice} />
-				<PrivateRoute
-					exact
-					path="/tracks/:trackId/:practiceId"
-					component={SinglePractice}
-				/>
-				<PrivateRoute exact path="/profile" component={Profile} />
-				<PrivateRoute exact path="/settings" component={Settings} />
-				<Route path="*" component={NotFound} />
-			</Switch>
-		</div>
-	);
+export default class App extends Component {
+	constructor(props) {
+		super(props);
+		store.dispatch(loadUser());
+	}
+
+	// componentDidMount() {
+	// 	store.dispatch(loadUser());
+	// }
+
+	render() {
+		return (
+			<Provider store={store}>
+				<Router>
+					<Switch>
+						<Route exact path="/" component={Home} />
+						<Route exact path="/register" component={Register} />
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/logout" component={Logout} />
+
+						<PrivateRoute exact path="/dashboard" component={Dashboard} />
+						<PrivateRoute exact path="/challenges" component={Challenges} />
+						<PrivateRoute exact path="/jobs" component={Jobs} />
+						<PrivateRoute exact path="/notification" component={Notification} />
+						<PrivateRoute exact path="/tracks" component={Track} />
+						<PrivateRoute exact path="/tracks/:trackId" component={Practice} />
+						<PrivateRoute
+							exact
+							path="/tracks/:trackId/:practiceId"
+							component={SinglePractice}
+						/>
+						<PrivateRoute exact path="/profile" component={Profile} />
+						<PrivateRoute exact path="/settings" component={Settings} />
+
+						<Route path="*" component={NotFound} />
+					</Switch>
+				</Router>
+			</Provider>
+		);
+	}
 }
-
-export default App;
-
-const PrivateRoute = ({ component: Component, ...rest }) => (
-	<Route
-		{...rest}
-		render={(props) => {
-			if (localStorage.getItem("token")) {
-				return <Component {...props} />;
-			} else {
-				return <Redirect to="/login" />;
-			}
-		}}
-	/>
-);

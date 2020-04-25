@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import { showProfile } from "../actions/profileAction";
+import { getProfile } from "../actions/profileAction";
 
 class Profile extends Component {
 	state = {
@@ -11,7 +10,7 @@ class Profile extends Component {
 	};
 
 	componentDidMount() {
-		this.props.showProfile();
+		this.props.getProfile(this.props.token);
 	}
 
 	render() {
@@ -34,19 +33,19 @@ class Profile extends Component {
 											{this.props.first_name + " " + this.props.last_name}
 										</div>
 										<div className="meta">
-											<p className="mb-2">Founder, Apple Inc.</p>
+											<p className="mb-2">{this.props.works_at}</p>
 											<div className="d-flex mt-1">
 												<i className="map marker alternate icon"></i>
-												<p className="pl-1">Dhaka, Bangladesh</p>
+												<p className="pl-1">{this.props.location}</p>
 											</div>
 											<div className="d-flex mt-1">
 												<i className="envelope outline icon"></i>
-												<p className="pl-1">steve@mail.com</p>
+												<p className="pl-1">{this.props.contact}</p>
 											</div>
 											<div className="d-flex mt-1">
 												<i className="linkify icon"></i>
 												<p className="pl-1">
-													<a href="/">www.steve.com</a>
+													<a href="/">{this.props.website}</a>
 												</p>
 											</div>
 										</div>
@@ -128,13 +127,12 @@ const mapStateToProps = (state) => {
 		first_name: state.profileReducer.first_name,
 		last_name: state.profileReducer.last_name,
 		email: state.profileReducer.email,
+		works_at: state.profileReducer.works_at,
+		location: state.profileReducer.location,
+		contact: state.profileReducer.contact,
+		website: state.profileReducer.website,
+		token: state.authReducer.token,
 	};
 };
 
-const mapDispatchToProps = (dispatch) => {
-	return {
-		showProfile: () => dispatch(showProfile()),
-	};
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Profile);
+export default connect(mapStateToProps, { getProfile })(Profile);

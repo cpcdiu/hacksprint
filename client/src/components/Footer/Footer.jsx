@@ -10,19 +10,19 @@ export default function Footer() {
 						&copy; 2020 Hacksprint. All Rights Reserved
 					</div>
 					<ul className="footer-nav">
-						<li>
+						<li key="1">
 							<a href="/">FAQ</a>
 						</li>
-						<li>
+						<li key="2">
 							<a href="/">About Us</a>
 						</li>
-						<li>
+						<li key="3">
 							<a href="/">Career</a>
 						</li>
-						<li>
+						<li key="4">
 							<a href="/">Terms & Conditions</a>
 						</li>
-						<li>
+						<li key="5">
 							<a href="/">Privacy Policy</a>
 						</li>
 					</ul>
