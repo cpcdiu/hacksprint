@@ -3,6 +3,7 @@ from collections import namedtuple
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
+from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -113,11 +114,24 @@ class ProfileView(APIView):
         return Response(d1)
 
     def post(self, request):
-        profile = Profile(user=request.user, works_at='google', location='bangladesh', contact='ok@mail.com',
-                          website='hello.com')
-        profile.save()
-        return Response({"Success": "OK"})
+        # user = User.objects.get(username=request.user)
+        # profile = Profile(user=user)
 
+        profile = Profile.objects.get(user=request.user)
+
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
+
+        print(serializer.is_valid())
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class ProfileVieww(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -168,3 +182,5 @@ def settings(request):
 
 def notification(request):
     return render(request, 'userpanel/notification.html')
+
+

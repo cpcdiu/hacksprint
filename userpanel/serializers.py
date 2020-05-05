@@ -30,6 +30,7 @@ class WorkExperienceSerializer(serializers.ModelSerializer):
         model = WorkExperience
         fields = '__all__'
 
+
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
@@ -38,11 +39,38 @@ class EducationSerializer(serializers.ModelSerializer):
 
 class ProfileSerializer(serializers.ModelSerializer):
     user = UserSerializer()
-    work = WorkExperienceSerializer(required=False)
 
     class Meta:
         model = Profile
-        fields = '__all__'
+        fields = ['location', 'contact', 'website', 'user']
+
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        print(user_data, '----------------', 'created...........')
+        location = validated_data.pop('location')
+        contact = validated_data.pop('contact')
+        website = validated_data.pop('website')
+        user = User.objects.create(user_data)
+        profile = Profile.objects.create(user=user, location=location, contact=contact, website=website)
+
+        return profile
+
+    def update(self, instance, validated_data):
+        location = validated_data.pop('location')
+        contact = validated_data.pop('contact')
+        website = validated_data.pop('website')
+
+        # profile = instance.profile
+        instance.location = location
+        instance.contact = contact
+        instance.website = website
+
+        instance.save()
+
+        # user = UserSerializer.create(UserSerializer(), validated_data=user_data)
+        # profile, created = Profile.objects.update_or_create(user=user, location=location, contact=contact, website=website)
+
+        return instance
 
 
 class TimelineSerializer(serializers.Serializer):

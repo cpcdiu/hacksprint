@@ -4,7 +4,6 @@ from django.db import models
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    works_at = models.CharField(max_length=300)
     location = models.CharField(max_length=300)
     contact = models.CharField(max_length=200)
     website = models.CharField(max_length=300)

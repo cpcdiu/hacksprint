@@ -1,10 +1,15 @@
 from django.urls import path, include, re_path
+from rest_framework import routers
 from rest_framework.authtoken.views import obtain_auth_token
 
 from main import views as main_views
 from userpanel import views as user_views
 
+router = routers.DefaultRouter()
+router.register('profile', user_views.ProfileVieww)
+
 urlpatterns = [
+    path('apii/', include(router.urls)),
     path('api/login/', main_views.CustomAuthToken.as_view()),
     path('api/user/', user_views.UserView.as_view()),
     path('api/dashboard/', user_views.DashboardView.as_view()),
