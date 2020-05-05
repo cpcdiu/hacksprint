@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import SingleTrack from "./SingleTrack";
+import { nanoid } from "nanoid";
 
 export default class Tracks extends Component {
 	state = {
@@ -24,7 +25,7 @@ export default class Tracks extends Component {
 		return (
 			<div className="ui three cards mt-1">
 				{this.state.tracks.map((track) => (
-					<SingleTrack track={track} />
+					<SingleTrack key={nanoid()} track={track} />
 				))}
 			</div>
 		);

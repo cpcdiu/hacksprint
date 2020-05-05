@@ -7,7 +7,7 @@ const PrivateRoute = ({ component: Component, authReducer, ...rest }) => (
 		{...rest}
 		render={(props) => {
 			if (authReducer.isLoading) {
-				return <h2></h2>;
+				return <div></div>;
 			} else if (authReducer.isAuthenticated) {
 				return <Component {...props} />;
 			} else {

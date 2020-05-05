@@ -1,3 +1,5 @@
+from collections import namedtuple
+
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -6,9 +8,11 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from adminpanel.models import Track, Practice
-from userpanel.models import Profile
+from userpanel.models import Profile, WorkExperience, Education
 from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer, \
-    ProfileSerializer
+    ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer
+
+Timeline = namedtuple('Timeline', ('profile', 'work'))
 
 
 class DashboardView(APIView):
@@ -81,13 +85,36 @@ class NotificationView(APIView):
 class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
+    # def get(self, request):
+    #     profile = Profile.objects.get(user=request.user)
+    #     workexp = WorkExperience.objects.filter(profile=profile)
+    #
+    #     timeline = Timeline(
+    #         profile=profile,
+    #         work=workexp,
+    #     )
+    #
+    #     serializer = TimelineSerializer(timeline)
+    #     return Response(serializer.data)
+
     def get(self, request):
         profile = Profile.objects.get(user=request.user)
-        serializer = ProfileSerializer(profile)
-        return Response(serializer.data)
+        workexp = WorkExperience.objects.filter(profile=profile)
+        education = Education.objects.filter(profile=profile)
+
+        profile_serializer = ProfileSerializer(profile)
+        workexp_serializer = WorkExperienceSerializer(workexp, many=True)
+        education_serializer = EducationSerializer(education, many=True)
+
+        d1 = profile_serializer.data
+        d2 = {'work': workexp_serializer.data, 'education': education_serializer.data}
+        d1.update(d2)
+
+        return Response(d1)
 
     def post(self, request):
-        profile = Profile(user=request.user, works_at='google', location='bangladesh', contact='ok@mail.com', website='hello.com')
+        profile = Profile(user=request.user, works_at='google', location='bangladesh', contact='ok@mail.com',
+                          website='hello.com')
         profile.save()
         return Response({"Success": "OK"})
 
@@ -141,4 +168,3 @@ def settings(request):
 
 def notification(request):
     return render(request, 'userpanel/notification.html')
-

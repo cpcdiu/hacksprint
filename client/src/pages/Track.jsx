@@ -1,8 +1,6 @@
 import React, { Component } from "react";
-import axios from "axios";
 import Navbar from "../components/Navbar/DashNav";
 import Tracks from "../components/Track/Tracks";
-import SingleTrack from "../components/Track/SingleTrack";
 import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Footer from "../components/Footer/Footer";

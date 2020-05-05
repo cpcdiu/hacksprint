@@ -1,10 +1,5 @@
 import React, { Component } from "react";
-import {
-	BrowserRouter as Router,
-	Switch,
-	Route,
-	Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import store from "./store";
 import Home from "./pages/Home";
@@ -20,6 +15,7 @@ import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
 import { SinglePractice } from "./pages/Practice";
+import Playground from "./pages/Playground";
 import "./App.scss";
 import NotFound from "./pages/404";
 import PrivateRoute from "./pages/PrivateRoute";
@@ -58,6 +54,8 @@ export default class App extends Component {
 						/>
 						<PrivateRoute exact path="/profile" component={Profile} />
 						<PrivateRoute exact path="/settings" component={Settings} />
+
+						<Route exact path="/playground" component={Playground} />
 
 						<Route path="*" component={NotFound} />
 					</Switch>

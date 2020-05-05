@@ -21,7 +21,7 @@ class LoginPage extends Component {
 		return (
 			<div>
 				{authReducer.isLoading ? (
-					<h2></h2>
+					<div></div>
 				) : authReducer.isAuthenticated ? (
 					<Redirect to="/dashboard" />
 				) : (

@@ -3,8 +3,8 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { nanoid } from "nanoid";
 export default class Practice extends Component {
 	state = {
 		practices: [],
@@ -40,7 +40,7 @@ export default class Practice extends Component {
 									</div>
 									<div className="ui cards mt-1">
 										{this.state.practices.map((practice) => (
-											<div className="card w-100">
+											<div className="card w-100" key={nanoid()}>
 												<Link
 													to={this.props.match.url + "/" + practice.id}
 													className="content"

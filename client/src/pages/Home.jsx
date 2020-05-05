@@ -351,7 +351,7 @@ class Homepage extends Component {
 		return (
 			<div>
 				{authReducer.isLoading ? (
-					<h2></h2>
+					<p></p>
 				) : authReducer.isAuthenticated ? (
 					<Redirect to="/dashboard" />
 				) : (

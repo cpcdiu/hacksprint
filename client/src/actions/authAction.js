@@ -6,7 +6,6 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_FAILED,
 } from "./types";
-import { host } from "../index";
 
 export function loadUser() {
 	return function (dispatch, getState) {

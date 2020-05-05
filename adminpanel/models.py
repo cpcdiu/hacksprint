@@ -17,6 +17,5 @@ class Practice(models.Model):
     title = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.SET_NULL, blank=True, null=True, default='User')
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
-    # subdomain = models.For
     body = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)

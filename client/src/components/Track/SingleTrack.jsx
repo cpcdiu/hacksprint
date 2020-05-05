@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 
 export default function SingleTrack(props) {
-	let { path, url } = useRouteMatch();
+	let { url } = useRouteMatch();
 
 	return (
 		<div className="card">

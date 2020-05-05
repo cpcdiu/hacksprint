@@ -9,21 +9,14 @@ export function getProfile(token) {
 				},
 			})
 			.then((res) => {
-				let profile = {
-					first_name: res.data.user.first_name,
-					last_name: res.data.user.last_name,
-					email: res.data.user.email,
-					works_at: res.data.works_at,
-					location: res.data.location,
-					contact: res.data.contact,
-					website: res.data.website,
-				};
+				let profile = res.data;
+				delete profile.id;
 
 				dispatch({
 					type: "GET_PROFILE",
 					payload: profile,
 				});
 			})
-			.catch((err) => console.log(err, "------------------"));
+			.catch((err) => console.log(err, "from profile action"));
 	};
 }
