@@ -116,12 +116,8 @@ class ProfileView(APIView):
     def post(self, request):
         # user = User.objects.get(username=request.user)
         # profile = Profile(user=user)
-
         profile = Profile.objects.get(user=request.user)
-
         serializer = ProfileSerializer(profile, data=request.data, partial=True)
-
-        print(serializer.is_valid())
 
         if serializer.is_valid():
             serializer.save()
@@ -129,9 +125,33 @@ class ProfileView(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class ProfileVieww(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+class AddWorkView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        profile = Profile.objects.get(user=request.user)
+        workexp = WorkExperience(profile=profile)
+        serializer = WorkExperienceSerializer(workexp, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class AddEducationView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        profile = Profile.objects.get(user=request.user)
+        education = Education(profile=profile)
+        serializer = EducationSerializer(education, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class UserView(APIView):
     permission_classes = [IsAuthenticated]
@@ -182,5 +202,3 @@ def settings(request):
 
 def notification(request):
     return render(request, 'userpanel/notification.html')
-
-

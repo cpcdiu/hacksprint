@@ -16,15 +16,28 @@ export default class ProfileCard extends Component {
 		return {
 			user: nextProps.user,
 			info: nextProps.info,
-			location: nextProps.info.location,
-			contact: nextProps.info.contact,
-			website: nextProps.info.website,
 		};
 	}
 
 	fileInputRef = React.createRef();
 
 	handleEditClick = () => {
+		this.setState({
+			editMode: !this.state.editMode,
+			active: !this.state.active,
+			location: this.state.info.location,
+			contact: this.state.info.contact,
+			website: this.state.info.website,
+		});
+	};
+
+	handleSaveClick = () => {
+		this.props.handleProfileData({
+			location: this.state.location,
+			contact: this.state.contact,
+			website: this.state.website,
+		});
+
 		this.setState({
 			editMode: !this.state.editMode,
 			active: !this.state.active,
@@ -35,6 +48,8 @@ export default class ProfileCard extends Component {
 		this.setState({
 			[e.target.name]: e.target.value,
 		});
+
+		// console.log(e.target.value);
 	};
 
 	regularCardContent = () => {
@@ -76,24 +91,39 @@ export default class ProfileCard extends Component {
 						<div>
 							<i className="map marker alternate icon"></i>
 						</div>
-						<div class="ui mini icon input">
-							<input type="text" name="location" value={this.state.location} />
+						<div className="ui mini icon input">
+							<input
+								type="text"
+								name="location"
+								value={this.state.location}
+								onChange={this.handleInputChange}
+							/>
 						</div>
 					</div>
 					<div className="d-flex align-items-center mt-1">
 						<div>
 							<i className="envelope outline icon"></i>
 						</div>
-						<div class="ui mini icon input">
-							<input type="text" name="contact" value={this.state.contact} />
+						<div className="ui mini icon input">
+							<input
+								type="text"
+								name="contact"
+								value={this.state.contact}
+								onChange={this.handleInputChange}
+							/>
 						</div>
 					</div>
 					<div className="d-flex align-items-center mt-1">
 						<div>
 							<i className="linkify icon"></i>
 						</div>
-						<div class="ui mini icon input">
-							<input type="text" name="website" value={this.state.website} />
+						<div className="ui mini icon input">
+							<input
+								type="text"
+								name="website"
+								value={this.state.website}
+								onChange={this.handleInputChange}
+							/>
 						</div>
 					</div>
 				</div>
@@ -143,7 +173,7 @@ export default class ProfileCard extends Component {
 					<>
 						<button
 							className="fluid ui positive button"
-							onClick={this.handleEditClick}
+							onClick={this.handleSaveClick}
 						>
 							<i className="save icon mr-2"></i>Save
 						</button>

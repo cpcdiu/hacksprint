@@ -2,7 +2,12 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import { getProfile } from "../actions/profileAction";
+import {
+	getProfile,
+	updateProfile,
+	addWork,
+	addEducation,
+} from "../actions/profileAction";
 import ProfileCard from "../components/Profile/ProfileCard";
 import Work from "../components/Profile/Work";
 import Education from "../components/Profile/Education";
@@ -16,6 +21,18 @@ class Profile extends Component {
 		super(props);
 		this.props.getProfile(this.props.token);
 	}
+
+	handleProfileData = (data) => {
+		this.props.updateProfile(this.props.token, data);
+	};
+
+	handleAddWork = (data) => {
+		this.props.addWork(this.props.token, data);
+	};
+
+	handleAddEducation = (data) => {
+		this.props.addEducation(this.props.token, data);
+	};
 
 	render() {
 		let { user, work, education } = this.props.profile;
@@ -33,11 +50,18 @@ class Profile extends Component {
 					<div className="container">
 						<div className="ui two column grid">
 							<div className="four wide column">
-								<ProfileCard user={user} info={info} />
+								<ProfileCard
+									user={user}
+									info={info}
+									handleProfileData={this.handleProfileData}
+								/>
 							</div>
 							<div className="twelve wide column">
-								<Work works={work} />
-								<Education educations={education} />
+								<Work works={work} handleAddWork={this.handleAddWork} />
+								<Education
+									educations={education}
+									handleAddEducation={this.handleAddEducation}
+								/>
 							</div>
 						</div>
 					</div>
@@ -50,9 +74,14 @@ class Profile extends Component {
 
 const mapStateToProps = (state) => {
 	return {
-		profile: state.profileReducer.profile,
+		profile: state.profileReducer,
 		token: state.authReducer.token,
 	};
 };
 
-export default connect(mapStateToProps, { getProfile })(Profile);
+export default connect(mapStateToProps, {
+	getProfile,
+	updateProfile,
+	addWork,
+	addEducation,
+})(Profile);

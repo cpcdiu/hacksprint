@@ -1,15 +1,10 @@
 from django.urls import path, include, re_path
-from rest_framework import routers
-from rest_framework.authtoken.views import obtain_auth_token
 
 from main import views as main_views
 from userpanel import views as user_views
 
-router = routers.DefaultRouter()
-router.register('profile', user_views.ProfileVieww)
 
 urlpatterns = [
-    path('apii/', include(router.urls)),
     path('api/login/', main_views.CustomAuthToken.as_view()),
     path('api/user/', user_views.UserView.as_view()),
     path('api/dashboard/', user_views.DashboardView.as_view()),
@@ -20,6 +15,8 @@ urlpatterns = [
     path('api/jobs/', user_views.JobsView.as_view()),
     path('api/notifications/', user_views.NotificationView.as_view()),
     path('api/profile/', user_views.ProfileView.as_view()),
+    path('api/addwork/', user_views.AddWorkView.as_view()),
+    path('api/addeducation/', user_views.AddEducationView.as_view()),
     path('api/profile/<int:pid>', user_views.PublicProfileView.as_view()),
     path('api/settings/', user_views.SettingsView.as_view()),
 

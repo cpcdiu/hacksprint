@@ -28,13 +28,31 @@ class UserSerializer(serializers.ModelSerializer):
 class WorkExperienceSerializer(serializers.ModelSerializer):
     class Meta:
         model = WorkExperience
-        fields = '__all__'
+        fields = ['position', 'company', 'started_at', 'end_date']
+
+    def update(self, instance, validated_data):
+        instance.position = validated_data.pop('position')
+        instance.company = validated_data.pop('company')
+        instance.started_at = validated_data.pop('started_at')
+        instance.end_date = validated_data.pop('end_date')
+        instance.save()
+
+        return instance
 
 
 class EducationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Education
-        fields = '__all__'
+        fields = ['subject', 'institution', 'started_at', 'end_date']
+
+    def update(self, instance, validated_data):
+        instance.subject = validated_data.pop('subject')
+        instance.institution = validated_data.pop('institution')
+        instance.started_at = validated_data.pop('started_at')
+        instance.end_date = validated_data.pop('end_date')
+        instance.save()
+
+        return instance
 
 
 class ProfileSerializer(serializers.ModelSerializer):
