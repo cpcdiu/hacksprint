@@ -23,7 +23,7 @@ export function loadUser() {
 		}
 
 		axios
-			.get("http://localhost:8000/api/user/", config)
+			.get(`${process.env.REACT_APP_WEBSITE_NAME}api/user/`, config)
 			.then((res) => {
 				dispatch({
 					type: USER_LOADED,
@@ -39,7 +39,7 @@ export function loadUser() {
 
 export const handleLogin = (user) => (dispatch) => {
 	axios
-		.post("http://localhost:8000/api/login/", {
+		.post(`${process.env.REACT_APP_WEBSITE_NAME}api/login/`, {
 			username: user.username,
 			password: user.password,
 		})

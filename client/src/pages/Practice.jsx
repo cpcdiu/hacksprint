@@ -13,7 +13,7 @@ export default class Practice extends Component {
 	componentDidMount() {
 		axios
 			.get(
-				`http://localhost:8000/api/tracks/${this.props.match.params.trackId}/`,
+				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/`,
 				{
 					headers: {
 						Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
@@ -130,7 +130,7 @@ export class SinglePractice extends Component {
 	componentDidMount() {
 		axios
 			.get(
-				`http://localhost:8000/api/tracks/${this.props.match.params.trackId}/${this.props.match.params.practiceId}/`,
+				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/${this.props.match.params.practiceId}/`,
 				{
 					headers: {
 						Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
@@ -142,7 +142,7 @@ export class SinglePractice extends Component {
 				this.setState({ data });
 
 				return axios.get(
-					`http://localhost:8000/api/profile/${this.state.data.author}`,
+					`${process.env.REACT_APP_WEBSITE_NAME}api/profile/${this.state.data.author}`,
 					{
 						headers: {
 							Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",

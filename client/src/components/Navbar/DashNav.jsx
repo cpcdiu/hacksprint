@@ -11,7 +11,7 @@ export default class DashNav extends Component {
 				<div className="container">
 					<Link to="/dashboard" className="header item">
 						<img
-							src="https://hrcdn.net/fcore/assets/brand/h_mark_sm-966d2b45e3.svg"
+							src="https://upload.wikimedia.org/wikipedia/en/2/24/H-Store-logo.png"
 							alt=""
 						/>
 					</Link>

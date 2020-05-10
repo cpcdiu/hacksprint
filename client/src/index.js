@@ -8,6 +8,4 @@ import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(<App />, document.getElementById("root"));
 
-export const host = "http://localhost:8000";
-
 serviceWorker.unregister();

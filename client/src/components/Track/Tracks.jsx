@@ -10,7 +10,7 @@ export default class Tracks extends Component {
 
 	componentDidMount() {
 		axios
-			.get("http://localhost:8000/api/tracks/", {
+			.get(`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/`, {
 				headers: {
 					Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
 				},
