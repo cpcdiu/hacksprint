@@ -6,3 +6,4 @@ db.sqlite3
 *.*.pyc
 *.scssc
 /node_modules/
+static
