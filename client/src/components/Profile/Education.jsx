@@ -68,7 +68,7 @@ export default class Education extends Component {
 								type="text"
 								value={this.state.from}
 								name="from"
-								placeholder="Ex. 24-05-2014"
+								placeholder="Ex. 2014-05-24"
 								onChange={this.handleChange}
 							/>
 						</div>
@@ -78,7 +78,7 @@ export default class Education extends Component {
 								type="text"
 								value={this.state.to}
 								name="to"
-								placeholder="Ex. 01-10-2019"
+								placeholder="Ex. 2019-05-24"
 								onChange={this.handleChange}
 							/>
 						</div>

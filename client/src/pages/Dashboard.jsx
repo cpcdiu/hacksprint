@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
 import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Tracks from "../components/Track/Tracks";
 
-export default class Dashboard extends Component {
+class Dashboard extends Component {
 	render() {
 		return (
 			<React.Fragment>
@@ -96,7 +97,7 @@ export default class Dashboard extends Component {
 								<div className="tracks pt-4">
 									<div className="section-title">
 										<h2>All Tracks</h2>
-										<Tracks />
+										<Tracks token={this.props.token} />
 									</div>
 								</div>
 							</div>
@@ -112,3 +113,11 @@ export default class Dashboard extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.authReducer.token,
+	};
+};
+
+export default connect(mapStateToProps)(Dashboard);

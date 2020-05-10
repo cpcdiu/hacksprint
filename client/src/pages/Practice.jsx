@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import axios from "axios";
+import { nanoid } from "nanoid";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
 import Sidebar from "../components/Sidebar/Sidebar";
-import { nanoid } from "nanoid";
-export default class Practice extends Component {
+class Practice extends Component {
 	state = {
 		practices: [],
 	};
@@ -16,7 +17,7 @@ export default class Practice extends Component {
 				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/`,
 				{
 					headers: {
-						Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
+						Authorization: `Token ${this.props.token}`,
 					},
 				}
 			)
@@ -121,6 +122,14 @@ export default class Practice extends Component {
 	}
 }
 
+const mapStateToProps = (state) => {
+	return {
+		token: state.authReducer.token,
+	};
+};
+
+export default connect(mapStateToProps)(Practice);
+
 export class SinglePractice extends Component {
 	state = {
 		data: {},
@@ -133,7 +142,7 @@ export class SinglePractice extends Component {
 				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/${this.props.match.params.practiceId}/`,
 				{
 					headers: {
-						Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
+						Authorization: `Token ${this.props.token}`,
 					},
 				}
 			)
@@ -145,7 +154,7 @@ export class SinglePractice extends Component {
 					`${process.env.REACT_APP_WEBSITE_NAME}api/profile/${this.state.data.author}`,
 					{
 						headers: {
-							Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
+							Authorization: `Token ${this.props.token}`,
 						},
 					}
 				);

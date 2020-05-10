@@ -12,7 +12,7 @@ export default class Tracks extends Component {
 		axios
 			.get(`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/`, {
 				headers: {
-					Authorization: "Token 14c791bb695d794042f05be9044bd964821de246",
+					Authorization: `Token ${this.props.token}`,
 				},
 			})
 			.then((res) => {

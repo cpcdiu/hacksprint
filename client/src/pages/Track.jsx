@@ -1,11 +1,12 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
 import Navbar from "../components/Navbar/DashNav";
 import Tracks from "../components/Track/Tracks";
 import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
 import Footer from "../components/Footer/Footer";
 
-export default class Track extends Component {
+class Track extends Component {
 	render() {
 		return (
 			<div>
@@ -18,7 +19,7 @@ export default class Track extends Component {
 									<div className="section-title">
 										<h2>All Tracks</h2>
 									</div>
-									<Tracks />
+									<Tracks token={this.props.token} />
 								</div>
 							</div>
 							<div className="four wide column mt-5">
@@ -33,3 +34,11 @@ export default class Track extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.authReducer.token,
+	};
+};
+
+export default connect(mapStateToProps)(Track);
