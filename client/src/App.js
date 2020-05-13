@@ -14,7 +14,7 @@ import Track from "./pages/Track";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
-import { SinglePractice } from "./pages/Practice";
+import SinglePractice from "./pages/PracticeSingle";
 import Playground from "./pages/Playground";
 import "./App.scss";
 import NotFound from "./pages/404";

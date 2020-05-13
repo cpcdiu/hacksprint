@@ -8,7 +8,7 @@ import Track from "./Track";
 import Profile from "./Profile";
 import Settings from "./Settings";
 import Practice from "./Practice";
-import { SinglePractice } from "./Practice";
+import SinglePractice from "./PracticeSingle";
 
 export default class UserPanel extends Component {
 	render() {
