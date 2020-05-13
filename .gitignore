@@ -1,6 +1,6 @@
 .idea
 .vscode
-.env
+env.py
 db.sqlite3
 *.pyc
 *.*.pyc
