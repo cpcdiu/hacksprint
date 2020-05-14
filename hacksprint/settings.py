@@ -80,14 +80,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'hacksprint.wsgi.application'
 
 DATABASES = {
-    'default': {
-        'ENGINE': DATABASE_ENGINE,
-        'NAME': DATABASE_NAME,
-        'USER': DATABASE_USER,
-        'PASSWORD': DATABASE_PASSWORD,
-        'HOST': DATABASE_HOST,
-        'PORT': DATABASE_PORT
-    }
+    'default': DB_CONFIG
 }
 
 AUTH_PASSWORD_VALIDATORS = [

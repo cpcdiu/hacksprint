@@ -89,3 +89,8 @@ def single_track(request, id):
         practice.save()
 
         return redirect('/admin/tracks/' + str(id))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def challenges(request):
+    return render(request, 'adminpanel/challenges.html')
