@@ -1,7 +1,7 @@
 from django.urls import path
 from . import views
 
-# /admin/
+# ALL ADMIN ROUTES
 urlpatterns = [
     path('', views.index, name='adminpanel'),
     path('login/', views.admin_login, name='admin-login'),
