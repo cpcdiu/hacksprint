@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from rest_framework.authtoken.models import Token
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.response import Response
+from rest_framework.views import APIView
+
+from main.serializers import UserSerializer
 
 
 class CustomAuthToken(ObtainAuthToken):
@@ -23,6 +26,16 @@ class CustomAuthToken(ObtainAuthToken):
             'first_name': user.first_name,
             'last_name': user.last_name
         })
+
+
+class SignUpView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"msg": "user created successfully"})
+        return Response({"msg": "something wrong"})
 
 
 def index(request):

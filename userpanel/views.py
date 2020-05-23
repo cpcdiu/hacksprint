@@ -179,6 +179,7 @@ class SettingsView(APIView):
         return Response(content)
 
 
+# DISCARDED ROUTES, WILL BE REMOVED SOON
 def profile(request):
     return render(request, 'userpanel/profile.html')
 

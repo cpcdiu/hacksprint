@@ -64,7 +64,6 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
-        print(user_data, '----------------', 'created...........')
         location = validated_data.pop('location')
         contact = validated_data.pop('contact')
         website = validated_data.pop('website')
