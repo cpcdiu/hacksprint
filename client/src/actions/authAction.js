@@ -49,6 +49,7 @@ export const handleLogin = (user) => (dispatch) => {
 				first_name: res.data.first_name,
 				last_name: res.data.last_name,
 				email: res.data.email,
+				username: res.data.username,
 			};
 			dispatch({
 				type: LOGIN_SUCCESS,

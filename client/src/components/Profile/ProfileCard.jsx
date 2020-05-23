@@ -6,6 +6,7 @@ export default class ProfileCard extends Component {
 		editMode: false,
 		active: false,
 		user: this.props.user,
+		username: this.props.username,
 		info: this.props.info,
 		location: "",
 		contact: "",
@@ -16,6 +17,7 @@ export default class ProfileCard extends Component {
 		return {
 			user: nextProps.user,
 			info: nextProps.info,
+			username: nextProps.username,
 		};
 	}
 
@@ -48,8 +50,6 @@ export default class ProfileCard extends Component {
 		this.setState({
 			[e.target.name]: e.target.value,
 		});
-
-		// console.log(e.target.value);
 	};
 
 	regularCardContent = () => {
@@ -59,21 +59,33 @@ export default class ProfileCard extends Component {
 			<>
 				<div className="header">{user.first_name + " " + user.last_name}</div>
 				<div className="meta">
-					<p className="mb-2">@{this.state.user.username}</p>
-					<div className="d-flex mt-1">
-						<i className="map marker alternate icon"></i>
-						<p className="pl-1">{info.location}</p>
-					</div>
-					<div className="d-flex mt-1">
-						<i className="envelope outline icon"></i>
-						<p className="pl-1">{info.contact}</p>
-					</div>
-					<div className="d-flex mt-1">
-						<i className="linkify icon"></i>
-						<p className="pl-1">
-							<a href="/">{info.website}</a>
-						</p>
-					</div>
+					<p className="mb-2">@{this.state.username}</p>
+					{info.location ? (
+						<div className="d-flex mt-1">
+							<i className="map marker alternate icon"></i>
+							<p className="pl-1">{info.location}</p>
+						</div>
+					) : (
+						""
+					)}
+					{info.contact ? (
+						<div className="d-flex mt-1">
+							<i className="envelope outline icon"></i>
+							<p className="pl-1">{info.contact}</p>
+						</div>
+					) : (
+						""
+					)}
+					{info.website ? (
+						<div className="d-flex mt-1">
+							<i className="linkify icon"></i>
+							<p className="pl-1">
+								<a href="/">{info.website}</a>
+							</p>
+						</div>
+					) : (
+						""
+					)}
 				</div>
 			</>
 		);
@@ -86,7 +98,7 @@ export default class ProfileCard extends Component {
 					{this.state.user.first_name + " " + this.state.user.last_name}
 				</div>
 				<div className="meta">
-					<p className="mb-2">@{this.state.user.username}</p>
+					<p className="mb-2">@{this.state.username}</p>
 					<div className="d-flex align-items-center mt-1">
 						<div>
 							<i className="map marker alternate icon"></i>

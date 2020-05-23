@@ -53,6 +53,7 @@ class Profile extends Component {
 								<ProfileCard
 									user={user}
 									info={info}
+									username={this.props.user.username}
 									handleProfileData={this.handleProfileData}
 								/>
 							</div>
@@ -76,6 +77,7 @@ const mapStateToProps = (state) => {
 	return {
 		profile: state.profileReducer,
 		token: state.authReducer.token,
+		user: state.authReducer.user,
 	};
 };
 
