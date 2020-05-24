@@ -12,11 +12,17 @@ import { connect } from "react-redux";
 import classNames from "classnames";
 import { Link, Redirect } from "react-router-dom";
 import Navbar from "../components/Navbar/Navbar";
+import { handleRegister } from "../actions/authAction";
 import logo from "../assets/img/logo.png";
 
 class RegistrationForm extends Component {
 	state = {
 		isHidden: false,
+		first_name: "",
+		last_name: "",
+		username: "",
+		email: "",
+		password: "",
 	};
 
 	messageClass = classNames({
@@ -29,6 +35,32 @@ class RegistrationForm extends Component {
 	handleClose = () => {
 		this.setState((prevState) => ({ isHidden: !prevState.isHidden }));
 		console.log(this.state.isHidden);
+	};
+
+	handleFormInput = (e) => {
+		this.setState({
+			[e.target.name]: e.target.value,
+		});
+	};
+
+	handleFormSubmit = (e) => {
+		let newUser = {
+			first_name: this.state.first_name,
+			last_name: this.state.last_name,
+			username: this.state.username,
+			email: this.state.email,
+			password: this.state.password,
+		};
+
+		this.props.handleRegister(newUser);
+
+		this.setState({
+			first_name: "",
+			last_name: "",
+			username: "",
+			email: "",
+			password: "",
+		});
 	};
 
 	render() {
@@ -50,25 +82,40 @@ class RegistrationForm extends Component {
 								(this.state.isHidden ? "hidden" : "sh")
 							}
 						>
-							<i class="close icon" onClick={this.handleClose}></i>
-							<div class="header">User registration is temporarily closed.</div>
+							<i className="close icon" onClick={this.handleClose}></i>
+							<div className="header">DIU Email Only</div>
 							<p>
-								If you're interested in beta testing. Please mail at
-								dev.diucpc@gmail.com from your DIU mail
+								This beta testing is only for DIU student. Please sign up with
+								your DIU email to get approval of your account.
 							</p>
 						</div>
-						<Form size="large">
+						<Form size="large" onSubmit={this.handleFormSubmit}>
 							<Segment stacked>
 								<div className="two fields">
-									<Form.Input fluid placeholder="First Name" />
-									<Form.Input fluid placeholder="Last Name" />
+									<Form.Input
+										name="first_name"
+										value={this.state.first_name}
+										fluid
+										placeholder="First Name"
+										onChange={this.handleFormInput}
+									/>
+									<Form.Input
+										name="last_name"
+										value={this.state.last_name}
+										fluid
+										placeholder="Last Name"
+										onChange={this.handleFormInput}
+									/>
 								</div>
 								<div className="field">
 									<Form.Input
+										name="username"
+										value={this.state.username}
 										fluid
 										placeholder="Username"
 										icon="at"
 										iconPosition="left"
+										onChange={this.handleFormInput}
 									/>
 								</div>
 								<div className="field">
@@ -77,9 +124,10 @@ class RegistrationForm extends Component {
 										<input
 											type="text"
 											name="email"
-											placeholder="example15-0000"
+											value={this.state.email}
+											placeholder="example15-0000@diu.edu.bd"
+											onChange={this.handleFormInput}
 										/>
-										<div className="ui basic label">@diu.edu.bd</div>
 									</div>
 								</div>
 								<div className="field">
@@ -87,8 +135,10 @@ class RegistrationForm extends Component {
 										<i className="lock icon"></i>
 										<input
 											type="password"
+											value={this.state.password}
 											placeholder="Password"
 											name="password"
+											onChange={this.handleFormInput}
 										/>
 									</div>
 								</div>
@@ -119,7 +169,7 @@ class SignUpPage extends Component {
 				) : authReducer.isAuthenticated ? (
 					<Redirect to="/dashboard" />
 				) : (
-					<RegistrationForm />
+					<RegistrationForm handleRegister={this.props.handleRegister} />
 				)}
 			</div>
 		);
@@ -132,4 +182,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(SignUpPage);
+export default connect(mapStateToProps, { handleRegister })(SignUpPage);

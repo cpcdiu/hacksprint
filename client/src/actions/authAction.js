@@ -1,4 +1,6 @@
 import axios from "axios";
+import { useHistory } from "react-router-dom";
+
 import {
 	USER_LOADING,
 	USER_LOADED,
@@ -67,3 +69,23 @@ export const handleLogin = (user) => (dispatch) => {
 			});
 		});
 };
+
+export function handleRegister(newUser) {
+	return function (dispatch) {
+		console.log("register function called");
+		axios
+			.post(`${process.env.REACT_APP_WEBSITE_NAME}api/register/`, {
+				first_name: newUser.first_name,
+				last_name: newUser.last_name,
+				username: newUser.username,
+				email: newUser.email,
+				password: newUser.password,
+			})
+			.then((res) => {
+				// let history = useHistory();
+				console.log("success registration");
+				// history.push("/");
+			})
+			.catch((err) => console.log(err));
+	};
+}
