@@ -4,9 +4,9 @@ from django.db import models
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    location = models.CharField(max_length=300)
-    contact = models.CharField(max_length=200)
-    website = models.CharField(max_length=300)
+    location = models.CharField(max_length=300, null=True, blank=True)
+    contact = models.CharField(max_length=200, null=True, blank=True)
+    website = models.CharField(max_length=300, null=True, blank=True)
 
 
 class WorkExperience(models.Model):

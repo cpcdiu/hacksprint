@@ -24,6 +24,7 @@ export function getProfile(token) {
 
 export function updateProfile(token, data) {
 	return function (dispatch) {
+		console.log(data, "--------------------data");
 		axios
 			.post(`${process.env.REACT_APP_WEBSITE_NAME}api/profile/`, data, {
 				headers: {
