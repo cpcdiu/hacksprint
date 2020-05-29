@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import steve from "../../assets/img/steve.jpg";
 
 export default class DashNav extends Component {
 	render() {
@@ -40,10 +41,7 @@ export default class DashNav extends Component {
 							<i className="bell icon m-0"></i>
 						</Link>
 						<div className="ui simple dropdown item">
-							<img
-								src="https://he-s3.s3.amazonaws.com/media/avatars/shakil16/resized/30/6dd0c83shakil.jpg"
-								alt=""
-							/>
+							<img src={steve} alt="" />
 							<i className="dropdown icon"></i>
 							<div className="menu">
 								<Link className="item" to="/profile">

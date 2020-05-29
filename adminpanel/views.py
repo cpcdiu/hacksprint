@@ -7,6 +7,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from cloudinary import uploader
 
+from adminpanel.form import PracticeForm
 from adminpanel.models import Track, Practice
 
 
@@ -78,7 +79,9 @@ def tracks(request):
 def single_track(request, id):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__id=id)
-        return render(request, 'adminpanel/practices.html', {'practices': practices})
+        context = {'practices': practices, 'trackID': id}
+        return render(request, 'adminpanel/practices.html', context)
+
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
@@ -89,6 +92,25 @@ def single_track(request, id):
         practice.save()
 
         return redirect('/admin/tracks/' + str(id))
+
+
+@user_passes_test(lambda u: u.is_superuser)
+def practice_add(request, trackID):
+    if request.method == 'GET':
+        form = PracticeForm()
+        return render(request, 'adminpanel/practice-add.html', {'form': form})
+
+    if request.method == 'POST':
+        form = PracticeForm(request.POST)
+        title = request.POST['title']
+        track = Track.objects.get(id=trackID)
+        if form.is_valid():
+            practice = form.save(commit=False)
+            practice.author = request.user
+            practice.track = track
+            practice.title = title
+            practice.save()
+            return redirect('/admin/')
 
 
 @user_passes_test(lambda u: u.is_superuser)

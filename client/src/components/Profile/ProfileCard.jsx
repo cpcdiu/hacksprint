@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Button, Dimmer } from "semantic-ui-react";
+import steve from "../../assets/img/steve.jpg";
 
 export default class ProfileCard extends Component {
 	state = {
@@ -169,7 +170,7 @@ export default class ProfileCard extends Component {
 							/>
 						</Dimmer>
 						<img
-							src="https://semantic-ui.com/images/avatar/large/steve.jpg"
+							src={steve}
 							alt="dummy"
 							style={{ width: "100%", height: "auto" }}
 						/>
@@ -214,10 +215,7 @@ export class Regular extends Component {
 		return (
 			<div className="ui fluid card">
 				<a className="image" href="/">
-					<img
-						src="https://semantic-ui.com/images/avatar/large/steve.jpg"
-						alt="dummy"
-					/>
+					<img src={steve} alt="dummy" />
 				</a>
 				<div className="content">
 					<div className="header">{user.first_name + " " + user.last_name}</div>
@@ -278,7 +276,7 @@ export class Edit extends Component {
 						/>
 					</Dimmer>
 					<img
-						src="https://semantic-ui.com/images/avatar/large/steve.jpg"
+						src={steve}
 						alt="dummy"
 						style={{ width: "100%", height: "auto" }}
 					/>

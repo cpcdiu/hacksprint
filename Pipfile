@@ -16,6 +16,7 @@ cloudinary = "*"
 djangorestframework = "*"
 django-rest-knox = "*"
 django-cors-headers = "*"
+django-ckeditor = "*"
 
 [requires]
 python_version = "3.7"

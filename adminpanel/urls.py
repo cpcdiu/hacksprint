@@ -10,5 +10,6 @@ urlpatterns = [
     path('challenges/', views.challenges),
     path('tracks/', views.tracks, name='tracks'),
     path('tracks/<int:id>', views.single_track, name='single-track'),
+    path('practice/new/<int:trackID>', views.practice_add, name='practice-new'),
     path('settings/', views.settings, name='admin-settings')
 ]

@@ -1,0 +1,45 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Add Practice | Hacksprint</title>
+{% endblock %}
+
+{% block styles %}
+    <style>
+    label {
+        display: none;
+    }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Add Practice</h4>
+                    </div>
+                    <div class="row">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3"><input type="text" name="title" class="form-control" placeholder="Title"></div>
+                            {{ form.media }}
+                            {{ form }}
+                            <div class="text-right">
+                                <input type="submit" value="Save" class="btn btn-primary">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

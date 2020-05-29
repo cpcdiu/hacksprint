@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { nanoid } from "nanoid";
+import { html } from "htm/react";
+// import { nanoid } from "nanoid";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+// import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
 import Sidebar from "../components/Sidebar/Sidebar";
@@ -44,6 +45,7 @@ class SinglePractice extends Component {
 	}
 
 	render() {
+		const richText = '<a href="/">Hello!</a>';
 		return (
 			<div>
 				<Navbar />
@@ -60,7 +62,11 @@ class SinglePractice extends Component {
 											<div className="header">{this.state.data.title}</div>
 											<div className="meta">2 days ago</div>
 											<div className="description">
-												<p>{this.state.data.body}</p>
+												<div
+													dangerouslySetInnerHTML={{
+														__html: this.state.data.body,
+													}}
+												></div>
 											</div>
 										</div>
 										<div className="extra content">
@@ -92,4 +98,4 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps)(SinglePractice)
+export default connect(mapStateToProps)(SinglePractice);

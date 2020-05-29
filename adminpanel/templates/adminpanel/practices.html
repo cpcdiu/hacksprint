@@ -13,7 +13,7 @@
             <div class="content">
                 <div class="page-inner">
                     <div class="page-header">
-                        <h4 class="page-title">Tracks</h4>
+                        <h4 class="page-title">Practice</h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
                                 <a href="#">
@@ -27,11 +27,10 @@
                                 <a href="#">Track</a>
                             </li>
                         </ul>
-                        <button class="btn btn-primary btn-border btn-round ml-auto" data-toggle="modal"
-                                data-target="#addRowModal">
+                        <a href={% url 'practice-new' trackID %} class="btn btn-primary btn-border btn-round ml-auto">
                             <i class="fa fa-plus"></i>
                             Add Practice
-                        </button>
+                        </a>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
