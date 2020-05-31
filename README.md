@@ -14,5 +14,7 @@
   3. Install dependencies `pipenv install`
   4. Migrate Database `python manage.py migrate`
   5. Run the Dev Server `python manage.py runserver`
-  
+
+**Some instruction to build client:**
+
 _N.B. You must have env.py file in the project root folder. Rename env-sample.py file to env.py and fill those variables with your system values to run the project properly_
