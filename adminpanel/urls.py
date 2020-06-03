@@ -4,6 +4,8 @@ from . import views
 # ALL ADMIN ROUTES
 urlpatterns = [
     path('', views.index, name='adminpanel'),
+    path('logout/', views.admin_logOut, name='logOut'),
+
     path('login/', views.admin_login, name='admin-login'),
     path('users/', views.users, name='admin-users'),
     path('users/<str:action>/<int:userid>/', views.user_action, name='user-action'),
