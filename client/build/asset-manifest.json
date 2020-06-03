@@ -1,20 +1,22 @@
 {
   "files": {
-    "main.css": "/static/css/main.95ecc138.chunk.css",
-    "main.js": "/static/js/main.99f25000.chunk.js",
-    "main.js.map": "/static/js/main.99f25000.chunk.js.map",
+    "main.css": "/static/css/main.24e0a2eb.chunk.css",
+    "main.js": "/static/js/main.61896e2b.chunk.js",
+    "main.js.map": "/static/js/main.61896e2b.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.784c586e.js",
     "runtime-main.js.map": "/static/js/runtime-main.784c586e.js.map",
     "static/css/2.6735afb0.chunk.css": "/static/css/2.6735afb0.chunk.css",
-    "static/js/2.407c43e9.chunk.js": "/static/js/2.407c43e9.chunk.js",
-    "static/js/2.407c43e9.chunk.js.map": "/static/js/2.407c43e9.chunk.js.map",
+    "static/js/2.279dfb7a.chunk.js": "/static/js/2.279dfb7a.chunk.js",
+    "static/js/2.279dfb7a.chunk.js.map": "/static/js/2.279dfb7a.chunk.js.map",
     "index.html": "/index.html",
-    "precache-manifest.4ab6fb236b7443bc766945c48e53ce64.js": "/precache-manifest.4ab6fb236b7443bc766945c48e53ce64.js",
+    "precache-manifest.34594e0af9ef01a78ecaf8bb0a43d79a.js": "/precache-manifest.34594e0af9ef01a78ecaf8bb0a43d79a.js",
     "service-worker.js": "/service-worker.js",
     "static/css/2.6735afb0.chunk.css.map": "/static/css/2.6735afb0.chunk.css.map",
-    "static/css/main.95ecc138.chunk.css.map": "/static/css/main.95ecc138.chunk.css.map",
-    "static/js/2.407c43e9.chunk.js.LICENSE.txt": "/static/js/2.407c43e9.chunk.js.LICENSE.txt",
+    "static/css/main.24e0a2eb.chunk.css.map": "/static/css/main.24e0a2eb.chunk.css.map",
+    "static/js/2.279dfb7a.chunk.js.LICENSE.txt": "/static/js/2.279dfb7a.chunk.js.LICENSE.txt",
+    "static/media/bg-2.jpg": "/static/media/bg-2.bc87ef35.jpg",
     "static/media/semantic.min.css": "/static/media/outline-icons.ef60a4f6.woff",
+    "static/media/grou.jpg": "/static/media/grou.255bc910.jpg",
     "static/media/logo.png": "/static/media/logo.ad4dc9ac.png",
     "static/media/nan.jpg": "/static/media/nan.8b103b76.jpg",
     "static/media/steve.jpg": "/static/media/steve.1fa81202.jpg"
@@ -22,8 +24,8 @@
   "entrypoints": [
     "static/js/runtime-main.784c586e.js",
     "static/css/2.6735afb0.chunk.css",
-    "static/js/2.407c43e9.chunk.js",
-    "static/css/main.95ecc138.chunk.css",
-    "static/js/main.99f25000.chunk.js"
+    "static/js/2.279dfb7a.chunk.js",
+    "static/css/main.24e0a2eb.chunk.css",
+    "static/js/main.61896e2b.chunk.js"
   ]
 }
