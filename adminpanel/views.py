@@ -28,13 +28,13 @@ def settings(request):
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def user_action(request, action, uid):
+def user_action(request, action, userid):
     if action == 'approve':
-        user = User.objects.filter(id=uid)
+        user = User.objects.filter(id=userid)
         user.update(is_active=True)
 
     if action == 'delete':
-        user = User.objects.filter(id=uid)
+        user = User.objects.filter(id=userid)
         user.delete()
     return redirect('admin-users')
 
@@ -59,6 +59,7 @@ def admin_login(request):
             return render(request, 'adminpanel/login.html')
 
 
+@user_passes_test(lambda user: user.is_superuser)
 def tracks(request):
     if request.method == 'GET':
         all_tracks = Track.objects.all()
@@ -76,6 +77,18 @@ def tracks(request):
         return redirect('tracks')
 
 
+@user_passes_test(lambda user: user.is_superuser)
+def track_action(request, action, trackid):
+    if action == 'delete':
+        print(trackid)
+        track = Track.objects.get(id=trackid)
+        track.delete()
+        return redirect('tracks')
+    else:
+        return redirect('tracks')
+
+
+@user_passes_test(lambda user: user.is_superuser)
 def single_track(request, id):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__id=id)
@@ -94,8 +107,14 @@ def single_track(request, id):
         return redirect('/admin/tracks/' + str(id))
 
 
+@user_passes_test(lambda user: user.is_superuser)
+def single_practice(request, practiceid):
+    practice = Practice.objects.get(id=practiceid)
+    return render(request, 'adminpanel/practice-single.html', {'practice': practice})
+
+
 @user_passes_test(lambda u: u.is_superuser)
-def practice_add(request, trackID):
+def practice_add(request, trackid):
     if request.method == 'GET':
         form = PracticeForm()
         return render(request, 'adminpanel/practice-add.html', {'form': form})
@@ -103,7 +122,7 @@ def practice_add(request, trackID):
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
-        track = Track.objects.get(id=trackID)
+        track = Track.objects.get(id=trackid)
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
@@ -113,6 +132,36 @@ def practice_add(request, trackID):
             return redirect('/admin/')
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda user: user.is_superuser)
+def practice_action(request, action, practiceid):
+    if action == 'delete':
+        practice = Practice.objects.get(id=practiceid)
+        practice.delete()
+        return redirect('single-track', id=1)
+
+    if action == 'edit':
+        if request.method == 'GET':
+            practice = Practice.objects.get(id=practiceid)
+            form = PracticeForm(instance=practice)
+
+            context = {
+                'form': form,
+                'practice': practice
+            }
+            return render(request, 'adminpanel/practice-edit.html', context)
+
+        elif request.method == 'POST':
+            practice = Practice.objects.get(id=practiceid)
+            form = PracticeForm(request.POST, instance=practice)
+            title = request.POST['title']
+
+            if form.is_valid():
+                practice = form.save(commit=False)
+                practice.title = title
+                practice.save()
+                return redirect('tracks')
+
+
+@user_passes_test(lambda user: user.is_superuser)
 def challenges(request):
     return render(request, 'adminpanel/challenges.html')

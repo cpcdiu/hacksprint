@@ -116,14 +116,14 @@
                                         <tbody>
                                         {% for practice in practices %}
                                             <tr>
-                                                <td><strong><a href={{ practice.id }}>{{ practice.title }}</a></strong></td>
+                                                <td><strong><a href={% url 'single-practice' practice.id %}>{{ practice.title }}</a></strong></td>
                                                 <td>Some, Tags</td>
                                                 <td>
-                                                    <a href="#"
+                                                    <a href="{% url 'practice-action' 'edit' practice.id %}"
                                                        class="btn btn-primary" style="padding: .65rem 1.2rem">
                                                         <i class="fas fa-user-edit"></i>
                                                     </a>
-                                                    <a href="#"
+                                                    <a href="{% url 'practice-action' 'delete' practice.id %}"
                                                        class="btn btn-danger">
                                                         <i class="fas fa-trash"></i>
                                                     </a>

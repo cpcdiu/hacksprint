@@ -1,0 +1,27 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>{{ practice.title }}</title>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">{{ practice.title }}</h4>
+                    </div>
+                    <p>{{ practice.body | safe }}</p>
+                </div>
+            </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
