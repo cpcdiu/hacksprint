@@ -2,6 +2,7 @@ from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib import auth
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -57,7 +58,10 @@ def admin_login(request):
         else:
             messages.error(request, 'No such account')
             return render(request, 'adminpanel/login.html')
-
+def admin_logOut(request):
+    print("nazmul")
+    auth.logout(request)
+    return redirect('/')
 
 def tracks(request):
     if request.method == 'GET':

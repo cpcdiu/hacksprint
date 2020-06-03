@@ -191,7 +191,9 @@
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="/logout">Logout</a>
+                                {% if user.is_authenticated %}
+                                    <a class="dropdown-item" href="{% url 'logOut' %}">Logout</a>
+                                {% endif %}
                             </li>
                         </div>
                     </ul>
