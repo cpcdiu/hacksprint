@@ -2,6 +2,16 @@
   background-color: #f3f7f7;
 }
 
+.hero {
+  height: calc(100vh - 0px) !important;
+}
+
+a.logo-landing {
+  font-family: 'Bungee', cursive;
+  font-size: 25px;
+  // color: rgba($color: white, $alpha: 0.9) !important;
+}
+
 // 404 page
 .page_404 {
   padding: 40px 0;

@@ -17,9 +17,10 @@ import {
 } from "semantic-ui-react";
 import { Link, Redirect } from "react-router-dom";
 
-import dummy from "../assets/img/white-image.png";
+import dummy from "../assets/img/grou.jpg";
 import dummy2 from "../assets/img/nan.jpg";
 import { connect } from "react-redux";
+import bg from "../assets/img/bg-2.jpg";
 
 const getWidth = () => {
 	const isSSR = typeof window === "undefined";
@@ -47,10 +48,10 @@ const HomepageHeading = ({ mobile }) => (
 			style={{
 				fontSize: mobile ? "1.5em" : "1.7em",
 				fontWeight: "normal",
-				marginTop: mobile ? "0.5em" : "1.5em",
+				marginTop: mobile ? "0.5em" : "15px",
 			}}
 		/>
-		<Button primary size="huge">
+		<Button as={Link} to="/login" primary size="huge">
 			Get Started
 			<Icon name="right arrow" />
 		</Button>
@@ -81,40 +82,53 @@ class DesktopContainer extends Component {
 					<Segment
 						inverted
 						textAlign="center"
-						style={{ minHeight: 700, padding: "1em 0em" }}
+						className="hero"
+						style={{
+							padding: "0px",
+							backgroundImage: `url(${bg})`,
+							backgroundRepeat: "no-repeat",
+							backgroundSize: "cover",
+							backgroundPosition: "center",
+						}}
 						vertical
 					>
-						<Menu
-							fixed={fixed ? "top" : null}
-							inverted={!fixed}
-							pointing={!fixed}
-							secondary={!fixed}
-							size="large"
+						<div
+							style={{
+								background: "rgba(0, 0, 0, 0.5)",
+								height: "100%",
+								padding: "14px 0px",
+							}}
 						>
-							<Container>
-								<Menu.Item as="a" active>
-									Home
-								</Menu.Item>
-								<Menu.Item as="a">Work</Menu.Item>
-								<Menu.Item as="a">Company</Menu.Item>
-								<Menu.Item as="a">Careers</Menu.Item>
-								<Menu.Item position="right">
-									<Button as={Link} inverted={!fixed} to="/login">
-										Log in
-									</Button>
-									<Button
-										as={Link}
-										inverted={!fixed}
-										primary={fixed}
-										style={{ marginLeft: "0.5em" }}
-										to="/register"
-									>
-										Sign Up
-									</Button>
-								</Menu.Item>
-							</Container>
-						</Menu>
-						<HomepageHeading />
+							<Menu
+								fixed={fixed ? "top" : null}
+								inverted={!fixed}
+								pointing={!fixed}
+								secondary={!fixed}
+								size="large"
+								style={{ border: "none" }}
+							>
+								<Container>
+									<Menu.Item as={Link} className="logo-landing">
+										Hacksprint
+									</Menu.Item>
+									<Menu.Item position="right">
+										<Button as={Link} inverted={!fixed} to="/login">
+											Log in
+										</Button>
+										<Button
+											as={Link}
+											inverted={!fixed}
+											primary={fixed}
+											style={{ marginLeft: "0.5em" }}
+											to="/register"
+										>
+											Sign Up
+										</Button>
+									</Menu.Item>
+								</Container>
+							</Menu>
+							<HomepageHeading />
+						</div>
 					</Segment>
 				</Visibility>
 
@@ -156,9 +170,6 @@ class MobileContainer extends Component {
 					<Menu.Item as="a" active>
 						Home
 					</Menu.Item>
-					<Menu.Item as="a">Work</Menu.Item>
-					<Menu.Item as="a">Company</Menu.Item>
-					<Menu.Item as="a">Careers</Menu.Item>
 					<Menu.Item as="a">Log in</Menu.Item>
 					<Menu.Item as="a">Sign Up</Menu.Item>
 				</Sidebar>
@@ -217,19 +228,18 @@ const HomepageLayout = () => (
 				<Grid.Row>
 					<Grid.Column width={8}>
 						<Header as="h3" style={{ fontSize: "2em" }}>
-							We Help Companies and Companions
+							Join Hackathon
 						</Header>
 						<p style={{ fontSize: "1.33em" }}>
-							We can give your company superpowers to do things that they never
-							thought possible. Let us delight your customers and empower your
-							needs... through pure data analytics.
+							Popular companies from the industry regularly hosts hackathon on
+							Hacksprint. Join hackathon to sharpen your development skill
 						</p>
 						<Header as="h3" style={{ fontSize: "2em" }}>
-							We Make Bananas That Can Dance
+							Practice on Track
 						</Header>
 						<p style={{ fontSize: "1.33em" }}>
-							Yes that's right, you thought it was the stuff of dreams, but even
-							bananas can be bioengineered.
+							Select your career track and practice the tasks related to that
+							career path
 						</p>
 					</Grid.Column>
 					<Grid.Column floated="right" width={6}>
@@ -238,13 +248,15 @@ const HomepageLayout = () => (
 				</Grid.Row>
 				<Grid.Row>
 					<Grid.Column textAlign="center">
-						<Button size="huge">Check Them Out</Button>
+						<Button as={Link} to="/login" size="huge">
+							Start Now
+						</Button>
 					</Grid.Column>
 				</Grid.Row>
 			</Grid>
 		</Segment>
 
-		<Segment style={{ padding: "0em" }} vertical>
+		{/* <Segment style={{ padding: "0em" }} vertical>
 			<Grid celled="internally" columns="equal" stackable>
 				<Grid.Row textAlign="center">
 					<Grid.Column style={{ paddingBottom: "5em", paddingTop: "5em" }}>
@@ -304,37 +316,37 @@ const HomepageLayout = () => (
 					I'm Still Quite Interested
 				</Button>
 			</Container>
-		</Segment>
+		</Segment> */}
 
 		<Segment inverted vertical style={{ padding: "5em 0em" }}>
 			<Container>
 				<Grid divided inverted stackable>
 					<Grid.Row>
 						<Grid.Column width={3}>
-							<Header inverted as="h4" content="About" />
+							<Header inverted as="h4" content="Navigation" />
 							<List link inverted>
-								<List.Item as="a">Sitemap</List.Item>
+								<List.Item as="a">About</List.Item>
 								<List.Item as="a">Contact Us</List.Item>
-								<List.Item as="a">Religious Ceremonies</List.Item>
-								<List.Item as="a">Gazebo Plans</List.Item>
+								<List.Item as="a">Code of Conduct</List.Item>
+								<List.Item as="a">Career</List.Item>
 							</List>
 						</Grid.Column>
 						<Grid.Column width={3}>
-							<Header inverted as="h4" content="Services" />
+							<Header inverted as="h4" content="Resources" />
 							<List link inverted>
-								<List.Item as="a">Banana Pre-Order</List.Item>
-								<List.Item as="a">DNA FAQ</List.Item>
-								<List.Item as="a">How To Access</List.Item>
-								<List.Item as="a">Favorite X-Men</List.Item>
+								<List.Item as="a">Contributing</List.Item>
+								<List.Item as="a">Privacy</List.Item>
+								<List.Item as="a">Terms</List.Item>
+								<List.Item as="a">Help</List.Item>
 							</List>
 						</Grid.Column>
 						<Grid.Column width={7}>
-							<Header as="h4" inverted>
-								Footer Header
-							</Header>
+							{/* <Header as="h4" inverted>
+								About
+							</Header> */}
 							<p>
-								Extra space for a call to action inside the footer that could
-								help re-engage users.
+								An Open Source initiative by Daffodil International University
+								Computer Programming Club
 							</p>
 						</Grid.Column>
 					</Grid.Row>
