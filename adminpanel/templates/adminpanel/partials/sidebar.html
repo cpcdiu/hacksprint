@@ -22,12 +22,14 @@
                         <p>Practice</p>
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a href="{% url 'admin-users' %}">
-                        <i class="fas fa-user"></i>
-                        <p>Users</p>
-                    </a>
-                </li>
+                {% if user.is_superuser %}
+                    <li class="nav-item">
+                        <a href="{% url 'admin-users' %}">
+                            <i class="fas fa-user"></i>
+                            <p>Users</p>
+                        </a>
+                    </li>
+                {% endif %}
                 <li class="nav-item">
                     <a href="{% url 'admin-settings' %}">
                         <i class="fas fa-cog"></i>

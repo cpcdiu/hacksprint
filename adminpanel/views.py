@@ -1,6 +1,6 @@
 from django.conf.urls import url
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import auth
 from django.http import HttpResponse, JsonResponse
@@ -12,7 +12,7 @@ from adminpanel.form import PracticeForm
 from adminpanel.models import Track, Practice
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def index(request):
     return render(request, 'adminpanel/index.html')
 
@@ -23,7 +23,7 @@ def users(request):
     return render(request, 'adminpanel/users.html', {'users': all_user})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def settings(request):
     return render(request, 'adminpanel/settings.html')
 
@@ -49,7 +49,7 @@ def admin_login(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
-        if user is not None and user.is_superuser:
+        if user is not None and user.is_superuser or user.is_staff:
             login(request, user)
             if request.GET:
                 return redirect(request.GET['next'])
@@ -58,12 +58,14 @@ def admin_login(request):
         else:
             messages.error(request, 'No such account')
             return render(request, 'adminpanel/login.html')
+
+
 def admin_logOut(request):
-    print("nazmul")
-    auth.logout(request)
+    logout(request)
     return redirect('/')
 
-@user_passes_test(lambda user: user.is_superuser)
+
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def tracks(request):
     if request.method == 'GET':
         all_tracks = Track.objects.all()
@@ -81,7 +83,7 @@ def tracks(request):
         return redirect('tracks')
 
 
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def track_action(request, action, trackid):
     if action == 'delete':
         print(trackid)
@@ -92,7 +94,7 @@ def track_action(request, action, trackid):
         return redirect('tracks')
 
 
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, id):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__id=id)
@@ -111,13 +113,13 @@ def single_track(request, id):
         return redirect('/admin/tracks/' + str(id))
 
 
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_practice(request, practiceid):
     practice = Practice.objects.get(id=practiceid)
     return render(request, 'adminpanel/practice-single.html', {'practice': practice})
 
 
-@user_passes_test(lambda u: u.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def practice_add(request, trackid):
     if request.method == 'GET':
         form = PracticeForm()
@@ -136,7 +138,7 @@ def practice_add(request, trackid):
             return redirect('/admin/')
 
 
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def practice_action(request, action, practiceid):
     if action == 'delete':
         practice = Practice.objects.get(id=practiceid)
@@ -166,6 +168,6 @@ def practice_action(request, action, practiceid):
                 return redirect('tracks')
 
 
-@user_passes_test(lambda user: user.is_superuser)
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def challenges(request):
     return render(request, 'adminpanel/challenges.html')
