@@ -74,10 +74,13 @@ def tracks(request):
     elif request.method == 'POST':
         title = request.POST['title']
         desc = request.POST['desc']
-        avatar = request.FILES['avatar']
-        info = uploader.upload(avatar)
-
-        track = Track(title=title, desc=desc, avatar=info['url'])
+        if len(request.FILES) is 0:
+            avatar = 'https://res.cloudinary.com/shakilahmmeed/image/upload/v1590647375/aboq57tmbmyx0jb4fzml.jpg'
+            track = Track(title=title, desc=desc, avatar=avatar)
+        else:
+            avatar = request.FILES['avatar']
+            info = uploader.upload(avatar)
+            track = Track(title=title, desc=desc, avatar=info['url'])
         track.save()
 
         return redirect('tracks')
@@ -90,6 +93,19 @@ def track_action(request, action, trackid):
         track = Track.objects.get(id=trackid)
         track.delete()
         return redirect('tracks')
+    elif action == 'edit':
+        title = request.POST['title']
+        desc = request.POST['desc']
+        if len(request.FILES) is 0:
+            track = Track.objects.filter(id=trackid)
+            track.update(title=title, desc=desc)
+        else:
+            avatar = request.FILES['avatar']
+            info = uploader.upload(avatar)
+            track = Track.objects.filter(id=trackid)
+            track.update(title=title, desc=desc, avatar=info['url'])
+        return redirect('tracks')
+
     else:
         return redirect('tracks')
 
