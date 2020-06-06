@@ -1,41 +1,94 @@
 from django.conf.urls import url
 from django.contrib import messages
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.contrib import auth
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
 from cloudinary import uploader
 
-from adminpanel.form import PracticeForm
 from adminpanel.models import Track, Practice
 
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+@user_passes_test(lambda u: u.is_superuser)
 def index(request):
     return render(request, 'adminpanel/index.html')
 
 
+# Users Page
 @user_passes_test(lambda u: u.is_superuser)
 def users(request):
     all_user = User.objects.all().order_by('-date_joined')
     return render(request, 'adminpanel/users.html', {'users': all_user})
 
+# Create User
+@csrf_exempt
+def createUser(request):
+    firstName = request.POST["firstName"]
+    lastName = request.POST["lastName"]
+    userName = request.POST["userName"]
+    email = request.POST["email"]
+    password = request.POST["password"]
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+    try:
+        user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
+        user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Added Successfully!"}
+        return JsonResponse(user_data,safe=False)
+    except:
+        user_data={"error":True,"errorMessage":"Failed to Add User!"}
+        return JsonResponse(user_data,safe=False)
+
+# Edit User
+@csrf_exempt
+def editUser(request):
+    id = request.POST["id"]
+    firstName = request.POST["firstName"]
+    lastName = request.POST["lastName"]
+    userName = request.POST["userName"]
+    email = request.POST["email"]
+
+    try:
+        user=User.objects.get(id=id)
+        user.first_name = firstName
+        user.last_name = lastName
+        user.username = userName
+        user.email = email
+        user.save()
+
+        user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Updated Successfully!"}
+        return JsonResponse(user_data,safe=False)
+    except:
+        user_data={"error":True,"errorMessage":"Failed to Update User!"}
+        return JsonResponse(user_data,safe=False)
+
+# Delete User
+@csrf_exempt
+def deleteUser(request):
+    id = request.POST["id"]
+    try:
+        user=User.objects.get(id=id)
+        user.delete()
+        user_data={"error":False,"errorMessage":"User Deleted Successfully!"}
+        return JsonResponse(user_data,safe=False)
+    except:
+        user_data={"error":True,"errorMessage":"Failed to Delete User!"}
+        return JsonResponse(user_data,safe=False)
+
+
+@user_passes_test(lambda u: u.is_superuser)
 def settings(request):
     return render(request, 'adminpanel/settings.html')
 
 
 @user_passes_test(lambda u: u.is_superuser)
-def user_action(request, action, userid):
+def user_action(request, action, uid):
     if action == 'approve':
-        user = User.objects.filter(id=userid)
+        user = User.objects.filter(id=uid)
         user.update(is_active=True)
 
     if action == 'delete':
-        user = User.objects.filter(id=userid)
+        user = User.objects.filter(id=uid)
         user.delete()
     return redirect('admin-users')
 
@@ -49,7 +102,7 @@ def admin_login(request):
         password = request.POST['password']
         user = authenticate(username=username, password=password)
 
-        if user is not None and user.is_superuser or user.is_staff:
+        if user is not None and user.is_superuser:
             login(request, user)
             if request.GET:
                 return redirect(request.GET['next'])
@@ -60,12 +113,6 @@ def admin_login(request):
             return render(request, 'adminpanel/login.html')
 
 
-def admin_logOut(request):
-    logout(request)
-    return redirect('/')
-
-
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def tracks(request):
     if request.method == 'GET':
         all_tracks = Track.objects.all()
@@ -74,49 +121,19 @@ def tracks(request):
     elif request.method == 'POST':
         title = request.POST['title']
         desc = request.POST['desc']
-        if len(request.FILES) is 0:
-            avatar = 'https://res.cloudinary.com/shakilahmmeed/image/upload/v1590647375/aboq57tmbmyx0jb4fzml.jpg'
-            track = Track(title=title, desc=desc, avatar=avatar)
-        else:
-            avatar = request.FILES['avatar']
-            info = uploader.upload(avatar)
-            track = Track(title=title, desc=desc, avatar=info['url'])
+        avatar = request.FILES['avatar']
+        info = uploader.upload(avatar)
+
+        track = Track(title=title, desc=desc, avatar=info['url'])
         track.save()
 
         return redirect('tracks')
 
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def track_action(request, action, trackid):
-    if action == 'delete':
-        print(trackid)
-        track = Track.objects.get(id=trackid)
-        track.delete()
-        return redirect('tracks')
-    elif action == 'edit':
-        title = request.POST['title']
-        desc = request.POST['desc']
-        if len(request.FILES) is 0:
-            track = Track.objects.filter(id=trackid)
-            track.update(title=title, desc=desc)
-        else:
-            avatar = request.FILES['avatar']
-            info = uploader.upload(avatar)
-            track = Track.objects.filter(id=trackid)
-            track.update(title=title, desc=desc, avatar=info['url'])
-        return redirect('tracks')
-
-    else:
-        return redirect('tracks')
-
-
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, id):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__id=id)
-        context = {'practices': practices, 'trackID': id}
-        return render(request, 'adminpanel/practices.html', context)
-
+        return render(request, 'adminpanel/practices.html', {'practices': practices})
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
@@ -129,61 +146,6 @@ def single_track(request, id):
         return redirect('/admin/tracks/' + str(id))
 
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def single_practice(request, practiceid):
-    practice = Practice.objects.get(id=practiceid)
-    return render(request, 'adminpanel/practice-single.html', {'practice': practice})
-
-
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_add(request, trackid):
-    if request.method == 'GET':
-        form = PracticeForm()
-        return render(request, 'adminpanel/practice-add.html', {'form': form})
-
-    if request.method == 'POST':
-        form = PracticeForm(request.POST)
-        title = request.POST['title']
-        track = Track.objects.get(id=trackid)
-        if form.is_valid():
-            practice = form.save(commit=False)
-            practice.author = request.user
-            practice.track = track
-            practice.title = title
-            practice.save()
-            return redirect('/admin/')
-
-
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_action(request, action, practiceid):
-    if action == 'delete':
-        practice = Practice.objects.get(id=practiceid)
-        practice.delete()
-        return redirect('single-track', id=1)
-
-    if action == 'edit':
-        if request.method == 'GET':
-            practice = Practice.objects.get(id=practiceid)
-            form = PracticeForm(instance=practice)
-
-            context = {
-                'form': form,
-                'practice': practice
-            }
-            return render(request, 'adminpanel/practice-edit.html', context)
-
-        elif request.method == 'POST':
-            practice = Practice.objects.get(id=practiceid)
-            form = PracticeForm(request.POST, instance=practice)
-            title = request.POST['title']
-
-            if form.is_valid():
-                practice = form.save(commit=False)
-                practice.title = title
-                practice.save()
-                return redirect('tracks')
-
-
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+@user_passes_test(lambda u: u.is_superuser)
 def challenges(request):
     return render(request, 'adminpanel/challenges.html')
