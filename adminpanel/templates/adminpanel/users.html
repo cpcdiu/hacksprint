@@ -28,6 +28,16 @@
                             </li>
                         </ul>
                     </div>
+                    <div class="row" id="upt">
+                        <div class="col-md-12">
+                            <div class="alert alert-success" id="upt_success" style="display:none">
+
+                            </div>
+                            <div class="alert alert-danger" id="upt_error" style="display:none">
+
+                            </div>
+                        </div>
+                    </div>                    
                     <div class="row">
                         <div class="col-md-12">
                             <div class="card">
@@ -42,7 +52,8 @@
                                     </div>
                                 </div>
                                 <div class="card-body">
-                                    <!-- Modal -->
+
+                                    <!--User Add Modal -->
                                     <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog"
                                          aria-hidden="true">
                                         <div class="modal-dialog" role="document">
@@ -52,7 +63,7 @@
 														<span class="fw-mediumbold">
 														New</span>
                                                         <span class="fw-light">
-															Row
+															User
 														</span>
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -60,91 +71,179 @@
                                                         <span aria-hidden="true">&times;</span>
                                                     </button>
                                                 </div>
-                                                <div class="modal-body">
-                                                    <p class="small">Create a new row using this form, make sure you
-                                                        fill them all</p>
-                                                    <form>
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Name</label>
-                                                                    <input id="addName" type="text" class="form-control"
-                                                                           placeholder="fill name">
-                                                                </div>
+                                                <div class="modal-row container">
+                                                    <form class="container addUser">
+                                                        <p class="small mb-3">Create a new user!<br>Make sure you
+                                                            fill them all</p>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="firstName" >First Name</label>
+                                                                <input type="text" class="form-control " id="firstName" required>
                                                             </div>
-                                                            <div class="col-md-6 pr-0">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Position</label>
-                                                                    <input id="addPosition" type="text"
-                                                                           class="form-control"
-                                                                           placeholder="fill position">
-                                                                </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="lastName" >Last Name</label>
+                                                                <input type="text" class="form-control" id="lastName" required>
                                                             </div>
-                                                            <div class="col-md-6">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Office</label>
-                                                                    <input id="addOffice" type="text"
-                                                                           class="form-control"
-                                                                           placeholder="fill office">
+                                                        </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="email" >Email</label>
+                                                                <input type="email" class="form-control" id="email" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="userName" >Username</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                    <div class="input-group-text">@</div>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" id="userName" required>
                                                                 </div>
                                                             </div>
                                                         </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="password1">Password</label>
+                                                                <input type="password" class="form-control" id="password1" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="password2">Confirm Password</label>
+                                                                <input type="password" class="form-control" id="password2"required>
+                                                            </div>
+                                                        </div>   
+                                                
+                                                        <div class="form-group">
+                                                            <div class="alert alert-success" id="ins_success" style="display:none">
+
+                                                            </div>
+                                                            <div class="alert alert-danger" id="ins_error" style="display:none">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer no-bd">
+                                                            <button type="submit" id="addUserButton" class="btn btn-primary">
+                                                                Add
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
                                                     </form>
-                                                </div>
-                                                <div class="modal-footer no-bd">
-                                                    <button type="button" id="addRowButton" class="btn btn-primary">
-                                                        Add
-                                                    </button>
-                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">
-                                                        Close
-                                                    </button>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                
+                                    <!--End of User Add Modal--> 
+
+                                    <!--User Edit Modal -->
+                                    <div class="modal fade" id="editRowModal" tabindex="-1" role="dialog"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header no-bd">
+                                                    <h5 class="modal-title">
+														<span class="fw-mediumbold">
+														Edit</span>
+                                                        <span class="fw-light">
+															User
+														</span>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-row container">
+                                                    <form class="container editUser">
+                                                        <p class="small mb-3">Edit an existing user!<br>Make sure you
+                                                            fill them all</p>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="firstName" >First Name</label>
+                                                                <input type="text" class="form-control " id="firstName" required>
+                                                            </div>
+                                                            <div class="col-md-6 mb-3">
+                                                                <label for="lastName" >Last Name</label>
+                                                                <input type="text" class="form-control" id="lastName" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="email" >Email</label>
+                                                                <input type="email" class="form-control" id="email" required>
+                                                            </div>
+                                                        </div>
+                                                        <div class="form-row justify-content-center">
+                                                            <div class="col-md-12 mb-3">
+                                                                <label for="userName" >Username</label>
+                                                                <div class="input-group">
+                                                                    <div class="input-group-prepend">
+                                                                    <div class="input-group-text">@</div>
+                                                                    </div>
+                                                                    <input type="text" class="form-control" id="userName"  required>
+                                                                </div>
+                                                            </div>
+                                                        </div> 
+                                                
+                                                        <div class="form-group">
+                                                            <div class="alert alert-success" id="ins_success" style="display:none">
+
+                                                            </div>
+                                                            <div class="alert alert-danger" id="ins_error" style="display:none">
+
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer no-bd">
+                                                            <button type="submit" id="editUserButton" class="btn btn-primary">
+                                                                Update
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger" data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!--End of User Edit Modal-->  
 
                                     <div class="table-responsive">
                                         <table id="add-row" class="display table table-striped table-hover">
                                             <thead>
                                             <tr>
                                                 <th>Name</th>
-                                                <th>Role</th>
                                                 <th>Email</th>
+                                                <th>Username</th>
                                                 <th>Last Active</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
-                                            <tfoot>
-                                            <tr>
-                                                <th>Name</th>
-                                                <th>Role</th>
-                                                <th>Email</th>
-                                                <th>Last Active</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </tfoot>
                                             <tbody>
                                             {% for user in users %}
-                                                <tr>
-                                                    <td>{{ user.first_name }} {{ user.last_name }}</td>
-                                                    <td>Software Engineer</td>
-                                                    <td>{{ user.email }}</td>
+                                            <tr>
+                                                <td>{{ user.first_name }} {{ user.last_name }}</td>
+                                                <td>{{ user.email }}</td>
+                                                <td>{{ user.username }}</td>
                                                     <td>{{ user.last_login }}</td>
-                                                    <td>
-                                                        {% if user.is_active %}
-                                                            <a href="{% url 'user-action' 'edit' user.id %}" class="btn btn-primary" style="padding: .65rem 1.2rem">
-                                                                <i class="fas fa-user-edit"></i>
-                                                            </a>
-                                                        {% else %}
-                                                            <a href="{% url 'user-action' 'approve' user.id %}" class="btn btn-warning">
-                                                                <i class="fas fa-hourglass"></i>
-                                                            </a>
-                                                        {% endif %}
-                                                        <a href="{% url 'user-action' 'delete' user.id %}" class="btn btn-danger">
-                                                            <i class="fas fa-trash"></i>
+                                                <td>
+                                                    {% if user.is_active %}
+                                                        <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-{{user.id}}" style="padding: .65rem 1.2rem">
+                                                            <i class="fas fa-user-edit"></i>
+                                                        </button> 
+                                                    {% else %}
+                                                        <a href="{% url 'user-action' 'approve' user.id %}" class="btn btn-warning">
+                                                            <i class="fas fa-hourglass"></i>
                                                         </a>
-                                                    </td>
-                                                </tr>
+                                                    {% endif %}                                                                                                       
+                                                    <button class="btn btn-danger btn-delete" id="delete-{{user.id}}"><i class="fas fa-trash"></i></button>    
+                                                </td>
+                                            </tr>
                                             {% endfor %}
                                             </tbody>
                                         </table>
@@ -161,7 +260,8 @@
 {% endblock %}
 
 {% block scripts %}
-    <script src="../../assets/js/plugin/datatables/datatables.min.js"></script>
+    <script src="{% static 'adminpanel/js/plugin/datatables/datatables.min.js' %}"></script>
+
     <script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({});
@@ -190,23 +290,249 @@
                 }
             });
 
-            // Add User
+            // DataTable 
             $('#add-row').DataTable({
                 "pageLength": 5,
             });
+           
+            // Add New User Submit Button
+            $(document).on("click","#addUserButton",function(e) {
+                e.preventDefault();
+                var firstName = $('#firstName').val().trim();
+                var lastName = $('#lastName').val().trim();
+                var email = $('#email').val().trim();
+                var userName = $('#userName').val().trim().toLowerCase();
+                var password1 = $('#password1').val().trim();
+                var password2 = $('#password2').val().trim();
+                
+            if (firstName == "" || lastName == "" || email == "" || userName == "" || password1 == "" || password2 == "")
+                {
+                    $("#ins_error").text("All Fields are Required!")
+                    $("#ins_error").show()
+                }
+            else if (!(/^[a-zA-Z\-]+$/.test(firstName) && /^[a-zA-Z\-]+$/.test(lastName)))
+                {
+                    $("#ins_error").text("Invalid Name!")
+                    $("#ins_error").show()
+                }
+            else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+                {
+                    $("#ins_error").text("Invalid email address!")
+                    $("#ins_error").show()
+                }
+            else if (!/^[a-zA-Z0-9]+$/.test(userName))
+                {
+                    $("#ins_error").text("Invalid Username!")
+                    $("#ins_error").show()
+                }
+            else if (password1.length <8)
+                {
+                    $("#ins_error").text("Password atleast 8 characters!")
+                    $("#ins_error").show()
+                }
+            else if(password1!=password2)
+                {
+                    $("#ins_error").text("Passwords do not match!")
+                    $("#ins_error").show()                
+                }
+            else
+                {   
+                    $("#addUserButton").attr("disabled","disabled");
+                    $("#addUserButton").html("Inserting... Please Wait.."); 
 
-            var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+                    $.ajax({
+                        type:'POST',
+                        url:'{% url 'create-user' %}',
+                        data:{
+                            csrfmiddlewaretoken:'{{ csrf_token }}',
+                            firstName: firstName,
+                            lastName: lastName,
+                            email: email,
+                            userName: userName,
+                            password: password1,
+                        },
+                    })
+                    .done(function(response){
+                        if(response['error']==false){
+                            $("#ins_error").hide();
+                            $("#ins_success").text(response['errorMessage']);
+                            $("#ins_success").show();  
 
-            $('#addRowButton').click(function () {
-                $('#add-row').dataTable().fnAddData([
-                    $("#addName").val(),
-                    $("#addPosition").val(),
-                    $("#addOffice").val(),
-                    action
-                ]);
-                $('#addRowModal').modal('hide');
-
+                            var fullName = response['firstName']+' '+response['lastName']                 
+                            var last_login = '<td>'+response['last_login']+'</td>'
+                            var action = '<button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-'+response['id']+'" style="padding: .65rem 1.2rem"><i class="fas fa-user-edit"></i></button>  <button class="btn btn-danger btn-delete" id="delete-'+response['id']+'"><i class="fas fa-trash"></i></button>';
+                            
+                            $('#add-row').dataTable().fnAddData([
+                                fullName, 
+                                email,
+                                userName, 
+                                last_login, 
+                                action,
+                            ]);
+                        }
+                        else{
+                            $("#ins_success").hide();
+                            $("#ins_error").text(response['errorMessage']);
+                            $("#ins_error").show();
+                        }
+                    })
+                    .fail(function(){
+                        $("#ins_success").hide();
+                        $("#ins_error").text("Something Went Wrong!");
+                        $("#ins_error").show();
+                    })
+                    .always(function(){
+                        $("#addUserButton").removeAttr("disabled");
+                        $("#addUserButton").html("Add");
+                    })
+                $('.addUser').trigger("reset");  
+                }
             });
+
+            // Edit Modal Button
+            $(document).on("click",".btn-edit",function() {
+                var idValue = $(this).attr("id").split("-");
+                var id = idValue[1];
+                $("#edit-"+id).closest('tr').attr("id", "user-"+id);
+                $('#edit-'+id).closest('tr').find('td:eq(0)').attr('id', 'fullName');
+                $('#edit-'+id).closest('tr').find('td:eq(1)').attr('id', 'email');
+                $('#edit-'+id).closest('tr').find('td:eq(2)').attr('id', 'userName');
+
+                var name = $("#user-"+id+" #fullName").text().split(" ");
+                var email = $("#user-"+id+" #email").text();
+                var userName = $("#user-"+id+" #userName").text();
+                $(".editUser #firstName").val(name[0]);
+                $(".editUser #lastName").val(name[1]);
+                $(".editUser #email").val(email);
+                $(".editUser #userName").val(userName); 
+                $(".editUser").attr('id', id);           
+            });
+            
+
+            // Edit An Existing User Update Button
+            $('form #editUserButton').click(function (e) {
+                e.preventDefault();
+                var id = $(".editUser").attr("id");
+                var firstName = $('.editUser #firstName').val().trim();
+                var lastName = $('.editUser #lastName').val().trim();
+                var email = $('.editUser #email').val().trim();
+                var userName = $('.editUser #userName').val().trim().toLowerCase();
+            
+                if (firstName == "" || lastName == "" || email == "" || userName == "")
+                {
+                    $(".editUser #ins_success").hide();
+                    $(".editUser #ins_error").text("All Fields are Required!");
+                    $(".editUser #ins_error").show();                   
+                }
+                else if (!(/^[a-zA-Z\-]+$/.test(firstName) && /^[a-zA-Z\-]+$/.test(lastName)))
+                    {
+                        $("#ins_error").text("Invalid Name!")
+                        $("#ins_error").show()
+                    }
+                else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
+                    {
+                        $("#ins_error").text("Invalid email address!")
+                        $("#ins_error").show()
+                    }
+                else if (!/^[a-zA-Z0-9]+$/.test(userName))
+                    {
+                        $("#ins_error").text("Invalid Username!")
+                        $("#ins_error").show()
+                    }
+                else{                    
+                    $("#editUserButton").attr("disabled","disabled");
+                    $("#editUserButton").html("Updating... Please Wait.."); 
+                    var action = confirm("Are you sure you want to Update this user?");
+                    if (action != false) 
+                    {
+                        $.ajax({
+                            type:'POST',
+                            url:'{% url 'edit-user' %}',
+                            data:{
+                                csrfmiddlewaretoken:'{{ csrf_token }}',
+                                id: id,
+                                firstName: firstName,
+                                lastName: lastName,
+                                email: email,
+                                userName: userName,
+                            },
+                        })
+                        .done(function(response){
+                            if(response['error']==false){
+                                $(".editUser #ins_error").hide();
+                                $(".editUser #ins_success").text(response['errorMessage']);
+                                $("#"+id+" #ins_success").show();
+
+                                $("#user-"+id+" #fullName").text(firstName+" "+lastName);
+                                $("#user-"+id+" #email").text(email);
+                                $("#user-"+id+" #userName").text(userName);
+                            }                           
+                            else{
+                                $(".editUser #ins_success").hide();
+                                $(".editUser #ins_error").text(response['errorMessage']);
+                                $(".editUser #ins_error").show();
+                            }
+                        })
+                        .fail(function(){
+                            $(".editUser #ins_success").hide();
+                            $(".editUser #ins_error").text("Something Went Wrong!");
+                            $(".editUser #ins_error").show();
+                        })
+                        .always(function(){
+                            $("#editUserButton").removeAttr("disabled");
+                            $("#editUserButton").html("Update");
+                        })
+                    }
+                }
+            });
+
+            // Delete User
+            $(document).on("click",".btn-delete",function(){
+                var action = confirm("Are you sure you want to Delete this user?");
+                if (action != false) {
+                var idValue = $(this).attr("id").split("-");
+                var id = idValue[1];
+                $("#edit-"+id).closest('tr').attr("id", "user-"+id);
+
+                $.ajax({
+                    url:'{% url 'delete-user' %}',
+                    type:'POST',
+                    data:{
+                        csrfmiddlewaretoken:'{{ csrf_token }}',
+                        id:id
+                        },
+                })
+                .done(function(response){
+                    if(response['error']==false){
+                        $("#add-row").dataTable().fnDeleteRow($("#user-"+id));
+                        $("#upt_error").hide();
+                        $("#upt_success").text(response['errorMessage']);
+                        $("#upt_success").show();
+                    }
+                    else{
+                        $("#upt_success").hide();
+                        $("#upt_error").text(response['errorMessage']);
+                        $("#upt_error").show();
+                    }
+                })
+                .fail(function(){
+                    $("#upt_success").hide();
+                    $("#upt_error").text("Something Went Wrong!");
+                    $("#upt_error").show();
+                });
+                }
+            });
+
+            
+            $(document.body).click( function() {
+                $("#upt_success").hide();
+                $("#upt_error").hide();
+                $(".addUser #ins_success").hide();
+                $(".addUser #ins_error").hide();
+                $(".editUser #ins_success").hide();
+                $(".editUser #ins_error").hide();
+            });
+
         });
     </script>
 {% endblock %}

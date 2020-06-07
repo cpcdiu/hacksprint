@@ -8,6 +8,9 @@ urlpatterns = [
 
     path('login/', views.admin_login, name='admin-login'),
     path('users/', views.users, name='admin-users'),
+    path('create/', views.createUser, name='create-user'), 
+    path('edit/', views.editUser, name='edit-user'),
+    path('delete/', views.deleteUser, name='delete-user'),
     path('users/<str:action>/<int:userid>/', views.user_action, name='user-action'),
     path('challenges/', views.challenges),
     path('tracks/', views.tracks, name='tracks'),
