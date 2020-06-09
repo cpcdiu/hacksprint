@@ -5,6 +5,7 @@ import {
 	LOGIN_SUCCESS,
 	LOGIN_FAILED,
 	LOGOUT,
+	SIGNUPSTATE,
 } from "../actions/types";
 
 const initialState = {
@@ -12,6 +13,7 @@ const initialState = {
 	token: localStorage.getItem("token"),
 	isLoading: false,
 	user: null,
+	signupMsg: "",
 };
 
 export default function authReducer(state = initialState, action) {
@@ -55,6 +57,11 @@ export default function authReducer(state = initialState, action) {
 				token: null,
 				isLoading: false,
 				user: null,
+			};
+		case SIGNUPSTATE:
+			return {
+				...state,
+				signupMsg: action.payload,
 			};
 		default:
 			return state;

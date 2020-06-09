@@ -1,15 +1,20 @@
-from django.conf.urls import url
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.models import User
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
+from django.template.loader import render_to_string
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.views.decorators.csrf import csrf_exempt
 from cloudinary import uploader
 
 from adminpanel.form import PracticeForm
 from adminpanel.models import Track, Practice
+from main.views import AccountActivationTokenGenerator
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
@@ -23,6 +28,7 @@ def users(request):
     all_user = User.objects.all().order_by('-date_joined')
     return render(request, 'adminpanel/users.html', {'users': all_user})
 
+
 # Create User
 @user_passes_test(lambda u: u.is_superuser)
 @csrf_exempt
@@ -34,12 +40,16 @@ def createUser(request):
     password = request.POST["password"]
 
     try:
-        user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
-        user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Added Successfully!"}
-        return JsonResponse(user_data,safe=False)
+        user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email,
+                                        password=password)
+        user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name, 'userName': user.username,
+                     'email': user.email, 'last_login': user.last_login, "error": False,
+                     "errorMessage": "User Added Successfully!"}
+        return JsonResponse(user_data, safe=False)
     except:
-        user_data={"error":True,"errorMessage":"Failed to Add User!"}
-        return JsonResponse(user_data,safe=False)
+        user_data = {"error": True, "errorMessage": "Failed to Add User!"}
+        return JsonResponse(user_data, safe=False)
+
 
 # Edit User
 @user_passes_test(lambda u: u.is_superuser)
@@ -52,18 +62,21 @@ def editUser(request):
     email = request.POST["email"]
 
     try:
-        user=User.objects.get(id=id)
+        user = User.objects.get(id=id)
         user.first_name = firstName
         user.last_name = lastName
         user.username = userName
         user.email = email
         user.save()
 
-        user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Updated Successfully!"}
-        return JsonResponse(user_data,safe=False)
+        user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name, 'userName': user.username,
+                     'email': user.email, 'last_login': user.last_login, "error": False,
+                     "errorMessage": "User Updated Successfully!"}
+        return JsonResponse(user_data, safe=False)
     except:
-        user_data={"error":True,"errorMessage":"Failed to Update User!"}
-        return JsonResponse(user_data,safe=False)
+        user_data = {"error": True, "errorMessage": "Failed to Update User!"}
+        return JsonResponse(user_data, safe=False)
+
 
 # Delete User
 @user_passes_test(lambda u: u.is_superuser)
@@ -71,13 +84,13 @@ def editUser(request):
 def deleteUser(request):
     id = request.POST["id"]
     try:
-        user=User.objects.get(id=id)
+        user = User.objects.get(id=id)
         user.delete()
-        user_data={"error":False,"errorMessage":"User Deleted Successfully!"}
-        return JsonResponse(user_data,safe=False)
+        user_data = {"error": False, "errorMessage": "User Deleted Successfully!"}
+        return JsonResponse(user_data, safe=False)
     except:
-        user_data={"error":True,"errorMessage":"Failed to Delete User!"}
-        return JsonResponse(user_data,safe=False)
+        user_data = {"error": True, "errorMessage": "Failed to Delete User!"}
+        return JsonResponse(user_data, safe=False)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
@@ -88,10 +101,22 @@ def settings(request):
 @user_passes_test(lambda u: u.is_superuser)
 def user_action(request, action, userid):
     if action == 'approve':
-        user = User.objects.filter(id=userid)
-        user.update(is_active=True)
+        user = User.objects.get(id=userid)
+        account_activation_token = AccountActivationTokenGenerator()
+        context = {
+            'user': user,
+            'domain': get_current_site(request).domain,
+            'token': urlsafe_base64_encode(force_bytes(user.id)) + '.' + account_activation_token.make_token(user)
+        }
 
-    if action == 'delete':
+        subject = 'Please confirm your email'
+        body = render_to_string('adminpanel/email-verification.html', context)
+        sender = 'noreply@hacksprint.me'
+        receiver = [user.email]
+
+        send_mail(subject, 'this is body', sender, receiver, fail_silently=False, html_message=body)
+
+    elif action == 'delete':
         user = User.objects.filter(id=userid)
         user.delete()
     return redirect('admin-users')
