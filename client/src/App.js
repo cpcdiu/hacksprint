@@ -16,6 +16,8 @@ import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
 import SinglePractice from "./pages/PracticeSingle";
 import Playground from "./pages/Playground";
+import VerificationSuccess from "./pages/VerificationSuccess";
+import VerificationFailed from "./pages/VerificationFailed";
 import "./App.scss";
 import NotFound from "./pages/404";
 import PrivateRoute from "./pages/PrivateRoute";
@@ -26,10 +28,6 @@ export default class App extends Component {
 		super(props);
 		store.dispatch(loadUser());
 	}
-
-	// componentDidMount() {
-	// 	store.dispatch(loadUser());
-	// }
 
 	render() {
 		return (
@@ -56,6 +54,8 @@ export default class App extends Component {
 						<PrivateRoute exact path="/settings" component={Settings} />
 
 						<Route exact path="/playground" component={Playground} />
+						<Route exact path="/success" component={VerificationSuccess} />
+						<Route exact path="/failed" component={VerificationFailed} />
 
 						<Route path="*" component={NotFound} />
 					</Switch>

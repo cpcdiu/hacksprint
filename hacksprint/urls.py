@@ -22,19 +22,7 @@ urlpatterns = [
     path('api/settings/', user_views.SettingsView.as_view()),
 
     path('admin/', include('adminpanel.urls')),
-
-    # ROUTES FOR OLDER VERSION (DEPRECIATED)
-    path('p/home/', main_views.home, name='home'),
-    path('p/login/', main_views.login_fn, name='login'),
-    path('p/logout/', main_views.logout_fn, name='logout'),
-    path('p/register/', main_views.register_fn, name='register'),
-
-    path('p/profile/', user_views.profile, name='profile'),
-    path('p/settings/', user_views.settings, name='settings'),
-    path('p/challenges/', user_views.challenges, name='challenges'),
-    path('p/practice/', user_views.practices, name='practice'),
-    path('p/jobs/', user_views.jobs, name='jobs'),
-    path('p/notifications/', user_views.notification, name='notification'),
+    path('confirm/', main_views.verify_email, name='verify-email'),
 
     re_path('.*', main_views.index, name='index'),
     path('', main_views.index, name='index'),

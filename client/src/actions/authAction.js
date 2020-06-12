@@ -7,6 +7,7 @@ import {
 	AUTH_ERROR,
 	LOGIN_SUCCESS,
 	LOGIN_FAILED,
+	SIGNUPSTATE,
 } from "./types";
 
 export function loadUser() {
@@ -82,9 +83,11 @@ export function handleRegister(newUser) {
 				password: newUser.password,
 			})
 			.then((res) => {
-				// let history = useHistory();
-				console.log("success registration");
-				// history.push("/");
+				console.log(res.data);
+				dispatch({
+					type: SIGNUPSTATE,
+					payload: res.data.msg,
+				});
 			})
 			.catch((err) => console.log(err));
 	};

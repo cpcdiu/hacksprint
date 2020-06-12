@@ -89,7 +89,15 @@ class RegistrationForm extends Component {
 								your DIU email to get approval of your account.
 							</p>
 						</div>
-						<Form size="large" onSubmit={this.handleFormSubmit}>
+						<Form
+							size="large"
+							onSubmit={this.handleFormSubmit}
+							{...(this.props.authReducer.signupMsg == "success"
+								? { success: true }
+								: this.props.authReducer.signupMsg == "error"
+								? { error: true }
+								: "")}
+						>
 							<Segment stacked>
 								<div className="two fields">
 									<Form.Input
@@ -143,6 +151,23 @@ class RegistrationForm extends Component {
 									</div>
 								</div>
 
+								<div class="ui error message">
+									<div class="content">
+										<div class="header">Action Forbidden</div>
+										<p>Something went wrong!</p>
+									</div>
+								</div>
+
+								<div class="ui success message">
+									<div class="content">
+										<div class="header">Thanks for signing up</div>
+										<p>
+											Once admin approve your beta access. You'll get email
+											verification mail
+										</p>
+									</div>
+								</div>
+
 								<Button color="teal" fluid size="large">
 									Sign Up
 								</Button>
@@ -169,7 +194,10 @@ class SignUpPage extends Component {
 				) : authReducer.isAuthenticated ? (
 					<Redirect to="/dashboard" />
 				) : (
-					<RegistrationForm handleRegister={this.props.handleRegister} />
+					<RegistrationForm
+						handleRegister={this.props.handleRegister}
+						authReducer={authReducer}
+					/>
 				)}
 			</div>
 		);

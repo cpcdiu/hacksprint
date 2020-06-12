@@ -7,6 +7,7 @@ class Profile(models.Model):
     location = models.CharField(max_length=300, null=True, blank=True)
     contact = models.CharField(max_length=200, null=True, blank=True)
     website = models.CharField(max_length=300, null=True, blank=True)
+    email_verified = models.BooleanField(default=False)
 
 
 class WorkExperience(models.Model):
