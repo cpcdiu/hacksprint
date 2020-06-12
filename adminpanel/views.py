@@ -269,3 +269,7 @@ def practice_action(request, action, practiceid):
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def challenges(request):
     return render(request, 'adminpanel/challenges.html')
+
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def profile(request):
+    return render(request, 'adminpanel/profile.html')
