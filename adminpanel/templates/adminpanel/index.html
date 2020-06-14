@@ -30,20 +30,20 @@
                         <div class="col-md-6">
                             <div class="card full-height">
                                 <div class="card-body">
-                                    <div class="card-title">Overall statistics</div>
-                                    <div class="card-category">Daily information about statistics in system</div>
+                                    <div class="card-title">Overall User statistics</div>
+                                    <div class="card-category">Daily information about user statistics in system</div>
                                     <div class="d-flex flex-wrap justify-content-around pb-2 pt-4">
                                         <div class="px-2 pb-2 pb-md-0 text-center">
                                             <div id="circles-1"></div>
-                                            <h6 class="fw-bold mt-3 mb-0">New Users</h6>
+                                            <h6 class="fw-bold mt-3 mb-0">Active Users</h6>
                                         </div>
                                         <div class="px-2 pb-2 pb-md-0 text-center">
                                             <div id="circles-2"></div>
-                                            <h6 class="fw-bold mt-3 mb-0">Sales</h6>
+                                            <h6 class="fw-bold mt-3 mb-0">Waiting For Approval</h6>
                                         </div>
                                         <div class="px-2 pb-2 pb-md-0 text-center">
                                             <div id="circles-3"></div>
-                                            <h6 class="fw-bold mt-3 mb-0">Subscribers</h6>
+                                            <h6 class="fw-bold mt-3 mb-0">Total Users</h6>
                                         </div>
                                     </div>
                                 </div>
@@ -86,10 +86,10 @@
         Circles.create({
             id: 'circles-1',
             radius: 45,
-            value: 60,
-            maxValue: 100,
+            value: "{{active_user}}",
+            maxValue: "{{all_user}}",
             width: 7,
-            text: 5,
+            text: "{{active_user}}",
             colors: ['#f1f1f1', '#FF9E27'],
             duration: 400,
             wrpClass: 'circles-wrp',
@@ -101,11 +101,11 @@
         Circles.create({
             id: 'circles-2',
             radius: 45,
-            value: 70,
-            maxValue: 100,
+            value: "{{inactive_user}}",
+            maxValue: "{{all_user}}",
             width: 7,
-            text: 36,
-            colors: ['#f1f1f1', '#2BB930'],
+            text: "{{inactive_user}}",
+            colors: ['#f1f1f1', '#F25961'],
             duration: 400,
             wrpClass: 'circles-wrp',
             textClass: 'circles-text',
@@ -119,8 +119,8 @@
             value: 40,
             maxValue: 100,
             width: 7,
-            text: 12,
-            colors: ['#f1f1f1', '#F25961'],
+            text: "{{all_user}}",
+            colors: ['#f1f1f1', '#2BB930'],
             duration: 400,
             wrpClass: 'circles-wrp',
             textClass: 'circles-text',
