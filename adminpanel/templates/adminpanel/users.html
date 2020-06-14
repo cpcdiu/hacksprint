@@ -190,10 +190,10 @@
                                                         </div> 
                                                 
                                                         <div class="form-group">
-                                                            <div class="alert alert-success" id="ins_success" style="display:none">
+                                                            <div class="alert alert-success" id="edit_ins_success" style="display:none">
 
                                                             </div>
-                                                            <div class="alert alert-danger" id="ins_error" style="display:none">
+                                                            <div class="alert alert-danger" id="edit_ins_error" style="display:none">
 
                                                             </div>
                                                         </div>
@@ -235,11 +235,9 @@
                                                     {% if user.is_active %}
                                                         <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-{{user.id}}" style="padding: .65rem 1.2rem">
                                                             <i class="fas fa-user-edit"></i>
-                                                        </button> 
+                                                        </button>
                                                     {% else %}
-                                                        <a href="{% url 'user-action' 'approve' user.id %}" class="btn btn-warning">
-                                                            <i class="fas fa-hourglass"></i>
-                                                        </a>
+                                                        <button class="btn btn-warning btn-approve" id="approve-{{user.id}}"><i class="fas fa-hourglass"></i></button>
                                                     {% endif %}                                                                                                       
                                                     <button class="btn btn-danger btn-delete" id="delete-{{user.id}}"><i class="fas fa-trash"></i></button>    
                                                 </td>
@@ -320,7 +318,7 @@
                     $("#ins_error").text("Invalid email address!")
                     $("#ins_error").show()
                 }
-            else if (!/^[a-zA-Z0-9]+$/.test(userName))
+            else if (!/^[a-zA-Z0-9_\-.]+$/.test(userName))
                 {
                     $("#ins_error").text("Invalid Username!")
                     $("#ins_error").show()
@@ -342,9 +340,10 @@
 
                     $.ajax({
                         type:'POST',
-                        url:'{% url 'create-user' %}',
+                        url:'{% url 'admin-users' %}',
                         data:{
                             csrfmiddlewaretoken:'{{ csrf_token }}',
+                            action: "create-user",
                             firstName: firstName,
                             lastName: lastName,
                             email: email,
@@ -410,46 +409,47 @@
             
 
             // Edit An Existing User Update Button
-            $('form #editUserButton').click(function (e) {
+            $(document).on("click","form #editUserButton",function(e) {
                 e.preventDefault();
                 var id = $(".editUser").attr("id");
                 var firstName = $('.editUser #firstName').val().trim();
                 var lastName = $('.editUser #lastName').val().trim();
                 var email = $('.editUser #email').val().trim();
                 var userName = $('.editUser #userName').val().trim().toLowerCase();
-            
+
                 if (firstName == "" || lastName == "" || email == "" || userName == "")
                 {
-                    $(".editUser #ins_success").hide();
-                    $(".editUser #ins_error").text("All Fields are Required!");
-                    $(".editUser #ins_error").show();                   
+                    $("#edit_ins_error").text("All Fields are Required!")
+                    $("#edit_ins_error").show();                  
                 }
                 else if (!(/^[a-zA-Z\-]+$/.test(firstName) && /^[a-zA-Z\-]+$/.test(lastName)))
                     {
-                        $("#ins_error").text("Invalid Name!")
-                        $("#ins_error").show()
+                        $("#edit_ins_error").text("Invalid Name!")
+                        $("#edit_ins_error").show()
                     }
                 else if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email))
                     {
-                        $("#ins_error").text("Invalid email address!")
-                        $("#ins_error").show()
+                        $("#edit_ins_error").text("Invalid email address!")
+                        $("#edit_ins_error").show()
                     }
-                else if (!/^[a-zA-Z0-9]+$/.test(userName))
+                else if (!/^[a-zA-Z0-9_\-.]+$/.test(userName))
                     {
-                        $("#ins_error").text("Invalid Username!")
-                        $("#ins_error").show()
+                        $("#edit_ins_error").text("Invalid Username!")
+                        $("#edit_ins_error").show()
                     }
-                else{                    
-                    $("#editUserButton").attr("disabled","disabled");
-                    $("#editUserButton").html("Updating... Please Wait.."); 
+                else{                     
                     var action = confirm("Are you sure you want to Update this user?");
                     if (action != false) 
                     {
+                        $("#editUserButton").attr("disabled","disabled");
+                        $("#editUserButton").html("Updating... Please Wait..");
+                        
                         $.ajax({
                             type:'POST',
-                            url:'{% url 'edit-user' %}',
+                            url:'{% url 'admin-users' %}',
                             data:{
                                 csrfmiddlewaretoken:'{{ csrf_token }}',
+                                action: "edit-user",
                                 id: id,
                                 firstName: firstName,
                                 lastName: lastName,
@@ -459,9 +459,9 @@
                         })
                         .done(function(response){
                             if(response['error']==false){
-                                $(".editUser #ins_error").hide();
-                                $(".editUser #ins_success").text(response['errorMessage']);
-                                $("#"+id+" #ins_success").show();
+                                $("#edit_ins_error").hide();
+                                $("#edit_ins_success").text(response['errorMessage']);
+                                $("#edit_ins_success").show();
 
                                 $("#user-"+id+" #fullName").text(firstName+" "+lastName);
                                 $("#user-"+id+" #email").text(email);
@@ -474,9 +474,9 @@
                             }
                         })
                         .fail(function(){
-                            $(".editUser #ins_success").hide();
-                            $(".editUser #ins_error").text("Something Went Wrong!");
-                            $(".editUser #ins_error").show();
+                            $("#edit_ins_success").hide();
+                            $("#edit_ins_error").text("Something Went Wrong!");
+                            $("#edit_ins_error").show();
                         })
                         .always(function(){
                             $("#editUserButton").removeAttr("disabled");
@@ -492,13 +492,14 @@
                 if (action != false) {
                 var idValue = $(this).attr("id").split("-");
                 var id = idValue[1];
-                $("#edit-"+id).closest('tr').attr("id", "user-"+id);
+                $("#delete-"+id).closest('tr').attr("id", "user-"+id);
 
                 $.ajax({
-                    url:'{% url 'delete-user' %}',
+                    url:'{% url 'admin-users' %}',
                     type:'POST',
                     data:{
                         csrfmiddlewaretoken:'{{ csrf_token }}',
+                        action: "delete-user",
                         id:id
                         },
                 })
@@ -523,14 +524,52 @@
                 }
             });
 
-            
+
+            // Approve User
+            $(document).on("click",".btn-approve",function(){
+                var action = confirm("Are you sure you want to Approve this user?");
+                if (action != false) {
+                var idValue = $(this).attr("id").split("-");
+                var id = idValue[1];
+
+                $.ajax({
+                    url:'{% url 'admin-users' %}',
+                    type:'POST',
+                    data:{
+                        csrfmiddlewaretoken:'{{ csrf_token }}',
+                        action: "approve-user",
+                        id:id
+                        },
+                })
+                .done(function(response){
+                    if(response['error']==false){
+                        $("#approve-"+id).closest("button").replaceWith('<button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-'+id+'" style="padding: .65rem 1.2rem"><i class="fas fa-user-edit"></i></button>')
+                        $("#upt_error").hide();
+                        $("#upt_success").text(response['errorMessage']);
+                        $("#upt_success").show();
+                    }
+                    else{
+                        $("#upt_success").hide();
+                        $("#upt_error").text(response['errorMessage']);
+                        $("#upt_error").show();
+                    }
+                })
+                .fail(function(){
+                    $("#upt_success").hide();
+                    $("#upt_error").text("Something Went Wrong!");
+                    $("#upt_error").show();
+                });
+                }
+            });
+
+
             $(document.body).click( function() {
                 $("#upt_success").hide();
                 $("#upt_error").hide();
                 $(".addUser #ins_success").hide();
                 $(".addUser #ins_error").hide();
-                $(".editUser #ins_success").hide();
-                $(".editUser #ins_error").hide();
+                $("#edit_ins_success").hide();
+                $("#edit_ins_error").hide();
             });
 
         });
