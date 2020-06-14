@@ -17,4 +17,9 @@
 
 **Some instruction to build client:**
 
+Open command prompt in this folder and run steps
+
+    ../Hacksprint/client/
+    1. install npm 'npm install'
+    2. create build folder 'npm run build'
 _N.B. You must have env.py file in the project root folder. Rename env-sample.py file to env.py and fill those variables with your system values to run the project properly_
