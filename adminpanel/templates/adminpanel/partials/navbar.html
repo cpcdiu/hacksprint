@@ -177,8 +177,8 @@
                                                                 alt="image profile" class="avatar-img rounded">
                                     </div>
                                     <div class="u-text">
-                                        <h4>Hizrian</h4>
-                                        <p class="text-muted">hello@example.com</p><a href="profile.html"
+                                        <h4>{{ user.username }}</h4>
+                                        <p class="text-muted">{{ user.email }}</p><a href="{% url 'admin-profile' %}"
                                                                                       class="btn btn-xs btn-secondary btn-sm">View
                                         Profile</a>
                                     </div>

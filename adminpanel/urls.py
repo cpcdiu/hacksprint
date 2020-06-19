@@ -14,5 +14,7 @@ urlpatterns = [
     path('practice/<int:practiceid>', views.single_practice, name='single-practice'),
     path('practice/new/<int:trackid>/', views.practice_add, name='practice-new'),
     path('practice/<str:action>/<int:practiceid>/', views.practice_action, name='practice-action'),
-    path('settings/', views.settings, name='admin-settings')
+    path('settings/', views.settings, name='admin-settings'),
+    path('profile/', views.profile, name='admin-profile'),
+
 ]
