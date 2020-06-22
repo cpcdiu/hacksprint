@@ -81,6 +81,7 @@ class users(AdminStaffRequiredMixin, View):
         lastName = request.POST["lastName"]
         userName = request.POST["userName"]
         email = request.POST["email"]
+        userRole = request.POST["userRole"]
 
         try:
             user=User.objects.get(id=id)
@@ -88,6 +89,17 @@ class users(AdminStaffRequiredMixin, View):
             user.last_name = lastName
             user.username = userName
             user.email = email
+
+            if userRole == "member":
+                user.is_staff = False
+                user.is_superuser = False
+            elif userRole == "staff":
+                user.is_staff = True
+                user.is_superuser = False
+            elif userRole == "admin":
+                user.is_staff = True
+                user.is_superuser = True 
+
             user.save()
 
             user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Updated Successfully!"}
