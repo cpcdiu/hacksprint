@@ -37,3 +37,8 @@ body {
     border: none !important; }
 
 /*# sourceMappingURL=styles.css.map */
+
+/* Admin User Page  */
+.dropleft .dropdown-toggle::before {
+  content: none !important;
+}

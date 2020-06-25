@@ -78,40 +78,40 @@
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="firstName" >First Name</label>
-                                                                <input type="text" class="form-control " id="firstName" required>
+                                                                <input type="text" class="form-control form-control-sm" id="firstName" required>
                                                             </div>
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="lastName" >Last Name</label>
-                                                                <input type="text" class="form-control" id="lastName" required>
+                                                                <input type="text" class="form-control form-control-sm" id="lastName" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-12 mb-3">
                                                                 <label for="email" >Email</label>
-                                                                <input type="email" class="form-control" id="email" required>
+                                                                <input type="email" class="form-control form-control-sm" id="email" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-12 mb-3">
                                                                 <label for="userName" >Username</label>
                                                                 <div class="input-group">
-                                                                    <div class="input-group-prepend">
-                                                                    <div class="input-group-text">@</div>
+                                                                    <div class="input-group-prepend input-group-prepend-sm">
+                                                                    <div class="input-group-text input-group-text-sm">@</div>
                                                                     </div>
-                                                                    <input type="text" class="form-control" id="userName" required>
+                                                                    <input type="text" class="form-control form-control-sm" id="userName" required>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-12 mb-3">
                                                                 <label for="password1">Password</label>
-                                                                <input type="password" class="form-control" id="password1" required>
+                                                                <input type="password" class="form-control form-control-sm" id="password1" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-12 mb-3">
                                                                 <label for="password2">Confirm Password</label>
-                                                                <input type="password" class="form-control" id="password2"required>
+                                                                <input type="password" class="form-control form-control-sm" id="password2"required>
                                                             </div>
                                                         </div>   
                                                 
@@ -164,28 +164,36 @@
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="firstName" >First Name</label>
-                                                                <input type="text" class="form-control " id="firstName" required>
+                                                                <input type="text" class="form-control form-control-sm" id="firstName" required>
                                                             </div>
                                                             <div class="col-md-6 mb-3">
                                                                 <label for="lastName" >Last Name</label>
-                                                                <input type="text" class="form-control" id="lastName" required>
+                                                                <input type="text" class="form-control form-control-sm" id="lastName" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
                                                             <div class="col-md-12 mb-3">
                                                                 <label for="email" >Email</label>
-                                                                <input type="email" class="form-control" id="email" required>
+                                                                <input type="email" class="form-control form-control-sm" id="email" required>
                                                             </div>
                                                         </div>
                                                         <div class="form-row justify-content-center">
-                                                            <div class="col-md-12 mb-3">
+                                                            <div class="col-md-8 mb-3">
                                                                 <label for="userName" >Username</label>
                                                                 <div class="input-group">
                                                                     <div class="input-group-prepend">
                                                                     <div class="input-group-text">@</div>
                                                                     </div>
-                                                                    <input type="text" class="form-control" id="userName"  required>
+                                                                    <input type="text" class="form-control form-control-sm" id="userName"  required>
                                                                 </div>
+                                                            </div>
+                                                            <div class="col-md-4 mb-3">
+                                                                <label for="userRole" >User Role</label>
+                                                                <select class="form-control form-control-sm mt-1" id="userRole">                             
+                                                                    <option value="member">Member</option>
+                                                                    <option value="staff">Moderator</option>
+                                                                    <option value="admin">Admin</option>
+                                                                </select>
                                                             </div>
                                                         </div> 
                                                 
@@ -220,7 +228,7 @@
                                                 <th>Name</th>
                                                 <th>Email</th>
                                                 <th>Username</th>
-                                                <th>Last Active</th>
+                                                <th>User Role</th>
                                                 <th>Action</th>
                                             </tr>
                                             </thead>
@@ -230,16 +238,32 @@
                                                 <td>{{ user.first_name }} {{ user.last_name }}</td>
                                                 <td>{{ user.email }}</td>
                                                 <td>{{ user.username }}</td>
-                                                    <td>{{ user.last_login }}</td>
                                                 <td>
-                                                    {% if user.is_active %}
-                                                        <button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-{{user.id}}" style="padding: .65rem 1.2rem">
-                                                            <i class="fas fa-user-edit"></i>
-                                                        </button>
+                                                    {% if user.is_superuser %}
+                                                        <b class="text-danger">Admin</b> 
+                                                    {% elif user.is_staff %}
+                                                        <b class="text-success">Moderator</b>
                                                     {% else %}
-                                                        <button class="btn btn-warning btn-approve" id="approve-{{user.id}}"><i class="fas fa-hourglass"></i></button>
-                                                    {% endif %}                                                                                                       
-                                                    <button class="btn btn-danger btn-delete" id="delete-{{user.id}}"><i class="fas fa-trash"></i></button>    
+                                                        Member
+                                                    {% endif %}
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group dropleft">
+                                                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" id="btn-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <i class="fas fa-user-cog"></i>
+                                                        </button>
+                                                        <div class="dropdown-menu">
+                                                        {% if user.is_active %}
+                                                            <button type="button" class="btn btn-light btn-sm btn-edit dropdown-item" data-toggle="modal" data-target="#editRowModal" id="edit-{{user.id}}" style="padding: .65rem 1.1rem">
+                                                                <i class="fas fa-user-edit pr-1"></i> Edit
+                                                            </button>
+                                                        {% else %}
+                                                            <button type="button" class="btn btn-light btn-sm btn-approve dropdown-item" id="approve-{{user.id}}" style="padding: .65rem 1.2rem"><i class="fas fa-hourglass pr-2"></i> Approve</button>
+                                                        {% endif %} 
+                                                            <button type="button" class="btn btn-light btn-sm btn-delete dropdown-item" id="delete-{{user.id}}" style="padding: .65rem 1.2rem"><i class="fas fa-trash pr-2"></i> Delete</button>
+                                                        </div>
+                                                    </div>                                                                                                      
+                                                       
                                                 </td>
                                             </tr>
                                             {% endfor %}
@@ -291,13 +315,24 @@
             // DataTable 
             $('#add-row').DataTable({
                 "pageLength": 5,
+                "fnDrawCallback": function( oSettings ) {
+                    {% for user in users %}
+                    {% if user.is_active  %}
+                    {% else %}
+                    if($(".btn-approve").length){
+                        console.log("success")
+                    }
+                    $(".btn-approve").closest("td").find('button:eq(0)').removeClass("btn-info").addClass("btn-warning");
+                    {% endif %}
+                    {% endfor %}
+                }
             });
            
             // Add New User Submit Button
             $(document).on("click","#addUserButton",function(e) {
                 e.preventDefault();
-                var firstName = $('#firstName').val().trim();
-                var lastName = $('#lastName').val().trim();
+                var firstName = $('#firstName').val();
+                var lastName = $('#lastName').val();
                 var email = $('#email').val().trim();
                 var userName = $('#userName').val().trim().toLowerCase();
                 var password1 = $('#password1').val().trim();
@@ -308,7 +343,7 @@
                     $("#ins_error").text("All Fields are Required!")
                     $("#ins_error").show()
                 }
-            else if (!(/^[a-zA-Z\-]+$/.test(firstName) && /^[a-zA-Z\-]+$/.test(lastName)))
+            else if (!(/^[a-zA-Z" "\-]+$/.test(firstName) && /^[a-zA-Z" "\-]+$/.test(lastName)))
                 {
                     $("#ins_error").text("Invalid Name!")
                     $("#ins_error").show()
@@ -358,14 +393,14 @@
                             $("#ins_success").show();  
 
                             var fullName = response['firstName']+' '+response['lastName']                 
-                            var last_login = '<td>'+response['last_login']+'</td>'
-                            var action = '<button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-'+response['id']+'" style="padding: .65rem 1.2rem"><i class="fas fa-user-edit"></i></button>  <button class="btn btn-danger btn-delete" id="delete-'+response['id']+'"><i class="fas fa-trash"></i></button>';
+                            var user_role = 'Member'
+                            var action = '<div class="btn-group dropleft"><button type="button" class="btn btn-info btn-sm btn-action dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user-cog"></i></button><div class="dropdown-menu"> <button type="button" class="btn btn-light btn-sm btn-edit dropdown-item" data-toggle="modal" data-target="#editRowModal" id="edit-'+response['id']+'" style="padding: .65rem 1.1rem"><i class="fas fa-user-edit pr-1"></i> Edit</button>  <button type="button" class="btn btn-light btn-sm btn-delete dropdown-item" id="delete-'+response['id']+'" style="padding: .65rem 1.2rem"><i class="fas fa-trash pr-2"></i> Delete</button></div></div>';
                             
                             $('#add-row').dataTable().fnAddData([
                                 fullName, 
                                 email,
                                 userName, 
-                                last_login, 
+                                user_role, 
                                 action,
                             ]);
                         }
@@ -396,15 +431,27 @@
                 $('#edit-'+id).closest('tr').find('td:eq(0)').attr('id', 'fullName');
                 $('#edit-'+id).closest('tr').find('td:eq(1)').attr('id', 'email');
                 $('#edit-'+id).closest('tr').find('td:eq(2)').attr('id', 'userName');
+                $('#edit-'+id).closest('tr').find('td:eq(3)').attr('id', 'userRole');
 
                 var name = $("#user-"+id+" #fullName").text().split(" ");
                 var email = $("#user-"+id+" #email").text();
                 var userName = $("#user-"+id+" #userName").text();
+                var userRole = $("#user-"+id+" #userRole").text().trim();
                 $(".editUser #firstName").val(name[0]);
                 $(".editUser #lastName").val(name[1]);
                 $(".editUser #email").val(email);
                 $(".editUser #userName").val(userName); 
-                $(".editUser").attr('id', id);           
+                $(".editUser").attr('id', id);
+
+                if (userRole == "Member"){
+                    $(".editUser #userRole option[value='member']").prop('selected',true);
+                }
+                else if (userRole == "Moderator"){
+                    $(".editUser #userRole option[value='staff']").prop('selected',true);
+                }
+                else if (userRole == "Admin"){
+                    $(".editUser #userRole option[value='admin']").prop('selected',true);
+                }          
             });
             
 
@@ -412,17 +459,18 @@
             $(document).on("click","form #editUserButton",function(e) {
                 e.preventDefault();
                 var id = $(".editUser").attr("id");
-                var firstName = $('.editUser #firstName').val().trim();
-                var lastName = $('.editUser #lastName').val().trim();
+                var firstName = $('.editUser #firstName').val();
+                var lastName = $('.editUser #lastName').val();
                 var email = $('.editUser #email').val().trim();
                 var userName = $('.editUser #userName').val().trim().toLowerCase();
+                var userRole = $('.editUser #userRole').val();
 
                 if (firstName == "" || lastName == "" || email == "" || userName == "")
                 {
                     $("#edit_ins_error").text("All Fields are Required!")
                     $("#edit_ins_error").show();                  
                 }
-                else if (!(/^[a-zA-Z\-]+$/.test(firstName) && /^[a-zA-Z\-]+$/.test(lastName)))
+                else if (!(/^[a-zA-Z" "\-]+$/.test(firstName) && /^[a-zA-Z" "\-]+$/.test(lastName)))
                     {
                         $("#edit_ins_error").text("Invalid Name!")
                         $("#edit_ins_error").show()
@@ -438,7 +486,7 @@
                         $("#edit_ins_error").show()
                     }
                 else{                     
-                    var action = confirm("Are you sure you want to Update this user?");
+                    var action = confirm("Are you sure you want to Update "+ userName +"?");
                     if (action != false) 
                     {
                         $("#editUserButton").attr("disabled","disabled");
@@ -455,6 +503,7 @@
                                 lastName: lastName,
                                 email: email,
                                 userName: userName,
+                                userRole: userRole,
                             },
                         })
                         .done(function(response){
@@ -466,11 +515,20 @@
                                 $("#user-"+id+" #fullName").text(firstName+" "+lastName);
                                 $("#user-"+id+" #email").text(email);
                                 $("#user-"+id+" #userName").text(userName);
+
+                                if (userRole == "member"){
+                                    $("#user-"+id+" #userRole").text("Member");
+                                }else if(userRole == "staff"){
+                                    $("#user-"+id+" #userRole").html("<b class='text-success'>Moderator</b>");
+                                }else if(userRole == "admin"){
+                                    $("#user-"+id+" #userRole").html("<b class='text-danger'>Admin</b>");
+                                }
+                                
                             }                           
                             else{
-                                $(".editUser #ins_success").hide();
-                                $(".editUser #ins_error").text(response['errorMessage']);
-                                $(".editUser #ins_error").show();
+                                $("#edit_ins_success").hide();
+                                $("#edit_ins_error").text(response['errorMessage']);
+                                $("#edit_ins_error").show();
                             }
                         })
                         .fail(function(){
@@ -488,11 +546,14 @@
 
             // Delete User
             $(document).on("click",".btn-delete",function(){
-                var action = confirm("Are you sure you want to Delete this user?");
-                if (action != false) {
                 var idValue = $(this).attr("id").split("-");
                 var id = idValue[1];
                 $("#delete-"+id).closest('tr').attr("id", "user-"+id);
+                $('#delete-'+id).closest('tr').find('td:eq(2)').attr('id', 'userName');
+                var userName = $("#user-"+id+" #userName").text();
+
+                var action = confirm("Are you sure you want to Delete "+ userName +"?");
+                if (action != false) {
 
                 $.ajax({
                     url:'{% url 'admin-users' %}',
