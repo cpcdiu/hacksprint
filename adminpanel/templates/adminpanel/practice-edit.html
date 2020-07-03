@@ -27,6 +27,27 @@
                         <form method="post">
                             {% csrf_token %}
                             <div class="mb-3"><input type="text" name="title" value="{{ practice.title }}" class="form-control" placeholder="Title"></div>
+                            <div class="mb-3">
+                              <select name="difficulty"  class="form-control" id="Difficulty">
+                                  {% if practice.difficulty == "Easy" %}
+                                      <option value="Easy" selected> Easy </option>
+                                  {% else %}
+                                      <option value="Easy" > Easy </option>
+                                  {% endif %}
+
+                                  {% if practice.difficulty == "Medium" %}
+                                      <option value="Medium" selected> Medium </option>
+                                  {% else %}
+                                      <option value="Medium"> Medium </option>
+                                  {% endif %}
+
+                                  {% if practice.difficulty == "Hard" %}
+                                      <option value="Hard" selected> Hard </option>
+                                  {% else %}
+                                      <option value="Hard"> Hard </option>
+                                  {% endif %}
+                              </select>
+                            </div>
                             {{ form.media }}
                             {{ form }}
                             <div class="text-right">
