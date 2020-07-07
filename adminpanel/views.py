@@ -14,7 +14,7 @@ from django.views.generic import View
 from cloudinary import uploader
 
 from adminpanel.form import PracticeForm
-from adminpanel.models import Track, Practice
+from adminpanel.models import Track, Practice, SubDomain
 from main.views import AccountActivationTokenGenerator
 
 
@@ -249,18 +249,45 @@ def single_practice(request, practiceid):
 def practice_add(request, trackid):
     if request.method == 'GET':
         form = PracticeForm()
-        return render(request, 'adminpanel/practice-add.html', {'form': form})
+        sub = SubDomain.objects.filter(track=trackid)
+        return render(request, 'adminpanel/practice-add.html', {'form': form, 'sub': sub})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
         track = Track.objects.get(id=trackid)
+        subdomains = []
+        sub = SubDomain.objects.all()
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
             practice.track = track
             practice.title = title
             practice.save()
+            for i in sub:
+                found = request.POST.get(i.title)
+                if found:
+                    subdomains.append(i)
+
+            for i in subdomains:
+                practice.subdomain.add(i)
+            return redirect('/admin/')
+
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def subdomain_add(request, trackid):
+    if request.method == 'GET':
+        # form = SubDomainForm()
+        return render(request, 'adminpanel/subdomain-add.html')
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        track = Track.objects.get(id=trackid)
+        if title:
+            subdomain = SubDomain.objects.create(title=title, track=track)
+            # practice.author = request.user
+            # subdomain.track = track
+            # practice.title = title
+            subdomain.save()
             return redirect('/admin/')
 
 

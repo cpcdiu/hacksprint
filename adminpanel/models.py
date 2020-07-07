@@ -13,6 +13,9 @@ class SubDomain(models.Model):
     title = models.CharField(max_length=50)
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.title
+
 
 class Practice(models.Model):
     title = models.CharField(max_length=100)
@@ -20,3 +23,7 @@ class Practice(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     body = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    subdomain = models.ManyToManyField(SubDomain)
+
+    class Meta:
+        ordering = ['title']
