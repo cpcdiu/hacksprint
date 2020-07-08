@@ -9,3 +9,4 @@ db.sqlite3
 /node_modules/
 hsmeenv
 staticfiles
+/venv/
