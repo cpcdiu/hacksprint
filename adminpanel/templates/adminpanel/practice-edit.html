@@ -29,19 +29,19 @@
                             <div class="mb-3"><input type="text" name="title" value="{{ practice.title }}" class="form-control" placeholder="Title"></div>
                             <div class="mb-3">
                               <select name="difficulty"  class="form-control" id="Difficulty">
-                                  {% if practice.difficulty == "Easy" %}
+                                  {% if practice.difficulty == "easy" %}
                                       <option value="Easy" selected> Easy </option>
                                   {% else %}
                                       <option value="Easy" > Easy </option>
                                   {% endif %}
 
-                                  {% if practice.difficulty == "Medium" %}
+                                  {% if practice.difficulty == "medium" %}
                                       <option value="Medium" selected> Medium </option>
                                   {% else %}
                                       <option value="Medium"> Medium </option>
                                   {% endif %}
 
-                                  {% if practice.difficulty == "Hard" %}
+                                  {% if practice.difficulty == "hard" %}
                                       <option value="Hard" selected> Hard </option>
                                   {% else %}
                                       <option value="Hard"> Hard </option>
