@@ -249,12 +249,14 @@ def single_practice(request, practiceid):
 def practice_add(request, trackid, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
+
         return render(request, 'adminpanel/practice-add.html', {'form': form})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
         difficulty = request.POST['difficulty']
+        description = request.POST['description']
         track = Track.objects.get(id=trackid)
         if form.is_valid():
             practice = form.save(commit=False)
@@ -262,6 +264,7 @@ def practice_add(request, trackid, difficulty=None):
             practice.track = track
             practice.title = title
             practice.difficulty = difficulty
+            practice.description = description
             practice.save()
             return redirect('/admin/')
 
@@ -289,11 +292,13 @@ def practice_action(request, action, practiceid):
             form = PracticeForm(request.POST, instance=practice)
             title = request.POST['title']
             difficulty = request.POST['difficulty']
+            description = request.POST['description']
 
             if form.is_valid():
                 practice = form.save(commit=False)
                 practice.title = title
                 practice.difficulty = difficulty
+                practice.description = description
                 practice.save()
                 return redirect('tracks')
 

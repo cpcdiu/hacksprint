@@ -7,9 +7,9 @@
 
 {% block styles %}
     <style>
-    label {
-        display: none;
-    }
+        label {
+            display: none;
+        }
     </style>
 {% endblock %}
 
@@ -26,20 +26,23 @@
                     <div class="row">
                         <form method="post">
                             {% csrf_token %}
-                            <div class="mb-3"><input type="text" name="title" class="form-control" placeholder="Title"></div>
-                            <div class="mb-3"><label for="Difficulty">Difficulty:</label>
-                              <select name="difficulty"  class="form-control" id="Difficulty">
-                                  <option value="0"> Select Difficulty </option>
-                                  <option value="1"> One </option>
-                                  <option value="2"> Two </option>
-                                  <option value="3"> Three </option>
-                                  <option value="4"> Four </option>
-                                  <option value="5"> Five </option>
-                              </select>
+                            <div class="mb-3"><input type="text" name="title" class="form-control" placeholder="Title">
                             </div>
-
+                            <div class="mb-3"><label for="Difficulty">Difficulty:</label>
+                                <select name="difficulty" class="form-control" id="Difficulty">
+                                    <option value="0"> Select Difficulty</option>
+                                    <option value="1"> One</option>
+                                    <option value="2"> Two</option>
+                                    <option value="3"> Three</option>
+                                    <option value="4"> Four</option>
+                                    <option value="5"> Five</option>
+                                </select>
+                            </div>
+                            <div class="mb-3"><input type="text" name="description" class="form-control" placeholder="Description">
+                            </div>
                             {{ form.media }}
                             {{ form }}
+
 
                             <div class="text-right">
                                 <input type="submit" value="Save" class="btn btn-primary">
