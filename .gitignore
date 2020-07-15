@@ -10,3 +10,4 @@ node_modules
 hsmeenv
 venv
 staticfiles
+hacksprint/util.py
