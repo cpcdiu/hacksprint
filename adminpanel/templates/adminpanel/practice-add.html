@@ -41,9 +41,11 @@
                             <div class="mb-3"><input type="text" name="description" class="form-control" placeholder="Description">
                             </div>
                             {{ form.media }}
-                            {{ form }}
-
-
+                            {{ form }} <br> <br>
+                            <h4>Subdomains:</h4>
+                            {% for s in sub %}
+                                <input type="checkbox" name="{{ s.title }}" value="{{ s.title }}"> {{ s.title }} <br>
+                            {% endfor %}
                             <div class="text-right">
                                 <input type="submit" value="Save" class="btn btn-primary">
                             </div>

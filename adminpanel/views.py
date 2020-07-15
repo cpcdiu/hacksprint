@@ -14,7 +14,7 @@ from django.views.generic import View
 from cloudinary import uploader
 
 from adminpanel.form import PracticeForm
-from adminpanel.models import Track, Practice
+from adminpanel.models import Track, Practice, SubDomain
 from main.views import AccountActivationTokenGenerator
 
 
@@ -231,6 +231,18 @@ def track_action(request, action, trackid):
     else:
         return redirect('tracks')
 
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def subdomain_add(request, trackid):
+    if request.method == 'GET':
+        return render(request, 'adminpanel/subdomain-add.html')
+
+    if request.method == 'POST':
+        title = request.POST['title']
+        track = Track.objects.get(id=trackid)
+        if title:
+            subdomain = SubDomain.objects.create(title=title, track=track)
+            subdomain.save()
+            return redirect('/admin/')
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, id):
@@ -261,8 +273,8 @@ def single_practice(request, practiceid):
 def practice_add(request, trackid, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
-
-        return render(request, 'adminpanel/practice-add.html', {'form': form})
+        sub = SubDomain.objects.filter(track=trackid)
+        return render(request, 'adminpanel/practice-add.html', {'form': form, 'sub': sub})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
@@ -270,6 +282,8 @@ def practice_add(request, trackid, difficulty=None):
         difficulty = request.POST['difficulty']
         description = request.POST['description']
         track = Track.objects.get(id=trackid)
+        subdomains = []
+        sub = SubDomain.objects.all()
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
@@ -278,6 +292,13 @@ def practice_add(request, trackid, difficulty=None):
             practice.difficulty = difficulty
             practice.description = description
             practice.save()
+            for i in sub:
+                found = request.POST.get(i.title)
+                if found:
+                    subdomains.append(i)
+
+            for i in subdomains:
+                practice.subdomain.add(i)
             return redirect('/admin/tracks/' + str(trackid))
 
 
@@ -292,10 +313,13 @@ def practice_action(request, action, practiceid):
         if request.method == 'GET':
             practice = Practice.objects.get(id=practiceid)
             form = PracticeForm(instance=practice)
-
+            subdomains = practice.subdomain.all()
+            sub = SubDomain.objects.all()
             context = {
                 'form': form,
-                'practice': practice
+                'practice': practice,
+                'sub': sub,
+                'subdomains': subdomains
             }
             return render(request, 'adminpanel/practice-edit.html', context)
 

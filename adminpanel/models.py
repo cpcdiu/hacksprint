@@ -22,3 +22,7 @@ class Practice(models.Model):
     body = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     difficulty = models.CharField(max_length=100)
+    subdomain = models.ManyToManyField(SubDomain)
+
+    class Meta:
+        ordering = ['title']
