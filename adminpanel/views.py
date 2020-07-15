@@ -111,7 +111,8 @@ class users(AdminStaffRequiredMixin, View):
                          "errorMessage": "User Updated Successfully!"}
             return user_data
         except:
-            user_data = {"error": True, "errorMessage": "Failed to Update User!"}
+            user_data = {"error": True,
+                         "errorMessage": "Failed to Update User!"}
             return user_data
 
     def deleteUser(self, request):
@@ -119,10 +120,12 @@ class users(AdminStaffRequiredMixin, View):
         try:
             user = User.objects.get(id=id)
             user.delete()
-            user_data = {"error": False, "errorMessage": "User Deleted Successfully!"}
+            user_data = {"error": False,
+                         "errorMessage": "User Deleted Successfully!"}
             return user_data
         except:
-            user_data = {"error": True, "errorMessage": "Failed to Delete User!"}
+            user_data = {"error": True,
+                         "errorMessage": "Failed to Delete User!"}
             return user_data
 
     def approveUser(self, request):
@@ -137,16 +140,20 @@ class users(AdminStaffRequiredMixin, View):
             }
 
             subject = 'Please confirm your email'
-            body = render_to_string('adminpanel/email-verification.html', context)
+            body = render_to_string(
+                'adminpanel/email-verification.html', context)
             sender = 'noreply@hacksprint.me'
             receiver = [user.email]
 
-            send_mail(subject, 'this is body', sender, receiver, fail_silently=False, html_message=body)
+            send_mail(subject, 'this is body', sender, receiver,
+                      fail_silently=False, html_message=body)
 
-            user_data = {"error": False, "errorMessage": "User Approval Email Sent Successfully!"}
+            user_data = {
+                "error": False, "errorMessage": "User Approval Email Sent Successfully!"}
             return user_data
         except:
-            user_data = {"error": True, "errorMessage": "Failed to sent Approval Email to User!"}
+            user_data = {
+                "error": True, "errorMessage": "Failed to sent Approval Email to User!"}
             return user_data
 
 
@@ -304,7 +311,7 @@ def practice_action(request, action, practiceid):
                 practice.difficulty = difficulty
                 practice.description = description
                 practice.save()
-                return redirect('tracks')
+                return redirect('/admin/practice/' + str(practiceid))
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
