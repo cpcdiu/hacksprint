@@ -242,7 +242,7 @@ def subdomain_add(request, trackid):
         if title:
             subdomain = SubDomain.objects.create(title=title, track=track)
             subdomain.save()
-            return redirect('/admin/')
+            return redirect('/admin/tracks/' + str(trackid))
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, id):
