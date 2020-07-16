@@ -27,7 +27,7 @@
                                 <a href="#">Track</a>
                             </li>
                         </ul>
-                        <a href={% url 'practice-new' trackID %} class="btn btn-primary btn-border btn-round ml-auto">
+                        <a href={% url 'practice-new' slug %} class="btn btn-primary btn-border btn-round ml-auto">
                             <i class="fa fa-plus"></i>
                             Add Practice
                         </a>
@@ -116,14 +116,14 @@
                                         <tbody>
                                         {% for practice in practices %}
                                             <tr>
-                                                <td><strong><a href={% url 'single-practice' practice.id %}>{{ practice.title }}</a></strong></td>
+                                                <td><strong><a href={% url 'single-practice' practice.slug %}>{{ practice.title }}</a></strong></td>
                                                 <td>Some, Tags</td>
                                                 <td>
-                                                    <a href="{% url 'practice-action' 'edit' practice.id %}"
+                                                    <a href="{% url 'practice-action' 'edit' practice.slug %}"
                                                        class="btn btn-primary" style="padding: .65rem 1.2rem">
                                                         <i class="fas fa-user-edit"></i>
                                                     </a>
-                                                    <a href="{% url 'practice-action' 'delete' practice.id %}"
+                                                    <a href="{% url 'practice-action' 'delete' practice.slug %}"
                                                        class="btn btn-danger">
                                                         <i class="fas fa-trash"></i>
                                                     </a>

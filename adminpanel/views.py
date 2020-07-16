@@ -233,32 +233,32 @@ def track_action(request, action, trackid):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def single_track(request, id):
+def single_track(request, slug):
     if request.method == 'GET':
-        practices = Practice.objects.filter(track__id=id)
-        context = {'practices': practices, 'trackID': id}
+        practices = Practice.objects.filter(track__slug=slug)
+        context = {'practices': practices, 'slug': slug}
         return render(request, 'adminpanel/practices.html', context)
 
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
         author = request.user
-        track = Track.objects.get(id=id)
+        track = Track.objects.get(slug=slug)
 
         practice = Practice(title=title, author=author, track=track, body=body)
         practice.save()
 
-        return redirect('/admin/tracks/' + str(id))
+        return redirect('/admin/tracks/' + slug)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def single_practice(request, practiceid):
-    practice = Practice.objects.get(id=practiceid)
+def single_practice(request, slug):
+    practice = Practice.objects.get(slug=slug)
     return render(request, 'adminpanel/practice-single.html', {'practice': practice})
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_add(request, trackid, difficulty=None):
+def practice_add(request, slug, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
 
@@ -269,28 +269,32 @@ def practice_add(request, trackid, difficulty=None):
         title = request.POST['title']
         difficulty = request.POST['difficulty']
         description = request.POST['description']
-        track = Track.objects.get(id=trackid)
+        print(slug)
+        track = Track.objects.get(slug=slug)
+
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
             practice.track = track
             practice.title = title
+            practice.slug = slug
             practice.difficulty = difficulty
             practice.description = description
             practice.save()
-            return redirect('/admin/tracks/' + str(trackid))
+            return redirect('/admin/tracks/' + slug)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_action(request, action, practiceid):
+def practice_action(request, action, slug):
     if action == 'delete':
-        practice = Practice.objects.get(id=practiceid)
+        practice = Practice.objects.get(slug=slug)
+        track_slug = practice.track.slug
         practice.delete()
-        return redirect('single-track', id=1)
+        return redirect('single-track', slug=str(track_slug))
 
     if action == 'edit':
         if request.method == 'GET':
-            practice = Practice.objects.get(id=practiceid)
+            practice = Practice.objects.get(slug=slug)
             form = PracticeForm(instance=practice)
 
             context = {
@@ -300,7 +304,7 @@ def practice_action(request, action, practiceid):
             return render(request, 'adminpanel/practice-edit.html', context)
 
         elif request.method == 'POST':
-            practice = Practice.objects.get(id=practiceid)
+            practice = Practice.objects.get(slug=slug)
             form = PracticeForm(request.POST, instance=practice)
             title = request.POST['title']
             difficulty = request.POST['difficulty']
@@ -311,7 +315,7 @@ def practice_action(request, action, practiceid):
                 practice.difficulty = difficulty
                 practice.description = description
                 practice.save()
-                return redirect('/admin/practice/' + str(practiceid))
+                return redirect('/admin/practice/' + slug)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
