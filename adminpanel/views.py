@@ -233,8 +233,6 @@ def track_action(request, action, trackid):
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def subdomain_add(request, trackid):
-    if request.method == 'GET':
-        return render(request, 'adminpanel/subdomain-add.html')
 
     if request.method == 'POST':
         title = request.POST['title']
@@ -283,7 +281,7 @@ def practice_add(request, trackid, difficulty=None):
         description = request.POST['description']
         track = Track.objects.get(id=trackid)
         subdomains = []
-        sub = SubDomain.objects.all()
+        sub = SubDomain.objects.filter(track=trackid)
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
@@ -314,7 +312,8 @@ def practice_action(request, action, practiceid):
             practice = Practice.objects.get(id=practiceid)
             form = PracticeForm(instance=practice)
             subdomains = practice.subdomain.all()
-            sub = SubDomain.objects.all()
+            trackid = practice.track.id
+            sub = SubDomain.objects.filter(track=trackid)
             context = {
                 'form': form,
                 'practice': practice,
@@ -329,12 +328,23 @@ def practice_action(request, action, practiceid):
             title = request.POST['title']
             difficulty = request.POST['difficulty']
             description = request.POST['description']
+            trackid = practice.track.id
+            subdomains = []
+            sub = SubDomain.objects.filter(track=trackid)
             if form.is_valid():
                 practice = form.save(commit=False)
                 practice.title = title
                 practice.difficulty = difficulty
                 practice.description = description
+                practice.subdomain.clear()
                 practice.save()
+                for i in sub:
+                    found = request.POST.get(i.title)
+                    if found:
+                        subdomains.append(i)
+
+                for i in subdomains:
+                    practice.subdomain.add(i)
                 return redirect('/admin/practice/' + str(practiceid))
 
 
