@@ -14,7 +14,7 @@ urlpatterns = [
     path('practice/<slug:slug>', views.single_practice, name='single-practice'),
     path('practice/new/<slug:slug>/', views.practice_add, name='practice-new'),
     path('practice/<str:action>/<slug:slug>/', views.practice_action, name='practice-action'),
+    path('subdomain/new/<slug:slug>/', views.subdomain_add, name='subdomain-new'),
     path('settings/', views.settings, name='admin-settings'),
     path('profile/', views.profile, name='admin-profile'),
-
 ]

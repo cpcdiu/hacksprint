@@ -38,14 +38,18 @@ class Practice(models.Model):
     body = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
     difficulty = models.CharField(max_length=100)
+    subdomain = models.ManyToManyField(SubDomain)
+
+    class Meta:
+        ordering = ['title']
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super(Practice, self).save(*args, **kwargs)
 
-# def slug_generator(sender, instance, *args, **kwargs):
-#     if not instance.slug:
-#         instance.slug = unique_slug_generator(instance)
-#
-#
-# pre_save.connect(slug_generator, sender=Track)
+    # def slug_generator(sender, instance, *args, **kwargs):
+    #     if not instance.slug:
+    #         instance.slug = unique_slug_generator(instance)
+    #
+    #
+    # pre_save.connect(slug_generator, sender=Track)
