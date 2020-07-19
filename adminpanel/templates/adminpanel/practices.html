@@ -130,7 +130,7 @@
                                                 <div class="modal-body">
                                                     <p class="small">Create a new Subdomain using this form, make sure you
                                                         fill them all</p>
-                                                    <form method="POST" action="{% url 'subdomain-new' slug %}" enctype="multipart/form-data">
+                                                    <form method="POST" action="{% url 'subdomain-new' slug %}/" enctype="multipart/form-data">
                                                         {% csrf_token %}
                                                         <div class="row">
                                                             <div class="col-sm-12">

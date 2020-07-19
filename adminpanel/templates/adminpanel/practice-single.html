@@ -14,6 +14,10 @@
                 <div class="page-inner">
                     <div class="page-header">
                         <h4 class="page-title">{{ practice.title }}</h4>
+                        <div class="ml-auto">
+                            <a href="{% url 'practice-action' 'edit' practice.slug %}" class="btn btn-secondary btn-round">Edit</a>
+                            <a href="{% url 'practice-action' 'delete' practice.slug %}" class="btn btn-danger btn-round ml-1">Delete</a>
+                        </div>
                     </div>
                     <p>{{ practice.body | safe }}</p>
                 </div>

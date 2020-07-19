@@ -269,19 +269,20 @@ def single_practice(request, slug):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_add(request, slug, difficulty=None):
+def practice_add(request, track_slug, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
-        track = Track.objects.get(slug=slug)
+        track = Track.objects.get(slug=track_slug)
         sub = SubDomain.objects.filter(track=track.id)
         return render(request, 'adminpanel/practice-add.html', {'form': form, 'sub': sub})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
+        slug = request.POST['slug']
         difficulty = request.POST['difficulty']
         description = request.POST['description']
-        track = Track.objects.get(slug=slug)
+        track = Track.objects.get(slug=track_slug)
         subdomains = []
         sub = SubDomain.objects.filter(track=track.id)
 
@@ -289,8 +290,8 @@ def practice_add(request, slug, difficulty=None):
             practice = form.save(commit=False)
             practice.author = request.user
             practice.track = track
-            practice.title = title
             practice.slug = slug
+            practice.title = title
             practice.difficulty = difficulty
             practice.description = description
             practice.save()
@@ -303,7 +304,7 @@ def practice_add(request, slug, difficulty=None):
             for i in subdomains:
                 practice.subdomain.add(i)
 
-            return redirect('/admin/tracks/' + slug)
+            return redirect('/admin/tracks/' + track_slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
@@ -314,7 +315,7 @@ def practice_action(request, action, slug):
         practice.delete()
         return redirect('single-track', slug=str(track_slug))
 
-    if action == 'edit':
+    elif action == 'edit':
         if request.method == 'GET':
             practice = Practice.objects.get(slug=slug)
             form = PracticeForm(instance=practice)
@@ -354,7 +355,7 @@ def practice_action(request, action, slug):
                 for i in subdomains:
                     practice.subdomain.add(i)
 
-                return redirect('/admin/practice/' + slug)
+                return redirect('/admin/practice/' + slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
