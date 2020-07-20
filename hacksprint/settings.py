@@ -22,6 +22,7 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'adminpanel.apps.AdminpanelConfig',
     'userpanel.apps.UserpanelConfig',
+    'challenge.apps.ChallengeConfig',
     'cloudinary',
     'corsheaders',
     'rest_framework',
