@@ -5,23 +5,23 @@ from django.db.models.signals import pre_save
 from django.utils.text import slugify
 
 
-# from hacksprint.util import unique_slug_generator
-
-
 class Track(models.Model):
     title = models.CharField(max_length=100)
     slug = models.SlugField(max_length=250, null=True, blank=True)
     desc = models.TextField()
     avatar = models.CharField(max_length=100)
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.title)
-        super(Track, self).save(*args, **kwargs)
-
-    # def update(self, *args, **kwargs):
+    # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.title)
-    #     print('nazmul---------------------------------------')
     #     super(Track, self).save(*args, **kwargs)
+
+
+def track_slug_generator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+
+pre_save.connect(track_slug_generator, sender=Track)
 
 
 class SubDomain(models.Model):
@@ -43,9 +43,10 @@ class Practice(models.Model):
         self.slug = slugify(self.title)
         super(Practice, self).save(*args, **kwargs)
 
-# def slug_generator(sender, instance, *args, **kwargs):
-#     if not instance.slug:
-#         instance.slug = unique_slug_generator(instance)
-#
-#
-# pre_save.connect(slug_generator, sender=Track)
+
+def practice_slug_generator(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.title)
+
+
+pre_save.connect(practice_slug_generator, sender=Practice)

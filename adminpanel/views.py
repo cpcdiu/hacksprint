@@ -209,22 +209,21 @@ def tracks(request):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def track_action(request, action, trackid):
+def track_action(request, action, slug):
     if action == 'delete':
-        print(trackid)
-        track = Track.objects.get(id=trackid)
+        track = Track.objects.get(slug=slug)
         track.delete()
         return redirect('tracks')
     elif action == 'edit':
         title = request.POST['title']
         desc = request.POST['desc']
         if len(request.FILES) == 0:
-            track = Track.objects.filter(id=trackid)
+            track = Track.objects.filter(slug=slug)
             track.update(title=title, desc=desc)
         else:
             avatar = request.FILES['avatar']
             info = uploader.upload(avatar)
-            track = Track.objects.filter(id=trackid)
+            track = Track.objects.filter(slug=slug)
             track.update(title=title, desc=desc, avatar=info['url'])
         return redirect('tracks')
 

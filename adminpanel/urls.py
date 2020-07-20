@@ -9,7 +9,7 @@ urlpatterns = [
     path('users/', views.users.as_view(), name='admin-users'),
     path('challenges/', views.challenges),
     path('tracks/', views.tracks, name='tracks'),
-    path('tracks/<str:action>/<int:trackid>/', views.track_action, name='track-action'),
+    path('tracks/<str:action>/<slug:slug>/', views.track_action, name='track-action'),
     path('tracks/<slug:slug>', views.single_track, name='single-track'),
     path('practice/<slug:slug>', views.single_practice, name='single-practice'),
     path('practice/new/<slug:slug>/', views.practice_add, name='practice-new'),
