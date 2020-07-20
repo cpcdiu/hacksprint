@@ -25,8 +25,5 @@ urlpatterns = [
     path('confirm/', main_views.verify_email, name='verify-email'),
 
     re_path('.*', main_views.index, name='index'),
-    path('', main_views.index, name='index'),
-
-    # re_path(r'^(?P<path>.*)/$', main_views.index),
-    # path('', main_views.index),
+    # path('', main_views.index, name='index'),
 ]

@@ -31,6 +31,11 @@
                             <i class="fa fa-plus"></i>
                             Add Practice
                         </a>
+                        <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
+                                    data-target="#addSubdomainModal">
+                                <i class="fa fa-plus"></i>
+                                Add Subdomain
+                            </button>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -56,7 +61,7 @@
                                                 <div class="modal-body">
                                                     <p class="small">Create a new Practice using this form, make sure you
                                                         fill them all</p>
-                                                    <form method="POST" enctype="multipart/form-data">
+                                                    <form method="POST"  enctype="multipart/form-data">
                                                         {% csrf_token %}
                                                         <div class="row">
                                                             <div class="col-sm-12">
@@ -92,6 +97,54 @@
                                                         </div>
                                                         <div class="modal-footer no-bd">
                                                             <button type="submit" id="addTrackButton"
+                                                                    class="btn btn-primary">
+                                                                Add
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="modal fade" id="addSubdomainModal" tabindex="-1" role="dialog"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header no-bd">
+                                                    <h5 class="modal-title">
+                                                    <span class="fw-mediumbold">
+                                                        New</span>
+                                                        <span class="fw-light">
+                                                        Track
+                                                    </span>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="small">Create a new Subdomain using this form, make sure you
+                                                        fill them all</p>
+                                                    <form method="POST" action="{% url 'subdomain-new' slug %}/" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group form-group-default">
+                                                                    <label>Title</label>
+                                                                    <input id="addTitle" type="text"
+                                                                           class="form-control"
+                                                                           name="title">
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer no-bd">
+                                                            <button type="submit" id="addSubdomainButton"
                                                                     class="btn btn-primary">
                                                                 Add
                                                             </button>

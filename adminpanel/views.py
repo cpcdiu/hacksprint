@@ -14,7 +14,7 @@ from django.views.generic import View
 from cloudinary import uploader
 
 from adminpanel.form import PracticeForm
-from adminpanel.models import Track, Practice
+from adminpanel.models import Track, Practice, SubDomain
 from main.views import AccountActivationTokenGenerator
 
 
@@ -232,6 +232,17 @@ def track_action(request, action, slug):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def subdomain_add(request, slug):
+    if request.method == 'POST':
+        title = request.POST['title']
+        track = Track.objects.get(slug=slug)
+        if title:
+            subdomain = SubDomain.objects.create(title=title, track=track)
+            subdomain.save()
+            return redirect('/admin/tracks/' + str(slug))
+
+
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, slug):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__slug=slug)
@@ -257,30 +268,42 @@ def single_practice(request, slug):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_add(request, slug, difficulty=None):
+def practice_add(request, track_slug, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
-
-        return render(request, 'adminpanel/practice-add.html', {'form': form})
+        track = Track.objects.get(slug=track_slug)
+        sub = SubDomain.objects.filter(track=track.id)
+        return render(request, 'adminpanel/practice-add.html', {'form': form, 'sub': sub})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
+        slug = request.POST['slug']
         difficulty = request.POST['difficulty']
         description = request.POST['description']
-        print(slug)
-        track = Track.objects.get(slug=slug)
+        track = Track.objects.get(slug=track_slug)
+        subdomains = []
+        sub = SubDomain.objects.filter(track=track.id)
 
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
             practice.track = track
-            practice.title = title
             practice.slug = slug
+            practice.title = title
             practice.difficulty = difficulty
             practice.description = description
             practice.save()
-            return redirect('/admin/tracks/' + slug)
+
+            for i in sub:
+                found = request.POST.get(i.title)
+                if found:
+                    subdomains.append(i)
+
+            for i in subdomains:
+                practice.subdomain.add(i)
+
+            return redirect('/admin/tracks/' + track_slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
@@ -291,14 +314,18 @@ def practice_action(request, action, slug):
         practice.delete()
         return redirect('single-track', slug=str(track_slug))
 
-    if action == 'edit':
+    elif action == 'edit':
         if request.method == 'GET':
             practice = Practice.objects.get(slug=slug)
             form = PracticeForm(instance=practice)
-
+            subdomains = practice.subdomain.all()
+            trackid = practice.track.id
+            sub = SubDomain.objects.filter(track=trackid)
             context = {
                 'form': form,
-                'practice': practice
+                'practice': practice,
+                'sub': sub,
+                'subdomains': subdomains
             }
             return render(request, 'adminpanel/practice-edit.html', context)
 
@@ -308,13 +335,26 @@ def practice_action(request, action, slug):
             title = request.POST['title']
             difficulty = request.POST['difficulty']
             description = request.POST['description']
+            trackid = practice.track.id
+            subdomains = []
+            sub = SubDomain.objects.filter(track=trackid)
             if form.is_valid():
                 practice = form.save(commit=False)
                 practice.title = title
                 practice.difficulty = difficulty
                 practice.description = description
+                practice.subdomain.clear()
                 practice.save()
-                return redirect('/admin/practice/' + slug)
+
+                for i in sub:
+                    found = request.POST.get(i.title)
+                    if found:
+                        subdomains.append(i)
+
+                for i in subdomains:
+                    practice.subdomain.add(i)
+
+                return redirect('/admin/practice/' + slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)

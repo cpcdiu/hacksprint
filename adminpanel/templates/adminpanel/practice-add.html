@@ -10,6 +10,24 @@
         label {
             display: none;
         }
+
+        #parmalink a {
+            color: #1572e8;
+            text-decoration: underline;
+        }
+
+        #parmalink button {
+            padding: 0px 8px;
+            margin-left: 11px;
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #cke_id_body {
+            width: 100% !important;
+        }
     </style>
 {% endblock %}
 
@@ -23,32 +41,57 @@
                     <div class="page-header">
                         <h4 class="page-title">Add Practice</h4>
                     </div>
-                    <div class="row">
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3"><input type="text" name="title" class="form-control" placeholder="Title">
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-9" style="overflow: hidden">
+                                <div class="mb-3">
+                                    <input type="text" name="title" class="form-control" placeholder="Title" id="inpt">
+                                </div>
+                                <div style="display: none" id="parmalink" class="mb-3 ml-2">
+                                    <strong>Permalink: </strong>
+                                    <a target="_blank" id="slug-text"></a>
+                                    <input type="text" id="edit-box" style="display: none">
+                                    <button id="edit-btn">Edit</button>
+                                    <button id="done-btn" style="display: none">Done</button>
+                                </div>
+                                <input type="text" id="slug-field" name="slug" style="display: none">
+                                <div class="mb-3">
+                                    <input type="text" name="description" class="form-control"
+                                           placeholder="Description">
+                                </div>
+                                {{ form.media }}
+                                {{ form }} <br> <br>
                             </div>
-                            <div class="mb-3"><label for="Difficulty">Difficulty:</label>
-                                <select name="difficulty" class="form-control" id="Difficulty">
-                                    <option value="0"> Select Difficulty</option>
-                                    <option value="1"> One</option>
-                                    <option value="2"> Two</option>
-                                    <option value="3"> Three</option>
-                                    <option value="4"> Four</option>
-                                    <option value="5"> Five</option>
-                                </select>
+                            <div class="col-md-3">
+                                <div class="card p-3">
+                                    <strong class="mb-2">Subdomains:</strong>
+                                    <ul class="list-unstyled">
+                                        {% for s in sub %}
+                                            <li>
+                                                <input type="checkbox" name="{{ s.title }}"
+                                                       value="{{ s.title }}"> <span class="pl-1">{{ s.title }}</span>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="mb-3">
+                                        <strong class="pb-2">Select Difficulty:</strong>
+                                        <select name="difficulty" class="form-control" id="Difficulty">
+                                            <option value="0">---</option>
+                                            <option value="1">One</option>
+                                            <option value="2">Two</option>
+                                            <option value="3">Three</option>
+                                            <option value="4">Four</option>
+                                            <option value="5">Five</option>
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <input type="submit" value="Save" class="btn btn-primary w-100">
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-3"><input type="text" name="description" class="form-control" placeholder="Description">
-                            </div>
-                            {{ form.media }}
-                            {{ form }}
-
-
-                            <div class="text-right">
-                                <input type="submit" value="Save" class="btn btn-primary">
-                            </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             {% include 'adminpanel/partials/footer.html' %}
@@ -57,4 +100,54 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        function generateSlug(value) {
+            return value.toLowerCase().replace(/-+/g, '').replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+        }
+
+        var parmalink = '';
+
+        $('#inpt').on('focusout', function () {
+            if (!$('#slug-text').text()) {
+                var title = $("#inpt").val()
+                var slug = generateSlug(title)
+                parmalink = 'http://' + document.domain + '/' + slug
+
+                $('#parmalink').css('display', 'block')
+                $('#slug-text').text(parmalink)
+                $('#slug-text').attr('href', parmalink)
+                $('#slug-field').val(slug)
+            }
+        })
+
+        $('#parmalink #edit-btn').on('click', function (e) {
+            e.preventDefault()
+            $('#parmalink #edit-box').val(parmalink)
+            $('#parmalink #slug-text').css('display', 'none')
+            $('#parmalink #edit-box').css('display', 'inline-block')
+            var len = $('#parmalink #edit-box').val().length + 1
+            $('#parmalink #edit-box').css('width', len * 8 + 'px')
+            $('#parmalink #edit-btn').css('display', 'none')
+            $('#parmalink #done-btn').css('display', 'inline-block')
+        })
+
+        $('#parmalink #done-btn').on('click', function (e) {
+            e.preventDefault()
+            parmalink = $('#parmalink #edit-box').val()
+            var arr = parmalink.split('/')
+            updatedSlug = arr[arr.length-1]
+            $('#parmalink #edit-box').css('display', 'none')
+            $('#parmalink #done-btn').css('display', 'none')
+            $('#parmalink #slug-text').css('display', 'inline-block')
+            $('#parmalink #slug-text').text(parmalink)
+            $('#slug-text').attr('href', parmalink)
+            $('#parmalink #edit-btn').css('display', 'inline-block')
+            $('#slug-field').val(updatedSlug)
+        })
+
+        {#$("form").on("submit", function (event) {#}
+        {#    event.preventDefault();#}
+        {#    console.log($(this).serialize());#}
+        {#});#}
+    </script>
 {% endblock %}
