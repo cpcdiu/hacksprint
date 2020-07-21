@@ -32,33 +32,34 @@ def index(request):
 
 
 class AdminStaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-  
+
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
 
+
 # Users Functionality
 class users(AdminStaffRequiredMixin, View):
-  
+
     def get(self, request):
         all_user = User.objects.all().order_by('-date_joined')
         return render(request, 'adminpanel/users.html', {'users': all_user})
 
-    def post(self, request):    
-        if request.POST["action"] == "create-user":           
+    def post(self, request):
+        if request.POST["action"] == "create-user":
             user_data = self.createUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "edit-user":
             user_data = self.editUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "delete-user":
             user_data = self.deleteUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "approve-user":
             user_data = self.approveUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
     def createUser(self, request):
         firstName = request.POST["firstName"]
@@ -68,11 +69,14 @@ class users(AdminStaffRequiredMixin, View):
         password = request.POST["password"]
 
         try:
-            user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
-            user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Added Successfully!"}
+            user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email,
+                                            password=password)
+            user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name,
+                         'userName': user.username, 'email': user.email, 'last_login': user.last_login, "error": False,
+                         "errorMessage": "User Added Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Add User!"}
+            user_data = {"error": True, "errorMessage": "Failed to Add User!"}
             return user_data
 
     def editUser(self, request):
@@ -84,7 +88,7 @@ class users(AdminStaffRequiredMixin, View):
         userRole = request.POST["userRole"]
 
         try:
-            user=User.objects.get(id=id)
+            user = User.objects.get(id=id)
             user.first_name = firstName
             user.last_name = lastName
             user.username = userName
@@ -98,28 +102,30 @@ class users(AdminStaffRequiredMixin, View):
                 user.is_superuser = False
             elif userRole == "admin":
                 user.is_staff = True
-                user.is_superuser = True 
+                user.is_superuser = True
 
             user.save()
 
-            user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Updated Successfully!"}
+            user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name,
+                         'userName': user.username, 'email': user.email, 'last_login': user.last_login, "error": False,
+                         "errorMessage": "User Updated Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Update User!"}
+            user_data = {"error": True, "errorMessage": "Failed to Update User!"}
             return user_data
 
     def deleteUser(self, request):
         id = request.POST["id"]
         try:
-            user=User.objects.get(id=id)
+            user = User.objects.get(id=id)
             user.delete()
-            user_data={"error":False,"errorMessage":"User Deleted Successfully!"}
+            user_data = {"error": False, "errorMessage": "User Deleted Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Delete User!"}
+            user_data = {"error": True, "errorMessage": "Failed to Delete User!"}
             return user_data
 
-    def approveUser(self,request):
+    def approveUser(self, request):
         id = request.POST["id"]
         try:
             user = User.objects.get(id=id)
@@ -137,12 +143,11 @@ class users(AdminStaffRequiredMixin, View):
 
             send_mail(subject, 'this is body', sender, receiver, fail_silently=False, html_message=body)
 
-            user_data={"error":False,"errorMessage":"User Approval Email Sent Successfully!"}
+            user_data = {"error": False, "errorMessage": "User Approval Email Sent Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to sent Approval Email to User!"}
+            user_data = {"error": True, "errorMessage": "Failed to sent Approval Email to User!"}
             return user_data
-
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)

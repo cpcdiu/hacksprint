@@ -27,9 +27,76 @@
                                 <a href="#">Challenges</a>
                             </li>
                         </ul>
+                        <a href="{% url 'challenge-new' %}" class="btn btn-primary btn-round btn-border ml-auto">
+                            <i class="fa fa-plus"></i>
+                            Add Challenges
+                        </a>
                     </div>
                     <div class="row">
-
+                        <div class="col-md-12">
+                            <div class="card pt-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="multi-filter-select" class="display table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Thumbnail</th>
+                                                <th>Title</th>
+                                                <th>Category</th>
+                                                <th>Topic</th>
+                                                <th>Host</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </thead>
+                                            <tfoot>
+                                            <tr>
+                                                <th>Thumbnail</th>
+                                                <th>Title</th>
+                                                <th>Category</th>
+                                                <th>Topic</th>
+                                                <th>Host</th>
+                                                <th>Action</th>
+                                            </tr>
+                                            </tfoot>
+                                            <tbody>
+                                            <tr>
+                                                <td>Jonas Alexander</td>
+                                                <td>Developer</td>
+                                                <td>San Francisco</td>
+                                                <td>30</td>
+                                                <td>2010/07/14</td>
+                                                <td>$86,500</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Shad Decker</td>
+                                                <td>Regional Director</td>
+                                                <td>Edinburgh</td>
+                                                <td>51</td>
+                                                <td>2008/11/13</td>
+                                                <td>$183,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Michael Bruce</td>
+                                                <td>Javascript Developer</td>
+                                                <td>Singapore</td>
+                                                <td>29</td>
+                                                <td>2011/06/27</td>
+                                                <td>$183,000</td>
+                                            </tr>
+                                            <tr>
+                                                <td>Donna Snider</td>
+                                                <td>Customer Support</td>
+                                                <td>New York</td>
+                                                <td>27</td>
+                                                <td>2011/01/25</td>
+                                                <td>$112,000</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -39,4 +106,51 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        $(document).ready(function () {
+            $('#basic-datatables').DataTable({});
+
+            $('#multi-filter-select').DataTable({
+                "pageLength": 5,
+                initComplete: function () {
+                    this.api().columns().every(function () {
+                        var column = this;
+                        var select = $('<select class="form-control"><option value=""></option></select>')
+                            .appendTo($(column.footer()).empty())
+                            .on('change', function () {
+                                var val = $.fn.dataTable.util.escapeRegex(
+                                    $(this).val()
+                                );
+
+                                column
+                                    .search(val ? '^' + val + '$' : '', true, false)
+                                    .draw();
+                            });
+
+                        column.data().unique().sort().each(function (d, j) {
+                            select.append('<option value="' + d + '">' + d + '</option>')
+                        });
+                    });
+                }
+            });
+
+            // Add Row
+            $('#add-row').DataTable({
+                "pageLength": 5,
+            });
+
+            var action = '<td> <div class="form-button-action"> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-primary btn-lg" data-original-title="Edit Task"> <i class="fa fa-edit"></i> </button> <button type="button" data-toggle="tooltip" title="" class="btn btn-link btn-danger" data-original-title="Remove"> <i class="fa fa-times"></i> </button> </div> </td>';
+
+            $('#addRowButton').click(function () {
+                $('#add-row').dataTable().fnAddData([
+                    $("#addName").val(),
+                    $("#addPosition").val(),
+                    $("#addOffice").val(),
+                    action
+                ]);
+                $('#addRowModal').modal('hide');
+
+            });
+        });
+    </script>
 {% endblock %}

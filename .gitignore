@@ -8,4 +8,5 @@ db.sqlite3
 *.scssc
 /node_modules/
 hsmeenv
+venv
 staticfiles
