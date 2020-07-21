@@ -68,3 +68,44 @@ def verify_email(request):
         return redirect('/success')
     else:
         return redirect('/failed')
+
+
+def reset_password(request):
+    if request.method == 'GET':
+        try:
+            mixed_token = request.GET['token']
+            splited_token = mixed_token.split(".")
+            uidb64 = splited_token[0]
+            token = splited_token[1]
+            password_reset_token = PasswordResetTokenGenerator()
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+            
+        except:
+            return redirect('/failed')
+
+        if user is not None and password_reset_token.check_token(user, token):
+            return render(request, 'main/reset-password.html')  
+
+        return redirect('/failed')
+
+    elif request.method == 'POST': 
+        url = request.POST['token'].split("=")
+        mixed_token = url[1]
+        password = request.POST['password']        
+        splited_token = mixed_token.split(".")
+        uidb64 = splited_token[0]
+        token = splited_token[1]
+        password_reset_token = PasswordResetTokenGenerator()
+        try:
+            uid = force_text(urlsafe_base64_decode(uidb64))
+            user = User.objects.get(pk=uid)
+        except(TypeError, ValueError, OverflowError, User.DoesNotExist):
+            user = None
+
+        if user is not None and password_reset_token.check_token(user, token):
+            user.set_password(password)
+            user.save()
+            return redirect('/login') 
+        else:
+          return redirect('/failed') 

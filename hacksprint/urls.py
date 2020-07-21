@@ -23,6 +23,7 @@ urlpatterns = [
 
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),
+    path('reset-password/', main_views.reset_password, name='reset-password'),
 
     re_path('.*', main_views.index, name='index'),
     path('', main_views.index, name='index'),

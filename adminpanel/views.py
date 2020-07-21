@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
@@ -59,6 +60,10 @@ class users(AdminStaffRequiredMixin, View):
         elif request.POST["action"] == "approve-user":
             user_data = self.approveUser(request)
             return JsonResponse(user_data,safe=False)
+
+        elif request.POST["action"] == "reset-password":
+            user_data = self.resetPassword(request)
+            return JsonResponse(user_data, safe=False)
 
     def createUser(self, request):
         firstName = request.POST["firstName"]
@@ -119,7 +124,7 @@ class users(AdminStaffRequiredMixin, View):
             user_data={"error":True,"errorMessage":"Failed to Delete User!"}
             return user_data
 
-    def approveUser(self,request):
+    def approveUser(self, request):
         id = request.POST["id"]
         try:
             user = User.objects.get(id=id)
@@ -142,6 +147,31 @@ class users(AdminStaffRequiredMixin, View):
         except:
             user_data={"error":True,"errorMessage":"Failed to sent Approval Email to User!"}
             return user_data
+
+    def resetPassword(self, request):
+        id = request.POST["id"]
+        try:
+            user = User.objects.get(id=id)
+            user_password_reset_token = PasswordResetTokenGenerator()
+            context = {
+                'user': user,
+                'domain': get_current_site(request).domain,
+                'token': urlsafe_base64_encode(force_bytes(user.id)) + '.' + user_password_reset_token.make_token(user)
+            }
+        
+            subject = 'Requested for password reset'
+            body = render_to_string('adminpanel/reset-password.html', context)
+            sender = 'noreply@hacksprint.me'
+            receiver = [user.email]
+
+            send_mail(subject, 'this is body', sender, receiver, fail_silently=False, html_message=body)
+
+            user_data={"error":False,"errorMessage":"Password Reset Email sent Successfully!"}
+            return user_data
+        except:
+            user_data={"error":True,"errorMessage":"Failed to sent password reset email!"}
+            return user_data    
+
 
 
 
