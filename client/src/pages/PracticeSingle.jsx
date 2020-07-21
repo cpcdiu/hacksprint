@@ -80,8 +80,24 @@ class SinglePractice extends Component {
 								</div>
 							</div>
 							<div className="four wide column mt-5">
-								{/* <AdOne /> */}
-								<Sidebar />
+								<div className="ui vertical menu w-100">
+									<a href="/" className="item">
+										<h4 className="ui header">Category</h4>
+										<p>Template, Routing</p>
+									</a>
+									<a href="/" className="item">
+										<h4 className="ui header">Difficulty</h4>
+										<p>Easy</p>
+									</a>
+									<a href="/" className="item">
+										<h4 className="ui header">Completed by</h4>
+										<p>289</p>
+									</a>
+									<a href="/" className="item">
+										<h4 className="ui header">Need Help?</h4>
+										<p>View Discussion</p>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
