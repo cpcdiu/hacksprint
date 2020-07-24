@@ -1,0 +1,139 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Add Challenge | Hacksprint</title>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        label {
+            display: none;
+        }
+
+        #parmalink a {
+            color: #1572e8;
+            text-decoration: underline;
+        }
+
+        #parmalink button {
+            padding: 0px 8px;
+            margin-left: 11px;
+            border: 1px solid black;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 13px;
+        }
+
+        #cke_id_body {
+            width: 100% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Add Challenge</h4>
+                    </div>
+                    <form method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-9" style="overflow: hidden">
+                                <div class="mb-3">
+                                    <input value="This is title" type="text" name="title" class="form-control"
+                                           placeholder="Title" id="inpt">
+                                </div>
+
+                                <div style="display: none" id="parmalink" class="mb-3 ml-2">
+                                    <strong>Permalink: </strong>
+                                    <a target="_blank" id="slug-text"></a>
+                                    <input type="text" id="edit-box" style="display: none">
+                                    <button id="edit-btn">Edit</button>
+                                    <button id="done-btn" style="display: none">Done</button>
+                                    <input type="text" id="slug-field" name="slug" style="display: none">
+                                </div>
+
+                                <div class="mb-3">
+                                    <input value="this is description" type="text" name="description"
+                                           class="form-control"
+                                           placeholder="Description">
+                                </div>
+                                {{ form.media }}
+                                {{ form }} <br> <br>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="card p-3">
+                                    <div>
+                                        <strong class="mb-2 d-inline-block">Host:</strong>
+                                        <input value="DIU CPC" type="text" name="host" class="form-control"
+                                               placeholder="Host Name">
+                                    </div>
+                                    <div class="mt-3">
+                                        <strong class="mb-2 d-inline-block">Domain:</strong>
+                                        <select name="domain" class="form-control" id="domain">
+                                            <option value="0">---</option>
+                                            <option value="hackathon">Hackathon</option>
+                                            <option value="cp">Competitive Programming</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-3">
+                                        <strong class="mb-2 d-inline-block">Subdomain:</strong>
+                                        <select name="subdomain" class="form-control" id="subdomain">
+                                            <option value="0">---</option>
+                                            <option value="1">Web</option>
+                                            <option value="2">Android</option>
+                                            <option value="3">Cyber Security</option>
+                                            <option value="4">UI/UX</option>
+                                            <option value="5">Machine Learning</option>
+                                        </select>
+                                    </div>
+                                    <div class="mt-3">
+                                        <strong class="mb-2 d-inline-block">Start Date:</strong>
+                                        <input type="text" class="form-control pickr" name="start_date">
+                                    </div>
+                                    <div class="mt-3">
+                                        <strong class="mb-2 d-inline-block">End Date:</strong>
+                                        <input type="text" class="form-control pickr" name="end_date" id="start_date">
+                                    </div>
+                                    <div class="mt-3">
+                                        <strong class="mb-2 d-inline-block">Add Thumbnail:</strong>
+                                        <input type="file" name="thumbnail">
+                                    </div>
+                                    <div class="mt-4">
+                                        <input type="submit" value="Save" class="btn btn-primary w-100">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="{% static 'challenge/js/main.js' %}"></script>
+    <script>
+        $(".pickr").flatpickr({
+            enableTime: true,
+            dateFormat: "Y-m-d H:i",
+        });
+    </script>
+    {#    <script>#}
+    {#        $("form").on("submit", function (event) {#}
+    {#            event.preventDefault();#}
+    {#            console.log($(this).serialize());#}
+    {#        });#}
+    {#    </script>#}
+{% endblock %}

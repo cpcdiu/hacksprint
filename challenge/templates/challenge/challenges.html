@@ -27,10 +27,16 @@
                                 <a href="#">Challenges</a>
                             </li>
                         </ul>
-                        <a href="{% url 'challenge-new' %}" class="btn btn-primary btn-round btn-border ml-auto">
-                            <i class="fa fa-plus"></i>
+                        <div class="ml-auto">
+                            <a href="{% url 'domains' %}" class="btn btn-primary btn-round btn-border">
+                            <i class="fa fa-tag mr-1"></i>
+                            Domains
+                        </a>
+                        <a href="{% url 'challenge-new' %}" class="btn btn-primary btn-round btn-border ml-2">
+                            <i class="fa fa-plus mr-1"></i>
                             Add Challenges
                         </a>
+                        </div>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
