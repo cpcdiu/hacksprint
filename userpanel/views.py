@@ -57,8 +57,8 @@ class SingleTrackView(APIView):
 class SinglePracticeView(APIView):
     permission_classes = [IsAuthenticated]
 
-    def get(self, request, track_id, practice_id):
-        practice = Practice.objects.get(id=practice_id)
+    def get(self, request, track_slug, practice_slug):
+        practice = Practice.objects.get(slug=practice_slug)
         serializer = PracticeSerializer(practice)
         return Response(serializer.data)
 
