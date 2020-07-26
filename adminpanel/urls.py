@@ -4,13 +4,16 @@ from . import views
 # ALL ADMIN ROUTES
 urlpatterns = [
     path('', views.index, name='adminpanel'),
+
+
     path('logout/', views.admin_logOut, name='logOut'),  # For logging out adming
     path('login/', views.admin_login, name='admin-login'),  # For admin login
     path('users/', views.users.as_view(), name='admin-users'),  # View all users of this system
     path('challenges/', views.challenges),  # Manage Challenges (Incomplete)
 
+
     path('tracks/', views.tracks, name='tracks'),  # READ all Tracks, CREATE new track
-    path('tracks/<str:action>/<int:trackid>/', views.track_action, name='track-action'),  # READ, UPADTE, DELETE
+    path('tracks/<str:action>/<slug:slug>/', views.track_action, name='track-action'),  # READ, UPADTE, DELETE
     path('tracks/<slug:slug>/', views.single_track, name='single-track'),  # READ all the practice of  a single track
     path('subdomain/new/<slug:slug>/', views.subdomain_add, name='subdomain-new'),  # CREATE new subdomain
 
