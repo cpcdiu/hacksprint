@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-    <title>Users | Hacksprint</title>
+    <title>Tracks | Hacksprint</title>
 {% endblock %}
 
 {% block body %}
@@ -16,7 +16,7 @@
                         <h4 class="page-title">Track</h4>
                         <ul class="breadcrumbs">
                             <li class="nav-home">
-                                <a href="#">
+                                <a href="{% url 'adminpanel' %}">
                                     <i class="flaticon-home"></i>
                                 </a>
                             </li>
@@ -24,7 +24,7 @@
                                 <i class="flaticon-right-arrow"></i>
                             </li>
                             <li class="nav-item">
-                                <a href="#">Track</a>
+                                <a href="{% url 'tracks' %}">Track</a>
                             </li>
                         </ul>
                         {% if user.is_superuser %}
