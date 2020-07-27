@@ -1,6 +1,7 @@
 .idea
 .vscode
 env.py
+env_prod.py
 .env
 db.sqlite3
 *.pyc
@@ -10,3 +11,4 @@ node_modules
 hsmeenv
 venv
 staticfiles
+media

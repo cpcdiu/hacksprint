@@ -26,6 +26,12 @@ DB_CONFIG = {
 #     'PORT': '3306'
 # }
 
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 EMAIL_HOST = 'emailhost'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'hostuser'

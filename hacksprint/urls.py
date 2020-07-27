@@ -1,3 +1,6 @@
+from django.conf import settings
+from django.conf.urls.static import static
+from django.contrib import admin
 from django.urls import path, include, re_path
 
 from main import views as main_views
@@ -23,7 +26,11 @@ urlpatterns = [
 
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),
+    path('nimda/', admin.site.urls),
 
     re_path('.*', main_views.index, name='index'),
     # path('', main_views.index, name='index'),
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
