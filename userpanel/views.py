@@ -26,16 +26,6 @@ class DashboardView(APIView):
         return Response(content)
 
 
-class ChallengesView(APIView):
-    permission_classes = [IsAuthenticated]
-
-    def get(self, request):
-        content = {
-            "message": "this is challenge page"
-        }
-        return Response(content)
-
-
 class TrackView(APIView):
     permission_classes = [IsAuthenticated]
 

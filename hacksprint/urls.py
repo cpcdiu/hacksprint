@@ -5,6 +5,7 @@ from django.urls import path, include, re_path
 
 from main import views as main_views
 from userpanel import views as user_views
+from challenge import views as challenge_views
 
 
 urlpatterns = [
@@ -12,7 +13,7 @@ urlpatterns = [
     path('api/register/', main_views.SignUpView.as_view()),
     path('api/user/', user_views.UserView.as_view()),
     path('api/dashboard/', user_views.DashboardView.as_view()),
-    path('api/challenges/', user_views.ChallengesView.as_view()),
+    path('api/challenges/', include('challenge.endpoints')),
     path('api/tracks/', user_views.TrackView.as_view()),
     path('api/tracks/<int:track_id>/', user_views.SingleTrackView.as_view()),
     path('api/tracks/<int:track_id>/<int:practice_id>/', user_views.SinglePracticeView.as_view()),
