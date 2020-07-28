@@ -16,6 +16,7 @@ urlpatterns = [
     path('tracks/<str:action>/<slug:slug>/', views.track_action, name='track-action'),  # READ, UPADTE, DELETE
     path('tracks/<slug:slug>/', views.single_track, name='single-track'),  # READ all the practice of  a single track
     path('subdomain/new/<slug:slug>/', views.subdomain_add, name='subdomain-new'),  # CREATE new subdomain
+    path('subdomain/delete/', views.subdomain_delete, name='subdomain-delete'),  # DELETE subdomains
 
     path('practice/<slug:slug>/', views.single_practice, name='single-practice'),  # READ a single practice
     path('practice/new/<slug:track_slug>/', views.practice_add, name='practice-new'),  # CREATE a new practice

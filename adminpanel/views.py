@@ -241,12 +241,25 @@ def subdomain_add(request, slug):
             subdomain.save()
             return redirect('/admin/tracks/' + str(slug))
 
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def subdomain_delete(request):
+    if request.method == 'POST':
+        subdomains = SubDomain.objects.all()
+
+        for i in subdomains:
+            checked = request.POST.get(i.title)
+            if checked:
+                subdomain = SubDomain.objects.get(title=i.title)
+                subdomain.delete()
+
+        return redirect('tracks')
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, slug):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__slug=slug)
-        context = {'practices': practices, 'slug': slug}
+        subdomains = SubDomain.objects.filter(track__slug=slug)
+        context = {'practices': practices, 'slug': slug, 'subdomains': subdomains}
         return render(request, 'adminpanel/practices.html', context)
 
     if request.method == 'POST':
