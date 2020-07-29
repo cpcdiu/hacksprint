@@ -124,7 +124,7 @@
                                                     <span class="fw-mediumbold">
                                                         New</span>
                                                         <span class="fw-light">
-                                                        Track
+                                                        Subdomain
                                                     </span>
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -170,9 +170,9 @@
                                                 <div class="modal-header no-bd">
                                                     <h5 class="modal-title">
                                                     <span class="fw-mediumbold">
-                                                        New</span>
+                                                        Delete</span>
                                                         <span class="fw-light">
-                                                        Track
+                                                        Subdomain
                                                     </span>
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -182,7 +182,7 @@
                                                 </div>
                                                 <div class="modal-body">
                                                     <p class="medium">Select Subdomains to delete</p>
-                                                    <form method="POST" action="{% url 'subdomain-delete' %}/" enctype="multipart/form-data">
+                                                    <form method="POST" action="{% url 'subdomain-delete' %}" enctype="multipart/form-data">
                                                         {% csrf_token %}
                                                         <div class="row">
                                                             <div class="col-sm-12">
