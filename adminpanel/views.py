@@ -241,6 +241,15 @@ def subdomain_add(request, slug):
             subdomain.save()
             return redirect('/admin/tracks/' + str(slug))
 
+    else:
+        title = request.GET.get('title')
+        # print(title)
+        taken = SubDomain.objects.filter(track__slug=slug).filter(title__iexact=title).exists()
+        data = {
+            'taken': taken
+        }
+        return JsonResponse(data)
+
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def subdomain_delete(request):
     if request.method == 'POST':
@@ -259,7 +268,14 @@ def single_track(request, slug):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__slug=slug)
         subdomains = SubDomain.objects.filter(track__slug=slug)
-        context = {'practices': practices, 'slug': slug, 'subdomains': subdomains}
+        tags = {}
+        difficulty = ['Beginner', 'Easy', 'Medium', 'Expert', 'Advanced']
+        for practice in practices:
+            tag = [difficulty[int(practice.difficulty) - 1]]
+            subdomain = SubDomain.objects.filter(practice=practice.id)
+            tag.extend(subdomain)
+            tags[practice] = tag[:4]
+        context = {'practices': practices, 'slug': slug, 'subdomains': subdomains, 'tags': tags}
         return render(request, 'adminpanel/practices.html', context)
 
     if request.method == 'POST':
@@ -318,6 +334,15 @@ def practice_add(request, track_slug, difficulty=None):
 
             return redirect('/admin/tracks/' + track_slug + '/')
 
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def check_practice_title(request):
+    if request.method == "GET":
+        title = request.GET.get('title')
+        taken = Practice.objects.filter(title__iexact=title).exists()
+        data = {
+            'taken': taken
+        }
+        return JsonResponse(data)
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def practice_action(request, action, slug):

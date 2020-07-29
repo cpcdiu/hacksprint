@@ -141,9 +141,12 @@
                                                             <div class="col-sm-12">
                                                                 <div class="form-group form-group-default">
                                                                     <label>Title</label>
-                                                                    <input id="addTitle" type="text"
+                                                                    <input id="addSubdomainTitle" type="text"
                                                                            class="form-control"
                                                                            name="title">
+                                                                    <div id="subdomainValidMsg">
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -223,10 +226,19 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for practice in practices %}
+                                        {% for practice, tag in tags.items %}
                                             <tr>
                                                 <td><strong><a href={% url 'single-practice' practice.slug %}>{{ practice.title }}</a></strong></td>
-                                                <td>Some, Tags</td>
+                                                <td>
+                                                    {% for i in tag %}
+                                                        {% if forloop.counter > 1 %}
+                                                        , {{ i.title }}
+                                                        {% else %}
+                                                            {{ i }}
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'practice-action' 'edit' practice.slug %}"
                                                        class="btn btn-primary" style="padding: .65rem 1.2rem">
@@ -253,4 +265,34 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        document.getElementById('addSubdomainTitle').addEventListener("change", checker);
+        function checker(e) {
+            e.preventDefault();
+            let xhr = new XMLHttpRequest();
+            let title = document.getElementById('addSubdomainTitle').value;
+            xhr.open('GET', '{% url "subdomain-new" slug %}?title='+title, true);
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+                    let message = '';
+                    let alert =  document.getElementById('subdomainValidMsg');
+                    alert.classList.add('alert');
+                    if (response.taken) {
+                        message = 'Title not available';
+                        alert.classList.remove('alert-success');
+                        alert.classList.add('alert-danger');
+                        alert.innerHTML = message;
+                    }
+                    else {
+                        message = 'Title available';
+                        alert.classList.remove('alert-danger');
+                        alert.classList.add('alert-success');
+                        alert.innerHTML = message;
+                    }
+                }
+            }
+            xhr.send();
+        }
+    </script>
 {% endblock %}

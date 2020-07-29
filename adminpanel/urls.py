@@ -19,8 +19,10 @@ urlpatterns = [
     path('subdomain/delete/', views.subdomain_delete, name='subdomain-delete'),  # DELETE subdomains
 
     path('practice/<slug:slug>/', views.single_practice, name='single-practice'),  # READ a single practice
+    path('practice_check/', views.check_practice_title, name='practice-title-check'),  # Check if the title already exists (Ajax)
     path('practice/new/<slug:track_slug>/', views.practice_add, name='practice-new'),  # CREATE a new practice
     path('practice/<str:action>/<slug:slug>/', views.practice_action, name='practice-action'),  # EDIT, DELETE
+
 
     path('settings/', views.settings, name='admin-settings'),  # For settings page (Incomplete)
     path('profile/', views.profile, name='admin-profile'),  # READ the profile page
