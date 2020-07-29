@@ -6,7 +6,7 @@ from utils.main import generate_uuid4
 
 class Track(models.Model):
     title = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=250)
+    slug = models.SlugField(max_length=250, default=generate_uuid4())
     desc = models.TextField()
     avatar = models.CharField(max_length=100)
 
