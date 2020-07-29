@@ -1,12 +1,20 @@
 from ckeditor.fields import RichTextField
 from django.contrib.auth.models import User
-from django.db import models
+from django.db import models, transaction
 
 
 class Domain(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     description = models.TextField()
+    default_selected = models.BooleanField()
+
+    @transaction.atomic
+    def save(self, *args, **kwargs):
+        if not self.default_selected:
+            return super(Domain, self).save(*args, **kwargs)
+        Domain.objects.filter(default_selected=True).update(default_selected=False)
+        return super(Domain, self).save(*args, **kwargs)
 
 
 class Subdomain(models.Model):

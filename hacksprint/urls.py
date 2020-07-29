@@ -5,8 +5,6 @@ from django.urls import path, include, re_path
 
 from main import views as main_views
 from userpanel import views as user_views
-from challenge import views as challenge_views
-
 
 urlpatterns = [
     path('api/login/', main_views.CustomAuthToken.as_view()),
@@ -28,10 +26,11 @@ urlpatterns = [
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),
     path('nimda/', admin.site.urls),
-
-    re_path('.*', main_views.index, name='index'),
-    # path('', main_views.index, name='index'),
 ]
 
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+urlpatterns += [
+    re_path('.*', main_views.index, name='index'),
+]

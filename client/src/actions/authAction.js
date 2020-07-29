@@ -1,5 +1,4 @@
 import axios from "axios";
-import { useHistory } from "react-router-dom";
 
 import {
 	USER_LOADING,
@@ -26,7 +25,7 @@ export function loadUser() {
 		}
 
 		axios
-			.get(`${process.env.REACT_APP_WEBSITE_NAME}api/user/`, config)
+			.get(`${process.env.REACT_APP_WEBSITE_NAME}/api/user/`, config)
 			.then((res) => {
 				dispatch({
 					type: USER_LOADED,
@@ -42,7 +41,7 @@ export function loadUser() {
 
 export const handleLogin = (user) => (dispatch) => {
 	axios
-		.post(`${process.env.REACT_APP_WEBSITE_NAME}api/login/`, {
+		.post(`${process.env.REACT_APP_WEBSITE_NAME}/api/login/`, {
 			username: user.username,
 			password: user.password,
 		})
@@ -75,7 +74,7 @@ export function handleRegister(newUser) {
 	return function (dispatch) {
 		console.log("register function called");
 		axios
-			.post(`${process.env.REACT_APP_WEBSITE_NAME}api/register/`, {
+			.post(`${process.env.REACT_APP_WEBSITE_NAME}/api/register/`, {
 				first_name: newUser.first_name,
 				last_name: newUser.last_name,
 				username: newUser.username,

@@ -3,8 +3,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from challenge.models import Challenge, Subdomain
-from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer
+from challenge.models import Challenge, Subdomain, Domain
+from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer, DomainSerializer
 
 
 class ChallengeView(APIView):
@@ -27,3 +27,13 @@ class ChallengeView(APIView):
             return Response(challenge_serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
+class DomainView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        domain = Domain.objects.all()
+        domain_serializer = DomainSerializer(domain, many=True)
+
+        return Response(domain_serializer.data, status=status.HTTP_200_OK)

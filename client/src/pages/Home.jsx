@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import {
 	Button,
 	Container,
-	Divider,
 	Grid,
 	Header,
 	Icon,
@@ -16,10 +15,9 @@ import {
 	Visibility,
 } from "semantic-ui-react";
 import { Link, Redirect } from "react-router-dom";
+import { connect } from "react-redux";
 
 import dummy from "../assets/img/grou.jpg";
-import dummy2 from "../assets/img/nan.jpg";
-import { connect } from "react-redux";
 import bg from "../assets/img/bg-2.jpg";
 
 const getWidth = () => {

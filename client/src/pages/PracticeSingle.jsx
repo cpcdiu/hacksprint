@@ -1,12 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { html } from "htm/react";
 // import { nanoid } from "nanoid";
 import { connect } from "react-redux";
 // import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
 
 class SinglePractice extends Component {
 	state = {
@@ -17,7 +15,7 @@ class SinglePractice extends Component {
 	componentDidMount() {
 		axios
 			.get(
-				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/${this.props.match.params.practiceId}/`,
+				`${process.env.REACT_APP_WEBSITE_NAME}/api/tracks/${this.props.match.params.trackId}/${this.props.match.params.practiceId}/`,
 				{
 					headers: {
 						Authorization: `Token ${this.props.token}`,
@@ -29,7 +27,7 @@ class SinglePractice extends Component {
 				this.setState({ data });
 
 				return axios.get(
-					`${process.env.REACT_APP_WEBSITE_NAME}api/profile/${this.state.data.author}`,
+					`${process.env.REACT_APP_WEBSITE_NAME}/api/profile/${this.state.data.author}`,
 					{
 						headers: {
 							Authorization: `Token ${this.props.token}`,
@@ -45,7 +43,6 @@ class SinglePractice extends Component {
 	}
 
 	render() {
-		const richText = '<a href="/">Hello!</a>';
 		return (
 			<div>
 				<Navbar />

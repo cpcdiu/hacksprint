@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
-import Sidebar from "../components/Sidebar/Sidebar";
+
 class Practice extends Component {
 	state = {
 		practices: [],
@@ -14,7 +14,7 @@ class Practice extends Component {
 	componentDidMount() {
 		axios
 			.get(
-				`${process.env.REACT_APP_WEBSITE_NAME}api/tracks/${this.props.match.params.trackId}/`,
+				`${process.env.REACT_APP_WEBSITE_NAME}/api/tracks/${this.props.match.params.trackId}/`,
 				{
 					headers: {
 						Authorization: `Token ${this.props.token}`,
