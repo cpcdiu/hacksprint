@@ -2,8 +2,8 @@ import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { Checkbox } from "semantic-ui-react";
 import { connect } from "react-redux";
-import Moment from "react-moment";
 import Navbar from "../components/Navbar/DashNav";
+import ChallengeCard from "../components/Challenge/ChallengeCard";
 import Footer from "../components/Footer/Footer";
 
 class ChallengePage extends Component {
@@ -94,53 +94,7 @@ class ChallengePage extends Component {
 									</div>
 									<div className="ui three cards mt-1">
 										{this.state.challenges.map((challenge) => (
-											<div className="ui card" key={challenge.id}>
-												<div
-													className="image"
-													style={{ height: "144px", overflow: "hidden" }}
-												>
-													<img
-														src={
-															process.env.REACT_APP_WEBSITE_NAME +
-															challenge.thumbnail
-														}
-														alt={challenge.desctiption}
-														style={{
-															display: "block",
-															width: "100%",
-															height: "144px",
-															objectFit: "cover",
-														}}
-													/>
-												</div>
-												<div className="content">
-													<div className="header">{challenge.title}</div>
-													<div className="meta">
-														<div>{challenge.subdomain[0].name}</div>
-													</div>
-													<div className="ui list">
-														<div className="item">
-															<i className="clock outline icon"></i>
-															<div className="content">
-																<div className="description first-cap">
-																	<Moment fromNow ago>
-																		{challenge.end_date}
-																	</Moment>
-																	&nbsp; to go
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-												<div className="extra content">
-													<div className="d-flex justify-content-between align-items-center">
-														<div className="ui primary button">Start Now</div>
-														<a href="/">
-															<i className="users icon"></i>2 Teams
-														</a>
-													</div>
-												</div>
-											</div>
+											<ChallengeCard challenge={challenge} />
 										))}
 									</div>
 								</div>
