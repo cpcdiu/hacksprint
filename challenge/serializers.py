@@ -27,7 +27,7 @@ class ChallengeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Challenge
-        exclude = ['domain']
+        fields='__all__'
 
 
 class ChallengeFilterSerializer(serializers.Serializer):

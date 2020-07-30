@@ -8,12 +8,12 @@ export default class ChallengeCard extends Component {
 
 		return (
 			<>
-				<div className="ui card" key={challenge.id}>
+				<div className="ui card">
 					<div
 						className="image"
 						style={{ height: "144px", overflow: "hidden" }}
 					>
-						<Link>
+						<Link to="/">
 							<img
 								src={process.env.REACT_APP_WEBSITE_NAME + challenge.thumbnail}
 								alt={challenge.desctiption}
@@ -26,7 +26,7 @@ export default class ChallengeCard extends Component {
 							/>
 						</Link>
 					</div>
-					<Link className="content" style={{ color: "inherit" }}>
+					<Link to="/" className="content" style={{ color: "inherit" }}>
 						<div className="header">{challenge.title}</div>
 						<div className="meta">
 							<div>{challenge.subdomain[0].name}</div>
@@ -34,7 +34,7 @@ export default class ChallengeCard extends Component {
 						<div className="ui list">
 							<div className="item">
 								<i className="clock outline icon"></i>
-								<div className="content">
+								<div className="content pl-1">
 									<div className="description first-cap">
 										<Moment fromNow ago>
 											{challenge.end_date}

@@ -11,7 +11,7 @@ class ChallengeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-        challenges = Challenge.objects.all()
+        challenges = Challenge.objects.filter(domain__default_selected=True)
         serializer = ChallengeSerializer(challenges, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
 
@@ -21,7 +21,7 @@ class ChallengeView(APIView):
             domain = serializer.data['domain']
             subdomain = serializer.data['subdomain']
             subdomain = [sub.id for sub in Subdomain.objects.filter(domain=domain)] if not subdomain else subdomain
-            filtered_challenges = Challenge.objects.filter(domain=domain).filter(subdomain__in=subdomain)
+            filtered_challenges = Challenge.objects.filter(domain=domain).filter(subdomain__in=subdomain).distinct()
             challenge_serializer = ChallengeSerializer(filtered_challenges, many=True)
 
             return Response(challenge_serializer.data, status=status.HTTP_200_OK)
