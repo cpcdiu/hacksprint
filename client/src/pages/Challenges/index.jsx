@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import Navbar from "../components/Navbar/DashNav";
-import ChallengeCard from "../components/Challenge/ChallengeCard";
-import Filter from "../components/Challenge/Filter";
-import Footer from "../components/Footer/Footer";
+import Navbar from "../../components/Navbar/DashNav";
+import ChallengeCard from "./Card";
+import Filter from "./Filter";
+import Footer from "../../components/Footer/Footer";
 
 class ChallengePage extends Component {
 	state = {
@@ -42,7 +42,11 @@ class ChallengePage extends Component {
 									</div>
 									<div className="ui three cards mt-1">
 										{this.state.challenges.map((challenge) => (
-											<ChallengeCard challenge={challenge} key={challenge.id} />
+											<ChallengeCard
+												challenge={challenge}
+												key={challenge.id}
+												permalink={this.props.match.url + "/" + challenge.slug}
+											/>
 										))}
 									</div>
 								</div>

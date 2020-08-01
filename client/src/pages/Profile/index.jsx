@@ -1,16 +1,16 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Navbar from "../components/Navbar/DashNav";
-import Footer from "../components/Footer/Footer";
+import Navbar from "../../components/Navbar/DashNav";
+import Footer from "../../components/Footer/Footer";
+import ProfileCard from "./ProfileCard";
+import Education from "./Education";
+import Work from "./Work";
 import {
 	getProfile,
 	updateProfile,
 	addWork,
 	addEducation,
-} from "../actions/profileAction";
-import ProfileCard from "../components/Profile/ProfileCard";
-import Work from "../components/Profile/Work";
-import Education from "../components/Profile/Education";
+} from "../../actions/profileAction";
 
 class Profile extends Component {
 	state = {

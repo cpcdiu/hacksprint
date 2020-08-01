@@ -3,8 +3,8 @@ import axios from "axios";
 import { nanoid } from "nanoid";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar/DashNav";
-import Footer from "../components/Footer/Footer";
+import Navbar from "../../components/Navbar/DashNav";
+import Footer from "../../components/Footer/Footer";
 
 class Practice extends Component {
 	state = {

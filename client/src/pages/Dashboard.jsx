@@ -4,7 +4,7 @@ import Navbar from "../components/Navbar/DashNav";
 import Footer from "../components/Footer/Footer";
 import AdOne from "../components/Ad/AdOne";
 import Sidebar from "../components/Sidebar/Sidebar";
-import Tracks from "../components/Track/Tracks";
+import Tracks from "./Track/Tracks";
 
 class Dashboard extends Component {
 	render() {

@@ -13,7 +13,7 @@ export default class ChallengeCard extends Component {
 						className="image"
 						style={{ height: "144px", overflow: "hidden" }}
 					>
-						<Link to="/">
+						<Link to={this.props.permalink}>
 							<img
 								src={process.env.REACT_APP_WEBSITE_NAME + challenge.thumbnail}
 								alt={challenge.desctiption}
@@ -26,7 +26,11 @@ export default class ChallengeCard extends Component {
 							/>
 						</Link>
 					</div>
-					<Link to="/" className="content" style={{ color: "inherit" }}>
+					<Link
+						to={this.props.permalink}
+						className="content"
+						style={{ color: "inherit" }}
+					>
 						<div className="header">{challenge.title}</div>
 						<div className="meta">
 							<div>{challenge.subdomain[0].name}</div>

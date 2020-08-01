@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import Navbar from "../components/Navbar/DashNav";
-import Tracks from "../components/Track/Tracks";
-import AdOne from "../components/Ad/AdOne";
-import Sidebar from "../components/Sidebar/Sidebar";
-import Footer from "../components/Footer/Footer";
+import Navbar from "../../components/Navbar/DashNav";
+import Tracks from "./Tracks";
+import AdOne from "../../components/Ad/AdOne";
+import Sidebar from "../../components/Sidebar/Sidebar";
+import Footer from "../../components/Footer/Footer";
 
 class Track extends Component {
 	render() {

@@ -7,15 +7,16 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Dashboard from "./pages/Dashboard";
-import ChallengePage from "./pages/ChallengePage";
-import Jobs from "./pages/jobs/Jobs";
+import ChallengePage from "./pages/Challenges";
+import ChallengeDetail from "./pages/ChallengeDetail";
+import Jobs from "./pages/Jobs";
 import Notification from "./pages/Notification";
-import Track from "./pages/TrackPage";
+import Track from "./pages/Track";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
-import SinglePractice from "./pages/PracticeSingle";
-import Playground from "./pages/playground";
+import SinglePractice from "./pages/PracticeDetail";
+import Playground from "./pages/Playground";
 import VerificationSuccess from "./pages/VerificationSuccess";
 import VerificationFailed from "./pages/VerificationFailed";
 import NotFound from "./pages/404";
@@ -41,6 +42,11 @@ export default class App extends Component {
 
 						<PrivateRoute exact path="/dashboard" component={Dashboard} />
 						<PrivateRoute exact path="/challenges" component={ChallengePage} />
+						<PrivateRoute
+							exact
+							path="/challenges/:challengeSlug"
+							component={ChallengeDetail}
+						/>
 						<PrivateRoute exact path="/jobs" component={Jobs} />
 						<PrivateRoute exact path="/notification" component={Notification} />
 						<PrivateRoute exact path="/tracks" component={Track} />
