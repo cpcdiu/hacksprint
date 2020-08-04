@@ -246,7 +246,8 @@ def subdomain_add(request, slug):
 def single_track(request, slug):
     if request.method == 'GET':
         practices = Practice.objects.filter(track__slug=slug)
-        context = {'practices': practices, 'slug': slug}
+        track = Track.objects.get(slug=slug)
+        context = {'practices': practices, 'slug': slug, 'track': track}
         return render(request, 'adminpanel/practices.html', context)
 
     if request.method == 'POST':
@@ -264,7 +265,8 @@ def single_track(request, slug):
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_practice(request, slug):
     practice = Practice.objects.get(slug=slug)
-    return render(request, 'adminpanel/practice-single.html', {'practice': practice})
+    track = Practice.objects.get(slug=slug)
+    return render(request, 'adminpanel/practice-single.html', {'practice': practice, 'track': track})
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)

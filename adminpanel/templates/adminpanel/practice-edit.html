@@ -22,57 +22,86 @@
                 <div class="page-inner">
                     <div class="page-header">
                         <h4 class="page-title">Edit Practice</h4>
+                        <ul class="breadcrumbs">
+                            <li class="nav-home">
+                                <a href="{% url 'adminpanel' %}">
+                                    <i class="flaticon-home"></i>
+                                </a>
+                            </li>
+                            <li class="separator">
+                                <i class="flaticon-right-arrow"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'tracks' %}">Track</a>
+                            </li>
+                            <li class="separator">
+                                <i class="flaticon-right-arrow"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'single-track' practice.track.slug %}">{{ practice.track.title }}</a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="row">
-                        <form method="post">
-                            {% csrf_token %}
-                            <div class="mb-3"><input type="text" name="title" value="{{ practice.title }}"
-                                                     class="form-control" placeholder="Title"></div>
-                            <div class="mb-3">
-                                <select name="difficulty" class="form-control" id="Difficulty">
-                                    {% if practice.difficulty == "1" %}
-                                        <option value="1" selected> One</option>
-                                    {% else %}
-                                        <option value="1"> One</option>
-                                    {% endif %}
 
-                                    {% if practice.difficulty == "2" %}
-                                        <option value="2" selected> Two</option>
-                                    {% else %}
-                                        <option value="2"> Two</option>
-                                    {% endif %}
-
-                                    {% if practice.difficulty == "3" %}
-                                        <option value="3" selected> Three</option>
-                                    {% else %}
-                                        <option value="3"> Three</option>
-                                    {% endif %}
-                                    {% if practice.difficulty == "4" %}
-                                        <option value="4" selected> Four</option>
-                                    {% else %}
-                                        <option value="4"> Four</option>
-                                    {% endif %}
-                                    {% if practice.difficulty == "5" %}
-                                        <option value="5" selected> Five</option>
-                                    {% else %}
-                                        <option value="5">Five</option>
-                                    {% endif %}
-                                </select>
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-9" style="overflow: hidden">
+                                <div class="mb-3"><input type="text" name="title" value="{{ practice.title }}"
+                                                         class="form-control" placeholder="Title"></div>
+                                <div class="mb-3"><input type="text" name="description"
+                                                         value="{{ practice.description }}"
+                                                         class="form-control" placeholder="Description"></div>
+                                {{ form.media }}
+                                {{ form }} <br> <br>
                             </div>
-                            <div class="mb-3"><input type="text" name="description" value="{{ practice.description }}"
-                                                     class="form-control" placeholder="Description"></div>
-                            {{ form.media }}
-                            {{ form }} <br> <br>
-                            <h4>Subdomains:</h4>
-                            {% for s in sub %}
-                                <input type="checkbox" name="{{ s.title }}" value="{{ s.title }}" {% if s in subdomains %} checked {% endif %}> {{ s.title }} <br>
-                            {% endfor %}
+                            <div class="col-md-3">
+                                <div class="card p-3">
+                                    <strong class="mb-2">Subdomains:</strong>
+                                    <ul class="list-unstyled">
+                                        {% for s in sub %}
+                                            <input type="checkbox" name="{{ s.title }}" value="{{ s.title }}"
+                                                    {% if s in subdomains %} checked {% endif %}> {{ s.title }} <br>
+                                        {% endfor %}
+                                    </ul>
+                                    <div class="mb-3">
+                                        <select name="difficulty" class="form-control" id="Difficulty">
+                                            {% if practice.difficulty == "1" %}
+                                                <option value="1" selected> One</option>
+                                            {% else %}
+                                                <option value="1"> One</option>
+                                            {% endif %}
 
-                            <div class="text-right">
-                                <input type="submit" value="Save" class="btn btn-primary">
+                                            {% if practice.difficulty == "2" %}
+                                                <option value="2" selected> Two</option>
+                                            {% else %}
+                                                <option value="2"> Two</option>
+                                            {% endif %}
+
+                                            {% if practice.difficulty == "3" %}
+                                                <option value="3" selected> Three</option>
+                                            {% else %}
+                                                <option value="3"> Three</option>
+                                            {% endif %}
+                                            {% if practice.difficulty == "4" %}
+                                                <option value="4" selected> Four</option>
+                                            {% else %}
+                                                <option value="4"> Four</option>
+                                            {% endif %}
+                                            {% if practice.difficulty == "5" %}
+                                                <option value="5" selected> Five</option>
+                                            {% else %}
+                                                <option value="5">Five</option>
+                                            {% endif %}
+                                        </select>
+                                    </div>
+                                    <div class="text-right">
+                                        <input type="submit" value="Save" class="btn btn-primary w-100">
+                                    </div>
+                                </div>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
             {% include 'adminpanel/partials/footer.html' %}
