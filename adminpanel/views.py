@@ -335,12 +335,16 @@ def practice_add(request, track_slug, difficulty=None):
             return redirect('/admin/tracks/' + track_slug + '/')
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def check_practice_title(request):
+def check_practice_slug(request):
     if request.method == "GET":
-        title = request.GET.get('title')
-        taken = Practice.objects.filter(title__iexact=title).exists()
+        slug = request.GET.get('slug')
+        final_slug = slug
+        count = 1
+        while Practice.objects.filter(slug__iexact=final_slug).exists():
+            final_slug = slug + '-' + str(count)
+            count += 1
         data = {
-            'taken': taken
+            'final_slug': final_slug
         }
         return JsonResponse(data)
 
