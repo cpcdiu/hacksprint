@@ -48,6 +48,9 @@
                             <div class="col-md-9" style="overflow: hidden">
                                 <div class="mb-3">
                                     <input type="text" name="title" class="form-control" placeholder="Title" id="inpt">
+                                    <div id="titleValidMsg">
+
+                                    </div>
                                 </div>
 
                                 <div style="display: none" id="parmalink" class="mb-3 ml-2">
@@ -105,10 +108,5 @@
 
 {% block scripts %}
     <script src="{% static 'adminpanel/js/practice-add.js' %}"></script>
-{#    <script>#}
-{#        $("form").on("submit", function (event) {#}
-{#            event.preventDefault();#}
-{#            console.log($(this).serialize());#}
-{#        });#}
-{#    </script>#}
+
 {% endblock %}

@@ -42,6 +42,11 @@
                                 <i class="fa fa-plus"></i>
                                 Add Subdomain
                             </button>
+                        <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
+                                    data-target="#deleteSubdomainModal">
+                                <i class="fa fa-minus"></i>
+                                Delete Subdomains
+                            </button>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
@@ -125,7 +130,7 @@
                                                     <span class="fw-mediumbold">
                                                         New</span>
                                                         <span class="fw-light">
-                                                        Track
+                                                        Subdomain
                                                     </span>
                                                     </h5>
                                                     <button type="button" class="close" data-dismiss="modal"
@@ -142,9 +147,12 @@
                                                             <div class="col-sm-12">
                                                                 <div class="form-group form-group-default">
                                                                     <label>Title</label>
-                                                                    <input id="addTitle" type="text"
+                                                                    <input id="addSubdomainTitle" type="text"
                                                                            class="form-control"
                                                                            name="title">
+                                                                    <div id="subdomainValidMsg">
+
+                                                                    </div>
                                                                 </div>
                                                             </div>
 
@@ -153,6 +161,57 @@
                                                             <button type="submit" id="addSubdomainButton"
                                                                     class="btn btn-primary">
                                                                 Add
+                                                            </button>
+                                                            <button type="button" class="btn btn-danger"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                <div class="modal fade" id="deleteSubdomainModal" tabindex="-1" role="dialog"
+                                         aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header no-bd">
+                                                    <h5 class="modal-title">
+                                                    <span class="fw-mediumbold">
+                                                        Delete</span>
+                                                        <span class="fw-light">
+                                                        Subdomain
+                                                    </span>
+                                                    </h5>
+                                                    <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <p class="medium">Select Subdomains to delete</p>
+                                                    <form method="POST" action="{% url 'subdomain-delete' %}" enctype="multipart/form-data">
+                                                        {% csrf_token %}
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <div class="form-group form-group-default">
+                                                                    <ul class="list-unstyled">
+                                                                        {% for subdomain in subdomains %}
+                                                                            <li>
+                                                                                <input type="checkbox" name="{{ subdomain.title }}"
+                                                                                    value="{{ subdomain.title }}"> <span class="pl-1">{{ subdomain.title }}</span>
+                                                                            </li>
+                                                                        {% endfor %}
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer no-bd">
+                                                            <button type="submit" id="deleteSubdomainButton"
+                                                                    class="btn btn-primary">
+                                                                Delete Selected Subdomains
                                                             </button>
                                                             <button type="button" class="btn btn-danger"
                                                                     data-dismiss="modal">
@@ -173,10 +232,19 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        {% for practice in practices %}
+                                        {% for practice, tag in tags.items %}
                                             <tr>
                                                 <td><strong><a href={% url 'single-practice' practice.slug %}>{{ practice.title }}</a></strong></td>
-                                                <td>Some, Tags</td>
+                                                <td>
+                                                    {% for i in tag %}
+                                                        {% if forloop.counter > 1 %}
+                                                        , {{ i.title }}
+                                                        {% else %}
+                                                            {{ i }}
+                                                        {% endif %}
+
+                                                    {% endfor %}
+                                                </td>
                                                 <td>
                                                     <a href="{% url 'practice-action' 'edit' practice.slug %}"
                                                        class="btn btn-primary" style="padding: .65rem 1.2rem">
@@ -203,4 +271,34 @@
 {% endblock %}
 
 {% block scripts %}
+    <script>
+        document.getElementById('addSubdomainTitle').addEventListener("change", checker);
+        function checker(e) {
+            e.preventDefault();
+            let xhr = new XMLHttpRequest();
+            let title = document.getElementById('addSubdomainTitle').value;
+            xhr.open('GET', '{% url "subdomain-new" slug %}?title='+title, true);
+            xhr.onload = function () {
+                if (this.status == 200) {
+                    let response = JSON.parse(this.responseText);
+                    let message = '';
+                    let alert =  document.getElementById('subdomainValidMsg');
+                    alert.classList.add('alert');
+                    if (response.taken) {
+                        message = 'Title not available';
+                        alert.classList.remove('alert-success');
+                        alert.classList.add('alert-danger');
+                        alert.innerHTML = message;
+                    }
+                    else {
+                        message = 'Title available';
+                        alert.classList.remove('alert-danger');
+                        alert.classList.add('alert-success');
+                        alert.innerHTML = message;
+                    }
+                }
+            }
+            xhr.send();
+        }
+    </script>
 {% endblock %}
