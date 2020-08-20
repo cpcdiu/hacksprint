@@ -15,7 +15,7 @@ from django.views.generic import View
 from cloudinary import uploader
 
 from adminpanel.form import PracticeForm
-from adminpanel.models import Track, Practice
+from adminpanel.models import Track, Practice, SubDomain
 from main.views import AccountActivationTokenGenerator
 
 
@@ -33,33 +33,34 @@ def index(request):
 
 
 class AdminStaffRequiredMixin(LoginRequiredMixin, UserPassesTestMixin):
-  
+
     def test_func(self):
         return self.request.user.is_superuser or self.request.user.is_staff
 
+
 # Users Functionality
 class users(AdminStaffRequiredMixin, View):
-  
+
     def get(self, request):
         all_user = User.objects.all().order_by('-date_joined')
         return render(request, 'adminpanel/users.html', {'users': all_user})
 
-    def post(self, request):    
-        if request.POST["action"] == "create-user":           
+    def post(self, request):
+        if request.POST["action"] == "create-user":
             user_data = self.createUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "edit-user":
             user_data = self.editUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "delete-user":
             user_data = self.deleteUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "approve-user":
             user_data = self.approveUser(request)
-            return JsonResponse(user_data,safe=False)
+            return JsonResponse(user_data, safe=False)
 
         elif request.POST["action"] == "reset-password":
             user_data = self.resetPassword(request)
@@ -73,11 +74,14 @@ class users(AdminStaffRequiredMixin, View):
         password = request.POST["password"]
 
         try:
-            user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email, password=password)
-            user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Added Successfully!"}
+            user = User.objects.create_user(first_name=firstName, last_name=lastName, username=userName, email=email,
+                                            password=password)
+            user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name,
+                         'userName': user.username, 'email': user.email, 'last_login': user.last_login, "error": False,
+                         "errorMessage": "User Added Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Add User!"}
+            user_data = {"error": True, "errorMessage": "Failed to Add User!"}
             return user_data
 
     def editUser(self, request):
@@ -89,7 +93,7 @@ class users(AdminStaffRequiredMixin, View):
         userRole = request.POST["userRole"]
 
         try:
-            user=User.objects.get(id=id)
+            user = User.objects.get(id=id)
             user.first_name = firstName
             user.last_name = lastName
             user.username = userName
@@ -103,25 +107,29 @@ class users(AdminStaffRequiredMixin, View):
                 user.is_superuser = False
             elif userRole == "admin":
                 user.is_staff = True
-                user.is_superuser = True 
+                user.is_superuser = True
 
             user.save()
 
-            user_data={'id':user.id,'firstName':user.first_name,'lastName':user.last_name,'userName':user.username,'email':user.email,'last_login':user.last_login,"error":False,"errorMessage":"User Updated Successfully!"}
+            user_data = {'id': user.id, 'firstName': user.first_name, 'lastName': user.last_name,
+                         'userName': user.username, 'email': user.email, 'last_login': user.last_login, "error": False,
+                         "errorMessage": "User Updated Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Update User!"}
+            user_data = {"error": True,
+                         "errorMessage": "Failed to Update User!"}
+
             return user_data
 
     def deleteUser(self, request):
         id = request.POST["id"]
         try:
-            user=User.objects.get(id=id)
+            user = User.objects.get(id=id)
             user.delete()
-            user_data={"error":False,"errorMessage":"User Deleted Successfully!"}
+            user_data = {"error": False, "errorMessage": "User Deleted Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to Delete User!"}
+            user_data = {"error": True, "errorMessage": "Failed to Delete User!"}
             return user_data
 
     def approveUser(self, request):
@@ -136,16 +144,17 @@ class users(AdminStaffRequiredMixin, View):
             }
 
             subject = 'Please confirm your email'
-            body = render_to_string('adminpanel/email-verification.html', context)
+            body = render_to_string(
+                'adminpanel/email-verification.html', context)
             sender = 'noreply@hacksprint.me'
             receiver = [user.email]
 
-            send_mail(subject, 'this is body', sender, receiver, fail_silently=False, html_message=body)
-
-            user_data={"error":False,"errorMessage":"User Approval Email Sent Successfully!"}
+            send_mail(subject, 'this is body', sender, receiver,
+                      fail_silently=False, html_message=body)
+            user_data = {"error": False, "errorMessage": "User Approval Email Sent Successfully!"}
             return user_data
         except:
-            user_data={"error":True,"errorMessage":"Failed to sent Approval Email to User!"}
+            user_data = {"error": True, "errorMessage": "Failed to sent Approval Email to User!"}
             return user_data
 
     def resetPassword(self, request):
@@ -171,7 +180,6 @@ class users(AdminStaffRequiredMixin, View):
         except:
             user_data={"error":True,"errorMessage":"Failed to sent password reset email!"}
             return user_data    
-
 
 
 
@@ -214,7 +222,7 @@ def tracks(request):
     elif request.method == 'POST':
         title = request.POST['title']
         desc = request.POST['desc']
-        if len(request.FILES) is 0:
+        if len(request.FILES) == 0:
             avatar = 'https://res.cloudinary.com/shakilahmmeed/image/upload/v1590647375/aboq57tmbmyx0jb4fzml.jpg'
             track = Track(title=title, desc=desc, avatar=avatar)
         else:
@@ -227,22 +235,21 @@ def tracks(request):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def track_action(request, action, trackid):
+def track_action(request, action, slug):
     if action == 'delete':
-        print(trackid)
-        track = Track.objects.get(id=trackid)
+        track = Track.objects.get(slug=slug)
         track.delete()
         return redirect('tracks')
     elif action == 'edit':
         title = request.POST['title']
         desc = request.POST['desc']
-        if len(request.FILES) is 0:
-            track = Track.objects.filter(id=trackid)
+        if len(request.FILES) == 0:
+            track = Track.objects.filter(slug=slug)
             track.update(title=title, desc=desc)
         else:
             avatar = request.FILES['avatar']
             info = uploader.upload(avatar)
-            track = Track.objects.filter(id=trackid)
+            track = Track.objects.filter(slug=slug)
             track.update(title=title, desc=desc, avatar=info['url'])
         return redirect('tracks')
 
@@ -251,82 +258,130 @@ def track_action(request, action, trackid):
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def single_track(request, id):
+def subdomain_add(request, slug):
+    if request.method == 'POST':
+        title = request.POST['title']
+        track = Track.objects.get(slug=slug)
+        if title:
+            subdomain = SubDomain.objects.create(title=title, track=track)
+            subdomain.save()
+            return redirect('/admin/tracks/' + str(slug))
+
+
+@user_passes_test(lambda user: user.is_superuser or user.is_staff)
+def single_track(request, slug):
     if request.method == 'GET':
-        practices = Practice.objects.filter(track__id=id)
-        context = {'practices': practices, 'trackID': id}
+        practices = Practice.objects.filter(track__slug=slug)
+        context = {'practices': practices, 'slug': slug}
         return render(request, 'adminpanel/practices.html', context)
 
     if request.method == 'POST':
         title = request.POST['title']
         body = request.POST['body']
         author = request.user
-        track = Track.objects.get(id=id)
+        track = Track.objects.get(slug=slug)
 
         practice = Practice(title=title, author=author, track=track, body=body)
         practice.save()
 
-        return redirect('/admin/tracks/' + str(id))
+        return redirect('/admin/tracks/' + slug)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def single_practice(request, practiceid):
-    practice = Practice.objects.get(id=practiceid)
+def single_practice(request, slug):
+    practice = Practice.objects.get(slug=slug)
     return render(request, 'adminpanel/practice-single.html', {'practice': practice})
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_add(request, trackid):
+def practice_add(request, track_slug, difficulty=None):
     if request.method == 'GET':
         form = PracticeForm()
-        return render(request, 'adminpanel/practice-add.html', {'form': form})
+        track = Track.objects.get(slug=track_slug)
+        sub = SubDomain.objects.filter(track=track.id)
+        return render(request, 'adminpanel/practice-add.html', {'form': form, 'sub': sub})
 
     if request.method == 'POST':
         form = PracticeForm(request.POST)
         title = request.POST['title']
-        track = Track.objects.get(id=trackid)
+        slug = request.POST['slug']
+        difficulty = request.POST['difficulty']
+        description = request.POST['description']
+        track = Track.objects.get(slug=track_slug)
+        subdomains = []
+        sub = SubDomain.objects.filter(track=track.id)
+
         if form.is_valid():
             practice = form.save(commit=False)
             practice.author = request.user
             practice.track = track
+            practice.slug = slug
             practice.title = title
+            practice.difficulty = difficulty
+            practice.description = description
             practice.save()
-            return redirect('/admin/')
+
+            for i in sub:
+                found = request.POST.get(i.title)
+                if found:
+                    subdomains.append(i)
+
+            for i in subdomains:
+                practice.subdomain.add(i)
+
+            return redirect('/admin/tracks/' + track_slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def practice_action(request, action, practiceid):
+def practice_action(request, action, slug):
     if action == 'delete':
-        practice = Practice.objects.get(id=practiceid)
+        practice = Practice.objects.get(slug=slug)
+        track_slug = practice.track.slug
         practice.delete()
-        return redirect('single-track', id=1)
+        return redirect('single-track', slug=str(track_slug))
 
-    if action == 'edit':
+    elif action == 'edit':
         if request.method == 'GET':
-            practice = Practice.objects.get(id=practiceid)
+            practice = Practice.objects.get(slug=slug)
             form = PracticeForm(instance=practice)
-
+            subdomains = practice.subdomain.all()
+            trackid = practice.track.id
+            sub = SubDomain.objects.filter(track=trackid)
             context = {
                 'form': form,
-                'practice': practice
+                'practice': practice,
+                'sub': sub,
+                'subdomains': subdomains
             }
             return render(request, 'adminpanel/practice-edit.html', context)
 
         elif request.method == 'POST':
-            practice = Practice.objects.get(id=practiceid)
+            practice = Practice.objects.get(slug=slug)
             form = PracticeForm(request.POST, instance=practice)
             title = request.POST['title']
-
+            difficulty = request.POST['difficulty']
+            description = request.POST['description']
+            trackid = practice.track.id
+            subdomains = []
+            sub = SubDomain.objects.filter(track=trackid)
             if form.is_valid():
                 practice = form.save(commit=False)
                 practice.title = title
+                practice.difficulty = difficulty
+                practice.description = description
+                practice.subdomain.clear()
                 practice.save()
-                return redirect('tracks')
 
+                for i in sub:
+                    found = request.POST.get(i.title)
+                    if found:
+                        subdomains.append(i)
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def challenges(request):
-    return render(request, 'adminpanel/challenges.html')
+                for i in subdomains:
+                    practice.subdomain.add(i)
+
+                return redirect('/admin/practice/' + slug + '/')
+
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def profile(request):

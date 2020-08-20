@@ -50,3 +50,9 @@ a.logo-landing {
 .contant_box_404 {
   margin-top: -50px;
 }
+
+.first-cap {
+  &:first-letter {
+    text-transform: capitalize;
+  }
+}

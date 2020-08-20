@@ -1,0 +1,236 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Settings | Hacksprint</title>
+{% endblock %}
+
+{% block styles %}
+    <style>
+        label {
+            margin-bottom: 5px;
+        }
+
+        .panel-wrap {
+            position: fixed;
+            top: 62px;
+            bottom: 60px;
+            right: 0;
+            width: 35em;
+            z-index: 999;
+            transform: translateX(100%);
+            transition: .3s ease-out;
+        }
+
+        .panel {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: #f9fbfd;
+            overflow: auto;
+            padding: 1em;
+        }
+
+        .sh {
+            transform: translateX(0%);
+            box-shadow: -15px 0px 50px rgba(0, 0, 0, 0.10);
+        }
+
+        .sub-del {
+            font-size: 17px;
+            margin-left: 10px;
+            margin-top: 7px;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Domains</h4>
+                    </div>
+                    <div class="panel-wrap">
+                        <div class="panel">
+                            <form name="edit">
+                                {% csrf_token %}
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h2>Edit Domain</h2>
+                                    <i class="fa fa-times sidepanel" style="font-size: 20px; cursor: pointer"></i>
+                                </div>
+                                <p class="d-none domain-id"></p>
+                                <div>
+                                    <label for="">Name</label>
+                                    <input type="text" name="name"
+                                           class="form-control form-control-sm name">
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Slug</label>
+                                    <input type="text" name="slug"
+                                           class="form-control form-control-sm slug">
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Description</label>
+                                    <textarea name="description" class="form-control description" cols="30"
+                                              rows="3"></textarea>
+                                </div>
+                                <div class="mt-4">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <h3>Subdomains:</h3>
+                                        <a href="#" id="add-subdomain" style="text-decoration: underline">Add New
+                                            Subdomain</a>
+                                    </div>
+                                    <div class="subdomain-wrapper">
+                                        <div class="d-flex align-items-center subdomain">
+                                            <input type="text" value="Web Development"
+                                                   class="form-control form-control-sm mt-2 mr-1">
+                                            <input type="text" value="web-development"
+                                                   class="form-control form-control-sm mt-2 ml-1">
+                                            <i class="fa fa-times-circle sub-del"></i>
+                                        </div>
+                                        <div class="d-flex align-items-center subdomain" id="subdomain">
+                                            <input type="text" value="Android Development"
+                                                   class="form-control form-control-sm mt-2 mr-1">
+                                            <input type="text" value="android-development"
+                                                   class="form-control form-control-sm mt-2 ml-1">
+                                            <i class="fa fa-times-circle sub-del"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button id="update-domain" class="btn btn-sm btn-primary mt-4">Save Domain
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <h3>Add New Domain</h3>
+                            <form method="post">
+                                {% csrf_token %}
+                                <div>
+                                    <label for="">Name</label>
+                                    <input type="text" name="name" class="form-control form-control-sm">
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Slug</label>
+                                    <input type="text" name="slug" class="form-control form-control-sm">
+                                </div>
+                                <div class="mt-2">
+                                    <label for="">Description</label>
+                                    <textarea name="description" id="" class="form-control" cols="30"
+                                              rows="5"></textarea>
+                                </div>
+                                <button type="submit" class="btn btn-sm btn-primary mt-4 ml-auto">Add New Domain
+                                </button>
+                            </form>
+                        </div>
+                        <div class="col-md-8">
+                            <table class="table table-striped">
+                                <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Name</th>
+                                    <th scope="col">Description</th>
+                                    <th scope="col">Slug</th>
+                                    <th scope="col">Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {% for domain in domains %}
+                                    <tr id="domain{{ domain.id }}" class="domain">
+                                        <th scope="row">{{ forloop.counter }}</th>
+                                        <td class="name">{{ domain.name }}</td>
+                                        <td class="description">{{ domain.description }}</td>
+                                        <td class="slug">{{ domain.slug }}</td>
+                                        <td>
+                                            <button class="btn btn-info btn-sm sidepanel"><i class="fa fa-cog"></i>
+                                            </button>
+                                        </td>
+
+                                        {# Following td is hidden from the UI, Just for getting the id to the backend #}
+                                        <td class="d-none domain-id">{{ domain.id }}</td>
+                                    </tr>
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+            {# For toggling the sidepanel, reading the value from table #}
+            $('.sidepanel').on('click', function (e) {
+                e.preventDefault()
+                var name = $(this).parent().siblings('.name').text()
+                var slug = $(this).parent().siblings('.slug').text()
+                var description = $(this).parent().siblings('.description').text()
+                var domainID = $(this).parent().siblings('.domain-id').text()
+
+                $('.panel .name').val(name)
+                $('.panel .slug').val(slug)
+                $('.panel .description').val(description)
+                $('.panel .domain-id').text(domainID)
+                $('.panel-wrap').toggleClass('sh')
+            })
+
+
+            {# Dynamically load empty subdomain input field on sidepanel #}
+            var emptySubdomain = '<div class="d-flex align-items-center subdomain" id="subdomain"><input type="text" class="form-control form-control-sm mt-2 mr-1"><input type="text" class="form-control form-control-sm mt-2 ml-1"><i class="fa fa-times-circle sub-del"></i></div>'
+
+            $('#add-subdomain').on('click', function (e) {
+                e.preventDefault()
+                $('.subdomain-wrapper').prepend(emptySubdomain)
+            })
+
+
+            {# Delete single subdomain from sidepanel #}
+            $(document).on('click', '.sub-del', function () {
+                $(this).parent().remove()
+            })
+
+
+            {# Update domain from sidepanel #}
+            $('#update-domain').on('click', function (e) {
+                e.preventDefault()
+                var domain = {
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    name: $('.panel .name').val(),
+                    slug: $('.panel .slug').val(),
+                    description: $('.panel .description').val(),
+                    id: $('.panel .domain-id').text()
+                }
+
+                $.ajax({
+                    url: '{% url "domain-action" "update" %}',
+                    type: 'POST',
+                    data: domain,
+                }).done(function (res) {
+                    var data = JSON.parse(res)
+                    $('.panel .name').val(data.fields.name)
+                    $('.panel .slug').val(data.fields.slug)
+                    $('.panel .description').val(data.fields.description)
+                    $(`#domain${data.pk} .name`).text(data.fields.name)
+                    $(`#domain${data.pk} .slug`).text(data.fields.slug)
+                    $(`#domain${data.pk} .description`).text(data.fields.description)
+                }).fail(function () {
+                    console.log('errrrrrrrrrrrrrrrrrrrrrrrr')
+                })
+            })
+        })
+    </script>
+{% endblock %}

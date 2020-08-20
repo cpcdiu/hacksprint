@@ -120,7 +120,7 @@
                                                                     alt={{ track.title }}
                                                             style="width: 100%; height: auto"></div>
                                                 </td>
-                                                <td><strong><a href={{ track.id }}>{{ track.title }}</a></strong></td>
+                                                <td><strong><a href="{{ track.slug }}/">{{ track.title }}</a></strong></td>
                                                 <td>{{ track.desc }}</td>
                                                 {% if user.is_superuser %}
                                                     <td>

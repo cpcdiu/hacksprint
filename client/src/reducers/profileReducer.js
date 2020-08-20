@@ -1,4 +1,3 @@
-import store from "../store";
 import {
 	GET_PROFILE,
 	UPDATE_PROFILE,
@@ -26,7 +25,7 @@ export default function profileReducer(state = initialState, action) {
 		case GET_PROFILE:
 			return action.payload;
 		case UPDATE_PROFILE:
-			let updatedProfile = { ...state.profile, ...action.payload };
+			// let updatedProfile = { ...state.profile, ...action.payload };
 
 			return {
 				...state,
