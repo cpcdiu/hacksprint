@@ -9,6 +9,9 @@ class Domain(models.Model):
     description = models.TextField()
     default_selected = models.BooleanField()
 
+    def __str__(self):
+        return self.name
+
     @transaction.atomic
     def save(self, *args, **kwargs):
         if not self.default_selected:
@@ -21,6 +24,8 @@ class Subdomain(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(unique=True)
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
+    def __str__(self):
+        return self.name
 
 
 class Challenge(models.Model):
@@ -35,6 +40,9 @@ class Challenge(models.Model):
     end_date = models.DateTimeField()
     domain = models.ForeignKey(Domain, on_delete=models.CASCADE)
     subdomain = models.ManyToManyField(Subdomain)
+
+    def __str__(self):
+        return self.title
 
 
 class ChallengesParticipation(models.Model):

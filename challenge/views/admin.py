@@ -4,46 +4,59 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 from challenge.form import ChallengeForm
-from challenge.models import Domain
+from challenge.models import Domain, Challenge, Subdomain
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def index(request):
-    return render(request, 'challenge/challenges.html')
+    if request.method == 'GET':
+        chal = Challenge.objects.all()
+        return render(request, 'challenge/challenges.html', {'chal': chal})
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def new_challenge(request):
     if request.method == 'GET':
+        domains = Domain.objects.all()
+        subdomains = Subdomain.objects.all()
         form = ChallengeForm()
-        return render(request, 'challenge/challenge-add.html', {'form': form})
+        context = {'form': form, "domains": domains, "subdomains": subdomains}
+        return render(request, 'challenge/challenge-add.html', context)
     elif request.method == 'POST':
         title = request.POST['title']
         slug = request.POST['slug']
         description = request.POST['description']
-        host = request.POST['host']
-        domain = request.POST['domain']
-        subdomain = request.POST['subdomain']
+        host = request.user
+        domain_id = request.POST['domain']
+        subdomain_id = request.POST['subdomain']
         start_date = request.POST['start_date']
         end_date = request.POST['end_date']
-        # thumbnail = request.FILES['thumbnail']
+        thumbnail = request.FILES['thumbnail']
         form = ChallengeForm(request.POST)
 
         if form.is_valid():
             challenge = form.save(commit=False)
-            challenge.title = title
-            challenge.slug = slug
-            challenge.description = description
-            challenge.host = request.user
-            challenge.start_date = start_date
-            challenge.end_date = end_date
-            # challenge.domain = domain
-            # challenge.subdomain = subdomain
+            domain = Domain.objects.get(id=domain_id)
+            subdomain = Subdomain.objects.get(id=subdomain_id)
+            challenge = Challenge(title=title, slug=slug, description=description, host=host, domain=domain,
+                                  start_date=start_date, end_date=end_date,
+                                  thumbnail=thumbnail)
             challenge.save()
+            challenge.subdomain.add(subdomain)
+
             return redirect('challenges')
 
-        # else:
-        #     return redirect('challenge-new')
+        else:
+            return redirect('challenge-new')
+
+
+def get_subdomain(request):
+    if request.method == 'GET':
+        domainId = request.GET['selectedDomain']
+        subdomain = Subdomain.objects.filter(domain=domainId)
+        serialized_subdomain = serializers.serialize('json', subdomain, ensure_ascii=False)
+
+        return JsonResponse(serialized_subdomain, safe=False)
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
