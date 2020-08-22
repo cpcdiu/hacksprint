@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import { Button, Dimmer } from "semantic-ui-react";
-import steve from "../../assets/img/steve.jpg";
 
 export default class ProfileCard extends Component {
 	state = {
@@ -9,6 +8,7 @@ export default class ProfileCard extends Component {
 		user: this.props.user,
 		username: this.props.username,
 		info: this.props.info,
+		image: null,
 		location: "",
 		contact: "",
 		website: "",
@@ -39,6 +39,7 @@ export default class ProfileCard extends Component {
 			location: this.state.location,
 			contact: this.state.contact,
 			website: this.state.website,
+			image: this.state.image
 		});
 
 		this.setState({
@@ -52,6 +53,14 @@ export default class ProfileCard extends Component {
 			[e.target.name]: e.target.value,
 		});
 	};
+
+
+  handleImageChange = (e) => {
+    this.setState({
+      image: e.target.files[0]
+    })
+	};
+	
 
 	regularCardContent = () => {
 		const { user, info } = this.state;
@@ -166,13 +175,13 @@ export default class ProfileCard extends Component {
 								ref={this.fileInputRef}
 								type="file"
 								hidden
-								onChange={this.fileChange}
+								onChange={this.handleImageChange}
 							/>
 						</Dimmer>
 						<img
-							src={steve}
-							alt="dummy"
-							style={{ width: "100%", height: "auto" }}
+							src={process.env.REACT_APP_WEBSITE_NAME+this.state.info.profilePicture}
+							alt={this.state.username}
+							style={{display: "block", height: "250px", width:"100%", objectFit: "cover"}}
 						/>
 					</Dimmer.Dimmable>
 
@@ -203,104 +212,6 @@ export default class ProfileCard extends Component {
 						<i className="edit outline icon mr-2"></i> Edit Profile
 					</button>
 				)}
-			</div>
-		);
-	}
-}
-
-export class Regular extends Component {
-	render() {
-		const { user, info } = this.props;
-
-		return (
-			<div className="ui fluid card">
-				<a className="image" href="/">
-					<img src={steve} alt="dummy" />
-				</a>
-				<div className="content">
-					<div className="header">{user.first_name + " " + user.last_name}</div>
-					<div className="meta">
-						<p className="mb-2">@shakilahmmeed</p>
-						<div className="d-flex mt-1">
-							<i className="map marker alternate icon"></i>
-							<p className="pl-1">{info.location}</p>
-						</div>
-						<div className="d-flex mt-1">
-							<i className="envelope outline icon"></i>
-							<p className="pl-1">{info.contact}</p>
-						</div>
-						<div className="d-flex mt-1">
-							<i className="linkify icon"></i>
-							<p className="pl-1">
-								<a href="/">{info.website}</a>
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		);
-	}
-}
-
-export class Edit extends Component {
-	state = {
-		editMode: false,
-		active: false,
-		user: this.props.user,
-		info: this.props.info,
-		hola: "",
-	};
-
-	render() {
-		return (
-			<div className="ui fluid card">
-				<Dimmer.Dimmable
-					blurring
-					dimmed={this.state.active}
-					style={{ height: "100%" }}
-				>
-					<Dimmer
-						active={this.state.active}
-						onClickOutside={this.state.handleEditProfile}
-					>
-						<Button
-							inverted
-							content="Choose File"
-							onClick={() => this.fileInputRef.current.click()}
-						/>
-						<input
-							ref={this.fileInputRef}
-							type="file"
-							hidden
-							onChange={this.fileChange}
-						/>
-					</Dimmer>
-					<img
-						src={steve}
-						alt="dummy"
-						style={{ width: "100%", height: "auto" }}
-					/>
-				</Dimmer.Dimmable>
-				<div className="content">
-					<div className="header">Editing</div>
-					<div className="meta">
-						<p className="mb-2">@shakilahmmeed</p>
-						<div className="d-flex mt-1">
-							<i className="map marker alternate icon"></i>
-							<p className="pl-1">Bangladesh</p>
-						</div>
-						<div className="d-flex mt-1">
-							<i className="envelope outline icon"></i>
-							<p className="pl-1">mail@shakilahmed.com</p>
-						</div>
-						<div className="d-flex mt-1">
-							<i className="linkify icon"></i>
-							<p className="pl-1">
-								<a href="/">www.shakilahmed.com</a>
-							</p>
-						</div>
-					</div>
-				</div>
 			</div>
 		);
 	}

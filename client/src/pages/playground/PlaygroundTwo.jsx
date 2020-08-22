@@ -1,4 +1,4 @@
-import React from "react";
+import React from "./node_modules/react";
 
 const listwebsitesData = [
 	{ id: 1, name: "name-1", url: "Url-1" },

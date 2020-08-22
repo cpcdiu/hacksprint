@@ -8,6 +8,7 @@ class Profile(models.Model):
     contact = models.CharField(max_length=200, null=True, blank=True)
     website = models.CharField(max_length=300, null=True, blank=True)
     email_verified = models.BooleanField(default=False)
+    image = models.ImageField(upload_to='userpanel', default='userpanel/default-user.jpg')
 
 
 class WorkExperience(models.Model):
