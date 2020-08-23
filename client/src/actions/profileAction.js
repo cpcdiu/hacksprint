@@ -25,10 +25,17 @@ export function getProfile(token) {
 export function updateProfile(token, data) {
 	return function (dispatch) {
 		console.log(data, "--------------------data");
+		let form_data = new FormData();
+    form_data.append('image', data.image, data.image.name);
+		form_data.append('contact', data.contact);
+		form_data.append('website', data.website);
+		form_data.append('location', data.location);
+		
 		axios
-			.post(`${process.env.REACT_APP_WEBSITE_NAME}/api/profile/`, data, {
+			.post(`${process.env.REACT_APP_WEBSITE_NAME}/api/profile/`, form_data, {
 				headers: {
 					Authorization: `Token ${token}`,
+					'content-type': 'multipart/form-data'
 				},
 			})
 			.then((res) => {

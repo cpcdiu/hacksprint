@@ -9,6 +9,7 @@ from userpanel import views as user_views
 urlpatterns = [
     path('api/login/', main_views.CustomAuthToken.as_view()),
     path('api/register/', main_views.SignUpView.as_view()),
+    path('api/change-password/', main_views.ChangePasswordView.as_view()),
     path('api/user/', user_views.UserView.as_view()),
     path('api/dashboard/', user_views.DashboardView.as_view()),
     path('api/challenges/', include('challenge.endpoints')),
@@ -25,6 +26,7 @@ urlpatterns = [
 
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),
+    path('reset-password/', main_views.reset_password, name='reset-password'),
     path('nimda/', admin.site.urls),
 ]
 

@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from userpanel.models import Profile
@@ -20,3 +21,8 @@ class UserSerializer(ModelSerializer):
                                  password=password, is_active=False)
         Profile.objects.create(user=user)
         return user
+
+class ChangePasswordSerializer(serializers.Serializer):
+    model = User
+    old_password = serializers.CharField(required=True)
+    new_password = serializers.CharField(required=True)

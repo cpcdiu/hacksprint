@@ -41,6 +41,7 @@ class Profile extends Component {
 			website: this.props.profile.website,
 			location: this.props.profile.location,
 			works_at: this.props.profile.works_at,
+			profilePicture: this.props.profile.image,
 		};
 
 		return (
@@ -81,9 +82,11 @@ const mapStateToProps = (state) => {
 	};
 };
 
-export default connect(mapStateToProps, {
+const mapActionToProps = {
 	getProfile,
 	updateProfile,
 	addWork,
 	addEducation,
-})(Profile);
+}
+
+export default connect(mapStateToProps, mapActionToProps)(Profile);
