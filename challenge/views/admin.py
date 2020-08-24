@@ -38,9 +38,14 @@ def new_challenge(request):
             challenge = form.save(commit=False)
             domain = Domain.objects.get(id=domain_id)
             subdomain = Subdomain.objects.get(id=subdomain_id)
-            challenge = Challenge(title=title, slug=slug, description=description, host=host, domain=domain,
-                                  start_date=start_date, end_date=end_date,
-                                  thumbnail=thumbnail)
+            challenge.title = title
+            challenge.slug = slug
+            challenge.description = description
+            challenge.host = host
+            challenge.domain = domain
+            challenge.start_date = start_date
+            challenge.end_date = end_date
+            challenge.thumbnail = thumbnail
             challenge.save()
             challenge.subdomain.add(subdomain)
 
