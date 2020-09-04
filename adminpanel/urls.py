@@ -20,4 +20,5 @@ urlpatterns = [
     path('challenges/', include('challenge.urls')),  # Challenges Routes
     path('settings/', views.settings, name='admin-settings'),  # For settings page (Incomplete)
     path('profile/', views.profile, name='admin-profile'),  # READ the profile page
+    path('jobs/', include('job.urls')),
 ]

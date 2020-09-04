@@ -28,6 +28,14 @@ class Education(models.Model):
 
 
 class Company(models.Model):
+    CHOICES = (
+        ('xs', '1-10'),
+        ('sm', '11-50'),
+        ('md', '51-150'),
+        ('lg', '151-300'),
+        ('xl', '300+'),
+    )
+
     address = models.CharField(max_length=100, null=True, blank=True)
     country = models.CharField(max_length=50, null=True, blank=True)
     phone_number = models.CharField(max_length=30, null=True, blank=True)
@@ -35,5 +43,6 @@ class Company(models.Model):
     website = models.CharField(max_length=50, null=True, blank=True)
     linkedin = models.CharField(max_length=100, null=True, blank=True)
     facebook = models.CharField(max_length=100, null=True, blank=True)
-    company_size = models.CharField(max_length=50, null=True, blank=True)
+    company_size = models.CharField(max_length=50, null=True, blank=True, choices=CHOICES)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
+

@@ -1,0 +1,118 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title> New Jobs | Hacksprint</title>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+        label {
+            display: none;
+        }
+
+        #cke_id_body {
+            width: 100% !important;
+        }
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Add Jobs</h4>
+                    </div>
+                        <form action="" method="" enctype="multipart/form-data">
+                           <div class="row">
+                                <div class="col-md-9">
+                                    <div class="mb-3">
+                                        <input value="" type="text" name="title" class="form-control"
+                                               placeholder="This is title" id="inpt1">
+                                    </div>
+                                        {{ form.media }}
+                                        {{ form }}
+
+                                    <div class="mb-3 mt-3">
+                                        <textarea rows="5" name="educational_requirements" class="form-control"
+                                                  placeholder="This is our Educational Requirements" id="inpt5"></textarea>
+                                    </div>
+                                    <div>
+                                        <textarea rows="5" name="experience_requirements" class="form-control"
+                                                  placeholder="This is our Experience Requirements" id="inpt6"></textarea>
+                                    </div>
+                                </div>
+                               <div class="col-md-3">
+                                    <div class="card p-3">
+                                        <div>
+                                            <strong class="mb-2 d-inline-block">Job Location:</strong>
+                                            <input value="" type="text" name="location" class="form-control"
+                                               placeholder="Job Location" id="inpt7">
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Max Salary:</strong>
+                                            <input value="" type="text" name="max_Salary" class="form-control"
+                                               placeholder="Max Salary" id="inpt8">
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Min Salary:</strong>
+                                            <input value="" type="text" name="min_Salary" class="form-control"
+                                               placeholder="Min Salary" id="inpt9">
+                                        </div>
+
+                                         <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Vacancy:</strong>
+                                           <input value="" type="text" name="vacancy" class="form-control"
+                                               placeholder="vacancy" id="inpt10">
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Employment Status:</strong>
+                                           <select name="Company" class="form-control" id="inpt17">
+                                                <option value="0">----</option>
+                                                <option value="1">-----</option>
+                                                <option value="2">------</option>
+                                            </select>
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Office Time:</strong>
+                                           <input type="time" name="office_time" class="form-control"
+                                               id="inpt12">
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Deadline:</strong>
+                                           <input value="" type="date" name="deadline" class="form-control"
+                                              id="inpt15">
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong class="mb-2 d-inline-block">Company:</strong>
+                                            <select name="Company" class="form-control" id="inpt17">
+                                                <option value="0">----</option>
+                                                <option value="1">-----</option>
+                                                <option value="2">------</option>
+                                            </select>
+                                        </div>
+                                        <div class="mt-2">
+                                            <input type="submit" value="Save" class="btn btn-primary w-100">
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </form>
+                      </div>
+
+                    </div>
+            {% include 'adminpanel/partials/footer.html' %}
+                </div>
+            </div>
+
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

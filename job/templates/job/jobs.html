@@ -2,7 +2,7 @@
 {% load static %}
 
 {% block meta %}
-    <title>Settings | Hacksprint</title>
+    <title>Jobs | Hacksprint</title>
 {% endblock %}
 
 {% block body %}
@@ -27,16 +27,14 @@
                                 <a href="#">Jobs</a>
                             </li>
                         </ul>
+                        {% if user.is_superuser %}
                          <div class="ml-auto">
-                            <a href="#" class="btn btn-primary btn-round btn-border">
+                            <a href="/admin/jobs/new/" class="btn btn-primary btn-round btn-border">
                             <i class="fa fa-tag mr-1"></i>
                             Create Jobs
-                        </a>
-                        <a href="#" class="btn btn-primary btn-round btn-border ml-2">
-                            <i class="fa fa-plus mr-1"></i>
-                            Application
-                        </a>
+                            </a>
                         </div>
+                        {% endif %}
                     </div>
                         <div class="row">
                             <div class="col-md-12">
@@ -46,41 +44,19 @@
                                             <table id="multi-filter-select" class="display table table-striped table-hover">
                                                 <thead>
                                                 <tr>
-                                                    <th>Company Name</th>
-                                                    <th>Job Description</th>
-                                                    <th>Educational Requirements</th>
-                                                    <th>Experience Requirements</th>
-                                                    <th>Job Location</th>
-                                                    <th>Salary</th>
+                                                    <th>Company</th>
+                                                    <th>Job Title</th>
+
                                                 </tr>
                                                 </thead>
-<!--                                                <tfoot>-->
-<!--                                                <tr>-->
-<!--                                                    <th>Thumbnail</th>-->
-<!--                                                    <th>Title</th>-->
-<!--                                                    <th>Category</th>-->
-<!--                                                    <th>Topic</th>-->
-<!--                                                    <th>Host</th>-->
-<!--                                                    <th>Action</th>-->
-<!--                                                </tr>-->
-<!--                                                </tfoot>-->
+
                                                 <tbody>
+
+                                                {% for job in jobs %}
                                                 <tr>
-                                                    <td>Software Giant</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>$86,500</td>
+                                                    <td>{{job.title}}</td>
                                                 </tr>
-                                                <tr>
-                                                    <td>Ring of Fire Software</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>Upcoming</td>
-                                                    <td>$183,000</td>
-                                                </tr>
+                                                {% endfor %}
                                                 </tbody>
                                             </table>
                                         </div>
@@ -91,10 +67,10 @@
 
                     </div>
                 </div>
-            </div>
             {% include 'adminpanel/partials/footer.html' %}
+            </div>
         </div>
-    </div>
+
 {% endblock %}
 
 {% block scripts %}
