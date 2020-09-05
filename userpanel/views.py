@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from adminpanel.models import Track, Practice
 from userpanel.models import Profile, WorkExperience, Education
 from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer, \
-    ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer
+    ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer, PracticeFilterSerializer
 
 Timeline = namedtuple('Timeline', ('profile', 'work'))
 
@@ -52,6 +52,22 @@ class SingleTrackView(APIView):
         practices = Practice.objects.filter(track__slug=track_slug)
         serializer = PracticeSerializer(practices, many=True)
         return Response(serializer.data)
+
+
+class PracticeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = PracticeFilterSerializer(data=request.data)
+        if serializer.is_valid():
+            track = serializer.data['track']
+            difficulty = serializer.data['difficulty']
+            difficulty = [practice.difficulty for practice in Practice.objects.all()] if not difficulty else difficulty
+            filtered_practices = Practice.objects.filter(track_id=track).filter(difficulty__in=difficulty).distinct()
+            practice_serializer = PracticeSerializer(filtered_practices, many=True)
+            return Response(practice_serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class SinglePracticeView(APIView):
