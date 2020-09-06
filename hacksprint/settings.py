@@ -60,6 +60,14 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:8000"
 ]
 
+CKEDITOR_CONFIGS = {
+    'default': {
+        # 'toolbar': 'full',
+        # 'height': 300,
+        'width': '100%',
+    },
+}
+
 ROOT_URLCONF = 'hacksprint.urls'
 
 TEMPLATES = [

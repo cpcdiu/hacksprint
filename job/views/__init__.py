@@ -1,2 +1,2 @@
 from .admin import *
-#from .main import *
+from .main import *
