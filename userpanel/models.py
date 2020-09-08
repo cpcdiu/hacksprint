@@ -46,3 +46,5 @@ class Company(models.Model):
     company_size = models.CharField(max_length=50, null=True, blank=True, choices=CHOICES)
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
 
+    def __str__(self):
+        return self.user.first_name

@@ -28,48 +28,81 @@
                             </li>
                         </ul>
                         {% if user.is_superuser %}
-                         <div class="ml-auto">
-                            <a href="/admin/jobs/new/" class="btn btn-primary btn-round btn-border">
-                            <i class="fa fa-tag mr-1"></i>
-                            Create Jobs
-                            </a>
-                        </div>
+                            <div class="ml-auto">
+                                <a href="/admin/jobs/new/" class="btn btn-primary btn-round btn-border">
+                                    <i class="fa fa-tag mr-1"></i>
+                                    Create Jobs
+                                </a>
+                            </div>
                         {% endif %}
                     </div>
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="card pt-4">
-                                    <div class="card-body">
-                                        <div class="table-responsive">
-                                            <table id="multi-filter-select" class="display table table-striped table-hover">
-                                                <thead>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card pt-4">
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table id="multi-filter-select" class="display table table-striped table-hover">
+                                            <thead>
+                                            <tr>
+                                                <th>Company</th>
+                                                <th>Job Title</th>
+
+                                            </tr>
+                                            </thead>
+
+                                            <tbody>
+
+                                            {% for job in jobs %}
                                                 <tr>
-                                                    <th>Company</th>
-                                                    <th>Job Title</th>
+                                                <td>{{ job.company.user.first_name }}</td>
+                                                <td>{{ job.title }}</td>
+                                                <td>
+                                                <div class="btn-group dropleft">
+                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle"
+                                                        id="btn-action" data-toggle="dropdown" aria-haspopup="true"
+                                                        aria-expanded="false">
+                                                    <i class="fas fa-user-cog"></i>
+                                                </button>
 
-                                                </tr>
-                                                </thead>
+                                                <div class="dropdown-menu">
+                                                    <a href="{% url 'job-Update' 'Edit' job.slug %}">
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm btn-edit dropdown-item"
+                                                                data-toggle="modal" data-target="#editRowModal"
+                                                                id="edit-1"
+                                                                style="padding: .65rem 1.1rem">
+                                                            <i class="fas fa-user-edit pr-1"></i> Edit
+                                                        </button>
+                                                    </a>
+                                                    <a href="{% url 'job-Update' 'Delete' job.slug %}">
 
-                                                <tbody>
+                                                        <button type="button"
+                                                                class="btn btn-light btn-sm btn-delete dropdown-item"
+                                                                id="delete-1" style="padding: .65rem 1.2rem"><i
+                                                                class="fas fa-trash pr-2"></i> Delete
+                                                        </button>
+                                                    </a>
+                                                </div>
 
-                                                {% for job in jobs %}
-                                                <tr>
-                                                    <td>{{job.title}}</td>
-                                                </tr>
-                                                {% endfor %}
-                                                </tbody>
-                                            </table>
-                                        </div>
+                                            {% endfor %}
+
+
+                                            </div>
+                                            </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
+
                 </div>
-            {% include 'adminpanel/partials/footer.html' %}
             </div>
+            {% include 'adminpanel/partials/footer.html' %}
         </div>
+    </div>
 
 {% endblock %}
 
