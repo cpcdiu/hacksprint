@@ -6,6 +6,58 @@
     label {
         display: none;
     }
+    
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        font-size: 14px;
+        text-align: left;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+    
+    .ui-autocomplete>li>div {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.42857143;
+        color: #333333;
+        white-space: nowrap;
+    }
+    
+    .ui-state-hover,
+    .ui-state-active,
+    .ui-state-focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+    
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
 </style>
 {% endblock %} {% block body %}
 <div class="wrapper">
@@ -63,15 +115,15 @@
                                 </div>
                                 <div class="mt-2">
                                     <strong class="mb-2 d-inline-block">Office Time:</strong>
-                                    <input type="time" name="office_time" class="form-control" id="inpt12">
+                                    <input type="text" name="office_time" class="form-control" id="inpt12">
                                 </div>
                                 <div class="mt-2">
                                     <strong class="mb-2 d-inline-block">Deadline:</strong>
-                                    <input value="" type="date" name="deadline" class="form-control" id="inpt15">
+                                    <input value="" type="datetime-local" name="deadline" class="form-control" id="inpt15">
                                 </div>
                                 <div class="mt-2">
                                     <strong class="mb-2 d-inline-block">Company:</strong>
-                                    <input value="" type="text" name="company" class="form-control" id="searchcompany" placeholder="Company Name">
+                                    <input value="{{ job.company.user.first_name}}" type="text" name="company" class="form-control" id="searchcompany" placeholder="Search Company Name">
                                 </div>
                                 <div class="mt-2">
                                     <input type="submit" value="Save" class="btn btn-primary w-100">
@@ -94,11 +146,25 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <link rel="stylesheet" href="/resources/demos/style.css">
 <script>
-    $(function() {
-        $("#searchcompany").autocomplete({
-            source: '{% url "companySearch" %}',
-        });
-    });
+    $("#searchcompany").on('keyup', function() {
+        $.ajax({
+            url: "{% url 'job-search' %}",
+            type: 'get',
+            data: {
+                type: 'company',
+                query: $("#searchcompany").val()
+            },
+            success: function(res) {
+                availableTags = res.companies
+                $("#searchcompany").autocomplete({
+                    source: availableTags
+                });
+            },
+            error: function(err) {
+                console.log(err)
+            }
+        })
+    })
 </script>
 
 {% endblock %}

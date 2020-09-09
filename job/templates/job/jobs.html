@@ -1,110 +1,91 @@
-{% extends 'adminpanel/base.html' %}
-{% load static %}
-
-{% block meta %}
-    <title>Jobs | Hacksprint</title>
-{% endblock %}
-
-{% block body %}
-    <div class="wrapper">
-        {% include 'adminpanel/partials/navbar.html' %}
-        {% include 'adminpanel/partials/sidebar.html' %}
-        <div class="main-panel">
-            <div class="content">
-                <div class="page-inner">
-                    <div class="page-header">
-                        <h4 class="page-title">Jobs</h4>
-                        <ul class="breadcrumbs">
-                            <li class="nav-home">
-                                <a href="#">
-                                    <i class="flaticon-home"></i>
-                                </a>
-                            </li>
-                            <li class="separator">
-                                <i class="flaticon-right-arrow"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Jobs</a>
-                            </li>
-                        </ul>
-                        {% if user.is_superuser %}
-                            <div class="ml-auto">
-                                <a href="/admin/jobs/new/" class="btn btn-primary btn-round btn-border">
-                                    <i class="fa fa-tag mr-1"></i>
-                                    Create Jobs
-                                </a>
-                            </div>
-                        {% endif %}
+{% extends 'adminpanel/base.html' %} {% load static %} {% block meta %}
+<title>Jobs | Hacksprint</title>
+{% endblock %} {% block body %}
+<div class="wrapper">
+    {% include 'adminpanel/partials/navbar.html' %} {% include 'adminpanel/partials/sidebar.html' %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Jobs</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Jobs</a>
+                        </li>
+                    </ul>
+                    {% if user.is_superuser %}
+                    <div class="ml-auto">
+                        <a href="/admin/jobs/new/" class="btn btn-primary btn-round btn-border">
+                            <i class="fa fa-tag mr-1"></i> Create Jobs
+                        </a>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card pt-4">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table id="multi-filter-select" class="display table table-striped table-hover">
-                                            <thead>
+                    {% endif %}
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card pt-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="multi-filter-select" class="display table table-striped table-hover">
+                                        <thead>
                                             <tr>
-                                                <th>Company</th>
                                                 <th>Job Title</th>
-
+                                                <th>Company</th>
                                             </tr>
-                                            </thead>
+                                        </thead>
 
-                                            <tbody>
+                                        <tbody>
 
                                             {% for job in jobs %}
-                                                <tr>
-                                                <td>{{ job.company.user.first_name }}</td>
+                                            <tr>
                                                 <td>{{ job.title }}</td>
+                                                <td>{{ job.company.user.first_name }}</td>
                                                 <td>
-                                                <div class="btn-group dropleft">
-                                                <button type="button" class="btn btn-info btn-sm dropdown-toggle"
-                                                        id="btn-action" data-toggle="dropdown" aria-haspopup="true"
-                                                        aria-expanded="false">
+                                                    <div class="btn-group dropleft">
+                                                        <button type="button" class="btn btn-info btn-sm dropdown-toggle" id="btn-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                     <i class="fas fa-user-cog"></i>
                                                 </button>
 
-                                                <div class="dropdown-menu">
-                                                    <a href="{% url 'job-Update' 'Edit' job.slug %}">
-                                                        <button type="button"
-                                                                class="btn btn-light btn-sm btn-edit dropdown-item"
-                                                                data-toggle="modal" data-target="#editRowModal"
-                                                                id="edit-1"
-                                                                style="padding: .65rem 1.1rem">
+                                                        <div class="dropdown-menu">
+                                                            <a href="{% url 'job-Update' 'Edit' job.slug %}">
+                                                                <button type="button" class="btn btn-light btn-sm btn-edit dropdown-item" data-toggle="modal" data-target="#editRowModal" id="edit-1" style="padding: .65rem 1.1rem">
                                                             <i class="fas fa-user-edit pr-1"></i> Edit
                                                         </button>
-                                                    </a>
-                                                    <a href="{% url 'job-Update' 'Delete' job.slug %}">
+                                                            </a>
+                                                            <a href="{% url 'job-Update' 'Delete' job.slug %}">
 
-                                                        <button type="button"
-                                                                class="btn btn-light btn-sm btn-delete dropdown-item"
-                                                                id="delete-1" style="padding: .65rem 1.2rem"><i
+                                                                <button type="button" class="btn btn-light btn-sm btn-delete dropdown-item" id="delete-1" style="padding: .65rem 1.2rem"><i
                                                                 class="fas fa-trash pr-2"></i> Delete
                                                         </button>
-                                                    </a>
-                                                </div>
+                                                            </a>
+                                                        </div>
 
-                                            {% endfor %}
+                                                        {% endfor %}
 
 
-                                            </div>
-                                            </td>
+                                                    </div>
+                                                </td>
                                             </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
-            {% include 'adminpanel/partials/footer.html' %}
         </div>
+        {% include 'adminpanel/partials/footer.html' %}
     </div>
+</div>
 
-{% endblock %}
-
-{% block scripts %}
-{% endblock %}
+{% endblock %} {% block scripts %} {% endblock %}
