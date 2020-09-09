@@ -8,7 +8,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from adminpanel.models import Track, Practice
+from adminpanel.models import Track, Practice, SubDomain
 from userpanel.models import Profile, WorkExperience, Education
 from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer, \
     ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer, PracticeFilterSerializer
@@ -62,8 +62,10 @@ class PracticeView(APIView):
         if serializer.is_valid():
             track = serializer.data['track']
             difficulty = serializer.data['difficulty']
+            subdomain = serializer.data['subdomain']
             difficulty = [practice.difficulty for practice in Practice.objects.all()] if not difficulty else difficulty
-            filtered_practices = Practice.objects.filter(track_id=track).filter(difficulty__in=difficulty).distinct()
+            subdomain = [subdomain for subdomain in SubDomain.objects.all()] if not subdomain else SubDomain.objects.filter(id__in=subdomain)
+            filtered_practices = Practice.objects.filter(track_id=track).filter(difficulty__in=difficulty, subdomain__in=subdomain).distinct()
             practice_serializer = PracticeSerializer(filtered_practices, many=True)
             return Response(practice_serializer.data, status=status.HTTP_200_OK)
         else:
