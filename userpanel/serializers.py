@@ -22,6 +22,7 @@ class PracticeSerializer(serializers.ModelSerializer):
 class PracticeFilterSerializer(serializers.Serializer):
     track = serializers.IntegerField()
     difficulty = serializers.ListField(child=serializers.IntegerField(), allow_empty=True, allow_null=True)
+    subdomain = serializers.ListField(child=serializers.IntegerField(), allow_empty=True, allow_null=True)
 
 
 class UserSerializer(serializers.ModelSerializer):
