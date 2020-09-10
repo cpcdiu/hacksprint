@@ -1,0 +1,67 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title>Jobs | Hacksprint</title>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Jobs</h4>
+                        <ul class="breadcrumbs">
+                            <li class="nav-home">
+                                <a href="#">
+                                    <i class="flaticon-home"></i>
+                                </a>
+                            </li>
+                            <li class="separator">
+                                <i class="flaticon-right-arrow"></i>
+                            </li>
+                            <li class="nav-item">
+                                <a href="#">CV</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="card pt-4">
+                                    <div class="card-body">
+                                        <div class="table-responsive">
+                                            <table id="multi-filter-select" class="display table table-striped table-hover">
+                                                <thead>
+                                                <tr>
+                                                    <th><h5><b>Applicant Name</b></h5></th>
+                                                    <th><h5><b>CV</b></h5></th>
+                                                </tr>
+                                                </thead>
+                                                <tbody>
+                                                {% for s_cv in cvs %}
+                                                <tr>
+                                                    <td><b>{{s_cv.user.user.first_name}} {{s_cv.user.user.last_name}}</b></td>
+                                                    <td><a target="_blank" class="btn btn-primary" href="{{s_cv.cv.url}}"><i class="fa fa-eye" aria-hidden="true"></i></a></td>
+                                                </tr>
+                                                {% endfor %}
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}

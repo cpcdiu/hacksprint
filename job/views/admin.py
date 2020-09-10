@@ -5,10 +5,11 @@ from django.shortcuts import render, redirect
 from django.core.serializers import serialize
 from job.models import Job
 from userpanel.models import User, Company
+from job.models import Job, Application
+
 from job.form import JobForm
 import random
 import datetime
-
 
 
 def index(request):
@@ -91,3 +92,15 @@ def updateJobs(request, operation, jobslug):
         job = Job.objects.get(slug=jobslug)
         job.delete()
         return redirect("jobs")
+
+
+def job_details(request, slug):
+    if request.method == 'GET':
+        details = Job.objects.filter(slug=slug)
+        app_no = Application.objects.filter(job__slug=slug).count()
+        return render(request, 'job/job-details.html', {'details': details, 'app_no': app_no})
+
+
+def job_cvs(request, slug):
+    cvs = Application.objects.filter(job__slug=slug)
+    return render(request, 'job/job-cv.html', {'cvs': cvs})

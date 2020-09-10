@@ -46,7 +46,7 @@
 
                                             {% for job in jobs %}
                                             <tr>
-                                                <td>{{ job.title }}</td>
+                                                <td><a href="{{job.slug}}/">{{ job.title }}</a></td>
                                                 <td>{{ job.company.user.first_name }}</td>
                                                 <td>
                                                     <div class="btn-group dropleft">
@@ -69,7 +69,6 @@
                                                         </div>
 
                                                         {% endfor %}
-
 
                                                     </div>
                                                 </td>

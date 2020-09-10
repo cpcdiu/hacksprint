@@ -34,6 +34,9 @@ class Job(models.Model):
 
 
 class Application(models.Model):
-    cv = models.FileField()
+    cv = models.FileField(upload_to='job/cvs')
     user = models.ForeignKey(Profile, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE)
+
+    def filename(self):
+        return os.path.basename(self.cv.name)
