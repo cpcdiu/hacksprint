@@ -1,7 +1,7 @@
 from collections import namedtuple
 
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import render
 from rest_framework import status, viewsets
 from rest_framework.permissions import IsAuthenticated
@@ -11,7 +11,7 @@ from rest_framework.views import APIView
 from adminpanel.models import Track, Practice
 from userpanel.models import Profile, WorkExperience, Education
 from userpanel.serializers import PracticeSerializer, TrackSerializer, PublicProfileSerializer, UserSerializer, \
-    ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer
+    ProfileSerializer, WorkExperienceSerializer, TimelineSerializer, EducationSerializer, PracticeFilterSerializer
 
 Timeline = namedtuple('Timeline', ('profile', 'work'))
 
@@ -53,6 +53,36 @@ class SingleTrackView(APIView):
         serializer = PracticeSerializer(practices, many=True)
         return Response(serializer.data)
 
+    def post(self, request, track_slug):
+        difficulties = ['Beginner', 'Easy', 'Medium', 'Expert', 'Advanced']
+        serializer = PracticeFilterSerializer(data=request.data)
+        if serializer.is_valid():
+            difficulty = serializer.data['difficulty']
+            subdomains = serializer.data['subdomains']
+            practices_with_subdomains = []
+            if subdomains:
+                for subdomain in subdomains:
+                    practices = Practice.objects.filter(track__slug=track_slug).filter(subdomain__exact=subdomain)
+                    practices_with_subdomains = practices_with_subdomains + list(practices)
+            else:
+                practices_with_subdomains = Practice.objects.filter(track__slug=track_slug)
+            practices_with_subdomains = list(set(practices_with_subdomains))
+            filtered_practices = []
+            if difficulty:
+                try:
+                    difficulty_id = str(difficulties.index(difficulty) + 1)
+                except ValueError:
+                    raise Http404
+                for practice in practices_with_subdomains:
+                    if practice.difficulty == difficulty_id:
+                        filtered_practices.append(practice)
+            else:
+                filtered_practices = practices_with_subdomains
+            practice_serializer = PracticeSerializer(filtered_practices, many=True)
+            return Response(practice_serializer.data, status=status.HTTP_200_OK)
+
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class SinglePracticeView(APIView):
     permission_classes = [IsAuthenticated]
