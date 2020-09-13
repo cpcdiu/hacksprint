@@ -1,23 +1,43 @@
 import React, { Component } from "react";
+import { connect } from "react-redux";
+import axios from "axios";
 import Navbar from "../../components/Navbar/DashNav";
 import Footer from "../../components/Footer/Footer";
 import Tab from "./Tab";
+import "./challenge_detail.scss";
 
-export default class ChallengeDetailPage extends Component {
+class ChallengeDetailPage extends Component {
+	state = {
+		challenge: {},
+	};
+
+	componentDidMount() {
+		axios
+			.get(
+				`${process.env.REACT_APP_WEBSITE_NAME}/api/challenges/${this.props.match.params.challengeSlug}/`,
+				{
+					headers: {
+						Authorization: `Token ${this.props.token}`,
+					},
+				}
+			)
+			.then((res) => {
+				this.setState({ challenge: res.data });
+			});
+	}
+
 	render() {
 		return (
 			<>
 				<Navbar />
-				<div className="pt-4 pb-5 bg-color">
+				<div className="pt-4 pb-5 bg-color challenge-detail">
 					<div className="container">
 						<div className="ui grid">
 							<div className="sixteen wide column">
 								<div className="cover">
 									<div className="shad">
-										<h2 className="mb-1">Connect X</h2>
-										<h4 className="my-1">
-											Connect your checkers in a row before your opponent
-										</h4>
+										<h2 className="mb-1">{this.state.challenge.title}</h2>
+										<h4 className="my-1">{this.state.challenge.description}</h4>
 										<div className="d-flex align-items-center mt-5 intro">
 											<div className="host">
 												<img
@@ -33,7 +53,7 @@ export default class ChallengeDetailPage extends Component {
 										</div>
 									</div>
 								</div>
-								<Tab />
+								<Tab content={this.state.challenge} />
 							</div>
 						</div>
 					</div>
@@ -75,3 +95,11 @@ export default class ChallengeDetailPage extends Component {
 		);
 	}
 }
+
+const mapStateToProps = (state) => {
+	return {
+		token: state.authReducer.token,
+	};
+};
+
+export default connect(mapStateToProps)(ChallengeDetailPage);

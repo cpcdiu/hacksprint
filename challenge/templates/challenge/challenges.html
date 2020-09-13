@@ -2,33 +2,33 @@
 {% load static %}
 
 {% block meta %}
-    <title>Challenges | Hacksprint</title>
+<title>Challenges | Hacksprint</title>
 {% endblock %}
 
 {% block body %}
-    <div class="wrapper">
-        {% include 'adminpanel/partials/navbar.html' %}
-        {% include 'adminpanel/partials/sidebar.html' %}
-        <div class="main-panel">
-            <div class="content">
-                <div class="page-inner">
-                    <div class="page-header">
-                        <h4 class="page-title">Challenges</h4>
-                        <ul class="breadcrumbs">
-                            <li class="nav-home">
-                                <a href="#">
-                                    <i class="flaticon-home"></i>
-                                </a>
-                            </li>
-                            <li class="separator">
-                                <i class="flaticon-right-arrow"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="#">Challenges</a>
-                            </li>
-                        </ul>
-                        <div class="ml-auto">
-                            <a href="{% url 'domains' %}" class="btn btn-primary btn-round btn-border">
+<div class="wrapper">
+    {% include 'adminpanel/partials/navbar.html' %}
+    {% include 'adminpanel/partials/sidebar.html' %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Challenges</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="#">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#">Challenges</a>
+                        </li>
+                    </ul>
+                    <div class="ml-auto">
+                        <a href="{% url 'domains' %}" class="btn btn-primary btn-round btn-border">
                             <i class="fa fa-tag mr-1"></i>
                             Domains
                         </a>
@@ -36,83 +36,62 @@
                             <i class="fa fa-plus mr-1"></i>
                             Add Challenges
                         </a>
-                        </div>
                     </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card pt-4">
-                                <div class="card-body">
-                                    <div class="table-responsive">
-                                        <table id="multi-filter-select" class="display table table-striped table-hover">
-                                            <thead>
-                                            <tr>
-                                                <th>Thumbnail</th>
-                                                <th>Title</th>
-                                                <th>Category</th>
-                                                <th>Topic</th>
-                                                <th>Host</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </thead>
-                                            <tfoot>
-                                            <tr>
-                                                <th>Thumbnail</th>
-                                                <th>Title</th>
-                                                <th>Category</th>
-                                                <th>Topic</th>
-                                                <th>Host</th>
-                                                <th>Action</th>
-                                            </tr>
-                                            </tfoot>
-                                            <tbody>
-                                            <tr>
-                                                <td>Jonas Alexander</td>
-                                                <td>Developer</td>
-                                                <td>San Francisco</td>
-                                                <td>30</td>
-                                                <td>2010/07/14</td>
-                                                <td>$86,500</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Shad Decker</td>
-                                                <td>Regional Director</td>
-                                                <td>Edinburgh</td>
-                                                <td>51</td>
-                                                <td>2008/11/13</td>
-                                                <td>$183,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Michael Bruce</td>
-                                                <td>Javascript Developer</td>
-                                                <td>Singapore</td>
-                                                <td>29</td>
-                                                <td>2011/06/27</td>
-                                                <td>$183,000</td>
-                                            </tr>
-                                            <tr>
-                                                <td>Donna Snider</td>
-                                                <td>Customer Support</td>
-                                                <td>New York</td>
-                                                <td>27</td>
-                                                <td>2011/01/25</td>
-                                                <td>$112,000</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card pt-4">
+                            <div class="card-body">
+                                <div class="table-responsive">
+                                    <table id="multi-filter-select" class="display table table-striped table-hover">
+                                        <thead>
+                                        <tr>
+                                            <th>Thumbnail</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Start date</th>
+                                            <th>End date</th>
+                                            <th>Host</th>
+                                        </tr>
+                                        </thead>
+                                        <tfoot>
+                                        <tr>
+                                            <th>Thumbnail</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Start date</th>
+                                            <th>End date</th>
+                                            <th>Host</th>
+                                        </tr>
+                                        </tfoot>
+                                        <tbody>
+                                        {% for chanllange in chal %}
+                                        <tr>
+                                            <td><img src="{%get_media_prefix%}{{chanllange.thumbnail}}"
+                                                     style="height: 50px;"></td>
+                                            <td>{{chanllange.title}}</td>
+                                            <td>{{chanllange.domain}}</td>
+                                            <td>{{chanllange.start_date}}</td>
+                                            <td>{{chanllange.end_date}}</td>
+                                            <td>{{chanllange.host}}</td>
+                                        </tr>
+                                        {%endfor%}
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% include 'adminpanel/partials/footer.html' %}
         </div>
+        {% include 'adminpanel/partials/footer.html' %}
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
+<script>
         $(document).ready(function () {
             $('#basic-datatables').DataTable({});
 
@@ -158,5 +137,7 @@
 
             });
         });
-    </script>
+
+
+</script>
 {% endblock %}

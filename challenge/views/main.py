@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
@@ -29,11 +30,19 @@ class ChallengeView(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
+class ChallengeDetailView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, slug):
+        challenge = Challenge.objects.get(slug=slug)
+        serialized_challenge = ChallengeSerializer(challenge)
+        return Response(serialized_challenge.data, status=status.HTTP_200_OK)
+
+
 class DomainView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         domain = Domain.objects.all()
         domain_serializer = DomainSerializer(domain, many=True)
-
         return Response(domain_serializer.data, status=status.HTTP_200_OK)
