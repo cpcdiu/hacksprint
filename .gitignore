@@ -13,3 +13,4 @@ venv
 staticfiles
 hacksprint/util.py
 media
+client

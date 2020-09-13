@@ -34,15 +34,11 @@ urlpatterns = [
     path('nimda/', admin.site.urls),
 ]
 
-<< << << < HEAD
-re_path('.*', main_views.index, name='index'),
-# path('', main_views.index, name='index'),
-== == == =
+
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL,
                           document_root=settings.MEDIA_ROOT)
 
 urlpatterns += [
     re_path('.*', main_views.index, name='index'),
-    >>>>>> > user
 ]
