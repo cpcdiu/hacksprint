@@ -9,6 +9,10 @@ class Profile(models.Model):
     website = models.CharField(max_length=300, null=True, blank=True)
     email_verified = models.BooleanField(default=False)
     image = models.ImageField(upload_to='userpanel', default='userpanel/default-user.jpg')
+    about = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.user.username
 
 
 class WorkExperience(models.Model):

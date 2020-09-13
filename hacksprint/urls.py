@@ -31,14 +31,11 @@ urlpatterns = [
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),
     path('reset-password/', main_views.reset_password, name='reset-password'),
-    path('nimda/', admin.site.urls),
 ]
 
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL,
-                          document_root=settings.MEDIA_ROOT)
-
-urlpatterns += [
-    re_path('.*', main_views.index, name='index'),
-]
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += [path('dev-admin/', admin.site.urls)]
+else:
+    urlpatterns += [re_path('.*', main_views.index, name='index')]
