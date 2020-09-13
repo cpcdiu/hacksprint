@@ -7,21 +7,22 @@ import Register from "./pages/Register";
 import Login from "./pages/Login";
 import Logout from "./pages/Logout";
 import Dashboard from "./pages/Dashboard";
-import Challenges from "./pages/Challenges";
-import Jobs from "./pages/jobs/Jobs";
+import ChallengePage from "./pages/Challenges";
+import ChallengeDetail from "./pages/ChallengeDetail";
+import Jobs from "./pages/Jobs";
 import Notification from "./pages/Notification";
 import Track from "./pages/Track";
 import Profile from "./pages/Profile";
 import Settings from "./pages/Settings";
 import Practice from "./pages/Practice";
-import SinglePractice from "./pages/PracticeSingle";
+import SinglePractice from "./pages/PracticeDetail";
 import Playground from "./pages/Playground";
 import VerificationSuccess from "./pages/VerificationSuccess";
 import VerificationFailed from "./pages/VerificationFailed";
-import "./App.scss";
 import NotFound from "./pages/404";
 import PrivateRoute from "./pages/PrivateRoute";
 import { loadUser } from "./actions/authAction";
+import "./App.scss";
 
 export default class App extends Component {
 	constructor(props) {
@@ -40,7 +41,12 @@ export default class App extends Component {
 						<Route exact path="/logout" component={Logout} />
 
 						<PrivateRoute exact path="/dashboard" component={Dashboard} />
-						<PrivateRoute exact path="/challenges" component={Challenges} />
+						<PrivateRoute exact path="/challenges" component={ChallengePage} />
+						<PrivateRoute
+							exact
+							path="/challenges/:challengeSlug"
+							component={ChallengeDetail}
+						/>
 						<PrivateRoute exact path="/jobs" component={Jobs} />
 						<PrivateRoute exact path="/notification" component={Notification} />
 						<PrivateRoute exact path="/tracks" component={Track} />

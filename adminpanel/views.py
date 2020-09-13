@@ -3,6 +3,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib.auth.models import User
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
 from django.contrib.sites.shortcuts import get_current_site
 from django.core.mail import send_mail
 from django.http import HttpResponse, JsonResponse
@@ -59,6 +60,10 @@ class users(AdminStaffRequiredMixin, View):
 
         elif request.POST["action"] == "approve-user":
             user_data = self.approveUser(request)
+            return JsonResponse(user_data, safe=False)
+
+        elif request.POST["action"] == "reset-password":
+            user_data = self.resetPassword(request)
             return JsonResponse(user_data, safe=False)
 
     def createUser(self, request):
@@ -147,13 +152,39 @@ class users(AdminStaffRequiredMixin, View):
 
             send_mail(subject, 'this is body', sender, receiver,
                       fail_silently=False, html_message=body)
-
             user_data = {
                 "error": False, "errorMessage": "User Approval Email Sent Successfully!"}
             return user_data
         except:
             user_data = {
                 "error": True, "errorMessage": "Failed to sent Approval Email to User!"}
+            return user_data
+
+    def resetPassword(self, request):
+        id = request.POST["id"]
+        try:
+            user = User.objects.get(id=id)
+            user_password_reset_token = PasswordResetTokenGenerator()
+            context = {
+                'user': user,
+                'domain': get_current_site(request).domain,
+                'token': urlsafe_base64_encode(force_bytes(user.id)) + '.' + user_password_reset_token.make_token(user)
+            }
+
+            subject = 'Requested for password reset'
+            body = render_to_string('adminpanel/reset-password.html', context)
+            sender = 'noreply@hacksprint.me'
+            receiver = [user.email]
+
+            send_mail(subject, 'this is body', sender, receiver,
+                      fail_silently=False, html_message=body)
+
+            user_data = {
+                "error": False, "errorMessage": "Password Reset Email sent Successfully!"}
+            return user_data
+        except:
+            user_data = {"error": True,
+                         "errorMessage": "Failed to sent password reset email!"}
             return user_data
 
 
@@ -243,11 +274,13 @@ def subdomain_add(request, slug):
 
     else:
         title = request.GET.get('title')
-        taken = SubDomain.objects.filter(track__slug=slug).filter(title__iexact=title).exists()
+        taken = SubDomain.objects.filter(
+            track__slug=slug).filter(title__iexact=title).exists()
         data = {
             'taken': taken
         }
         return JsonResponse(data)
+
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def subdomain_delete(request):
@@ -261,6 +294,7 @@ def subdomain_delete(request):
                 subdomain.delete()
 
         return redirect('tracks')
+
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def single_track(request, slug):
@@ -280,8 +314,8 @@ def single_track(request, slug):
         context = {
             'practices': practices,
             'slug': slug,
-            'subdomains': subdomains, 
-            'tags': tags, 
+            'subdomains': subdomains,
+            'tags': tags,
             'track': track
         }
         return render(request, 'adminpanel/practices.html', context)
@@ -343,6 +377,7 @@ def practice_add(request, track_slug, difficulty=None):
 
             return redirect('/admin/tracks/' + track_slug + '/')
 
+
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def check_practice_slug(request):
     if request.method == "GET":
@@ -356,6 +391,7 @@ def check_practice_slug(request):
             'final_slug': final_slug
         }
         return JsonResponse(data)
+
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)
 def practice_action(request, action, slug):
@@ -407,10 +443,15 @@ def practice_action(request, action, slug):
 
                 return redirect('/admin/practice/' + slug + '/')
 
+                for i in sub:
+                    found = request.POST.get(i.title)
+                    if found:
+                        subdomains.append(i)
 
-@user_passes_test(lambda user: user.is_superuser or user.is_staff)
-def challenges(request):
-    return render(request, 'adminpanel/challenges.html')
+                for i in subdomains:
+                    practice.subdomain.add(i)
+
+                return redirect('/admin/practice/' + slug + '/')
 
 
 @user_passes_test(lambda user: user.is_superuser or user.is_staff)

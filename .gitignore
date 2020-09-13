@@ -1,6 +1,7 @@
 .idea
 .vscode
 env.py
+env_prod.py
 .env
 db.sqlite3
 *.pyc
@@ -11,3 +12,4 @@ hsmeenv
 venv
 staticfiles
 hacksprint/util.py
+media

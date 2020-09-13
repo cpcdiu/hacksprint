@@ -92,9 +92,9 @@ class RegistrationForm extends Component {
 						<Form
 							size="large"
 							onSubmit={this.handleFormSubmit}
-							{...(this.props.authReducer.signupMsg == "success"
+							{...(this.props.authReducer.signupMsg === "success"
 								? { success: true }
-								: this.props.authReducer.signupMsg == "error"
+								: this.props.authReducer.signupMsg === "error"
 								? { error: true }
 								: "")}
 						>

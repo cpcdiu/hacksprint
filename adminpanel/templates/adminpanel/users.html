@@ -27,6 +27,11 @@
                                 <a href="#">Users</a>
                             </li>
                         </ul>
+                        <button class="btn btn-primary btn-round btn-border ml-auto" data-toggle="modal"
+                                data-target="#addRowModal">
+                            <i class="fa fa-plus"></i>
+                            Add User
+                        </button>
                     </div>
                     <div class="row" id="upt">
                         <div class="col-md-12">
@@ -40,17 +45,7 @@
                     </div>                    
                     <div class="row">
                         <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-header">
-                                    <div class="d-flex align-items-center">
-                                        <h4 class="card-title">Add User</h4>
-                                        <button class="btn btn-primary btn-round ml-auto" data-toggle="modal"
-                                                data-target="#addRowModal">
-                                            <i class="fa fa-plus"></i>
-                                            Add User
-                                        </button>
-                                    </div>
-                                </div>
+                            <div class="card pt-4">
                                 <div class="card-body">
 
                                     <!--User Add Modal -->
@@ -261,6 +256,7 @@
                                                             <button type="button" class="btn btn-light btn-sm btn-approve dropdown-item" id="approve-{{user.id}}" style="padding: .65rem 1.2rem"><i class="fas fa-hourglass pr-2"></i> Approve</button>
                                                         {% endif %} 
                                                             <button type="button" class="btn btn-light btn-sm btn-delete dropdown-item" id="delete-{{user.id}}" style="padding: .65rem 1.2rem"><i class="fas fa-trash pr-2"></i> Delete</button>
+                                                            <button type="button" class="btn btn-light btn-sm btn-reset-password dropdown-item" id="reset-password-{{user.id}}" style="padding: .65rem 1.2rem"><i class="fas fa-key pr-2"></i> Reset password</button>
                                                         </div>
                                                     </div>                                                                                                      
                                                        
@@ -605,6 +601,43 @@
                 .done(function(response){
                     if(response['error']==false){
                         $("#approve-"+id).closest("button").replaceWith('<button class="btn btn-primary btn-edit" data-toggle="modal" data-target="#editRowModal" id="edit-'+id+'" style="padding: .65rem 1.2rem"><i class="fas fa-user-edit"></i></button>')
+                        $("#upt_error").hide();
+                        $("#upt_success").text(response['errorMessage']);
+                        $("#upt_success").show();
+                    }
+                    else{
+                        $("#upt_success").hide();
+                        $("#upt_error").text(response['errorMessage']);
+                        $("#upt_error").show();
+                    }
+                })
+                .fail(function(){
+                    $("#upt_success").hide();
+                    $("#upt_error").text("Something Went Wrong!");
+                    $("#upt_error").show();
+                });
+                }
+            });
+
+
+            // Reset Password Email of User
+            $(document).on("click",".btn-reset-password",function(){
+                var action = confirm("Are you sure you want to send password reset email this user?");
+                if (action != false) {
+                var idValue = $(this).attr("id").split("-");
+                var id = idValue[2];
+
+                $.ajax({
+                    url:'{% url 'admin-users' %}',
+                    type:'POST',
+                    data:{
+                        csrfmiddlewaretoken:'{{ csrf_token }}',
+                        action: "reset-password",
+                        id:id
+                        },
+                })
+                .done(function(response){
+                    if(response['error']==false){
                         $("#upt_error").hide();
                         $("#upt_success").text(response['errorMessage']);
                         $("#upt_success").show();

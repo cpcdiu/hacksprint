@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import steve from "../../assets/img/steve.jpg";
+import { connect } from "react-redux";
 
-export default class DashNav extends Component {
+class DashNav extends Component {
 	render() {
 		return (
 			<div
@@ -41,7 +42,7 @@ export default class DashNav extends Component {
 							<i className="bell icon m-0"></i>
 						</Link>
 						<div className="ui simple dropdown item">
-							<img src={steve} alt="" />
+							<img class="ui avatar image" style={{objectFit: "cover"}} src={process.env.REACT_APP_WEBSITE_NAME+this.props.profilePicture} alt="" />
 							<i className="dropdown icon"></i>
 							<div className="menu">
 								<Link className="item" to="/profile">
@@ -61,3 +62,11 @@ export default class DashNav extends Component {
 		);
 	}
 }
+
+const mapStateToProp = (state) => {
+	return {
+		profilePicture: state.profileReducer.image,
+	}
+}
+
+export default connect(mapStateToProp)(DashNav)

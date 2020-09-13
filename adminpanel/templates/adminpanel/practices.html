@@ -2,300 +2,302 @@
 {% load static %}
 
 {% block meta %}
-    <title>Practices | Hacksprint</title>
+<title>Practices | Hacksprint</title>
 {% endblock %}
 
 {% block body %}
-    <div class="wrapper">
-        {% include 'adminpanel/partials/navbar.html' %}
-        {% include 'adminpanel/partials/sidebar.html' %}
-        <div class="main-panel">
-            <div class="content">
-                <div class="page-inner">
-                    <div class="page-header">
-                        <h4 class="page-title">Practice</h4>
-                        <ul class="breadcrumbs">
-                            <li class="nav-home">
-                                <a href="{% url 'adminpanel' %}">
-                                    <i class="flaticon-home"></i>
-                                </a>
-                            </li>
-                            <li class="separator">
-                                <i class="flaticon-right-arrow"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{% url 'tracks' %}">Track</a>
-                            </li>
-                            <li class="separator">
-                                <i class="flaticon-right-arrow"></i>
-                            </li>
-                            <li class="nav-item">
-                                <a href="{% url 'single-track' track.slug %}">{{ track.title }}</a>
-                            </li>
-                        </ul>
-                        <a href={% url 'practice-new' slug %} class="btn btn-primary btn-border btn-round ml-auto">
-                            <i class="fa fa-plus"></i>
-                            Add Practice
-                        </a>
-                        <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
-                                    data-target="#addSubdomainModal">
-                                <i class="fa fa-plus"></i>
-                                Add Subdomain
-                            </button>
-                        <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
-                                    data-target="#deleteSubdomainModal">
-                                <i class="fa fa-minus"></i>
-                                Delete Subdomains
-                            </button>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="card">
-                                <div class="card-body">
-                                    <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header no-bd">
-                                                    <h5 class="modal-title">
-														<span class="fw-mediumbold">
-														New</span>
-                                                        <span class="fw-light">
-															Practice
-														</span>
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="small">Create a new Practice using this form, make sure you
-                                                        fill them all</p>
-                                                    <form method="POST"  enctype="multipart/form-data">
-                                                        {% csrf_token %}
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Title</label>
-                                                                    <input id="addTitle" type="text"
-                                                                           class="form-control" name="title">
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Subdomain</label>
-                                                                    <select name="" id="" class="form-control" multiple size="6">
-                                                                        <option value="">Template</option>
-                                                                        <option value="">Style</option>
-                                                                        <option value="">Script</option>
-                                                                        <option value="">Database</option>
-                                                                        <option value="">Deployment</option>
-                                                                    </select>
-                                                                </div>
-                                                            </div>
-                                                            <div class="col-md-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Description</label>
-                                                                    <textarea id="addDescription" type="text"
-                                                                              class="form-control"
-                                                                              rows="5"
-                                                                              cols="30"
-                                                                              name="body"
-                                                                    ></textarea>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="modal-footer no-bd">
-                                                            <button type="submit" id="addTrackButton"
-                                                                    class="btn btn-primary">
-                                                                Add
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                    data-dismiss="modal">
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                <div class="modal fade" id="addSubdomainModal" tabindex="-1" role="dialog"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header no-bd">
-                                                    <h5 class="modal-title">
+<div class="wrapper">
+    {% include 'adminpanel/partials/navbar.html' %}
+    {% include 'adminpanel/partials/sidebar.html' %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Practice</h4>
+                    <ul class="breadcrumbs">
+                        <li class="nav-home">
+                            <a href="{% url 'adminpanel' %}">
+                                <i class="flaticon-home"></i>
+                            </a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'tracks' %}">Track</a>
+                        </li>
+                        <li class="separator">
+                            <i class="flaticon-right-arrow"></i>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{% url 'single-track' track.slug %}">{{ track.title }}</a>
+                        </li>
+                    </ul>
+                    <a href={% url 'practice-new' slug %} class="btn btn-primary btn-border btn-round ml-auto">
+                        <i class="fa fa-plus"></i>
+                        Add Practice
+                    </a>
+                    <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
+                        data-target="#addSubdomainModal">
+                        <i class="fa fa-plus"></i>
+                        Add Subdomain
+                    </button>
+                    <button class="btn btn-primary btn-border btn-round ml-2" data-toggle="modal"
+                        data-target="#deleteSubdomainModal">
+                        <i class="fa fa-minus"></i>
+                        Delete Subdomains
+                    </button>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="modal fade" id="addRowModal" tabindex="-1" role="dialog" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-bd">
+                                                <h5 class="modal-title">
                                                     <span class="fw-mediumbold">
                                                         New</span>
-                                                        <span class="fw-light">
-                                                        Subdomain
+                                                    <span class="fw-light">
+                                                        Practice
                                                     </span>
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="small">Create a new Subdomain using this form, make sure you
-                                                        fill them all</p>
-                                                    <form method="POST" action="{% url 'subdomain-new' slug %}" id="subdomain-new">
-                                                        {% csrf_token %}
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <label>Title</label>
-                                                                    <input id="addSubdomainTitle" type="text"
-                                                                           class="form-control"
-                                                                           name="title">
-                                                                    <div id="subdomainValidMsg"></div>
-                                                                </div>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="small">Create a new Practice using this form, make sure you
+                                                    fill them all</p>
+                                                <form method="POST" enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group form-group-default">
+                                                                <label>Title</label>
+                                                                <input id="addTitle" type="text" class="form-control"
+                                                                    name="title">
                                                             </div>
                                                         </div>
-                                                        <div class="modal-footer no-bd">
-                                                            <button type="submit" id="addSubdomainButton"
-                                                                    class="btn btn-primary">
-                                                                Add
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                    data-dismiss="modal">
-                                                                Close
-                                                            </button>
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group form-group-default">
+                                                                <label>Subdomain</label>
+                                                                <select name="" id="" class="form-control" multiple
+                                                                    size="6">
+                                                                    <option value="">Template</option>
+                                                                    <option value="">Style</option>
+                                                                    <option value="">Script</option>
+                                                                    <option value="">Database</option>
+                                                                    <option value="">Deployment</option>
+                                                                </select>
+                                                            </div>
                                                         </div>
-                                                    </form>
-                                                </div>
+                                                        <div class="col-md-12">
+                                                            <div class="form-group form-group-default">
+                                                                <label>Description</label>
+                                                                <textarea id="addDescription" type="text"
+                                                                    class="form-control" rows="5" cols="30"
+                                                                    name="body"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer no-bd">
+                                                        <button type="submit" id="addTrackButton"
+                                                            class="btn btn-primary">
+                                                            Add
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                <div class="modal fade" id="addSubdomainModal" tabindex="-1" role="dialog"
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-bd">
+                                                <h5 class="modal-title">
+                                                    <span class="fw-mediumbold">
+                                                        New</span>
+                                                    <span class="fw-light">
+                                                        Subdomain
+                                                    </span>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="small">Create a new Subdomain using this form, make sure you
+                                                    fill them all</p>
+                                                <form method="POST" action="{% url 'subdomain-new' slug %}"
+                                                    id="subdomain-new">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group form-group-default">
+                                                                <label>Title</label>
+                                                                <input id="addSubdomainTitle" type="text"
+                                                                    class="form-control" name="title">
+                                                                <div id="subdomainValidMsg"></div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer no-bd">
+                                                        <button type="submit" id="addSubdomainButton"
+                                                            class="btn btn-primary">
+                                                            Add
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="modal fade" id="deleteSubdomainModal" tabindex="-1" role="dialog"
-                                         aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <div class="modal-header no-bd">
-                                                    <h5 class="modal-title">
+                                    aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header no-bd">
+                                                <h5 class="modal-title">
                                                     <span class="fw-mediumbold">
                                                         Delete</span>
-                                                        <span class="fw-light">
+                                                    <span class="fw-light">
                                                         Subdomain
                                                     </span>
-                                                    </h5>
-                                                    <button type="button" class="close" data-dismiss="modal"
-                                                            aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                    </button>
-                                                </div>
-                                                <div class="modal-body">
-                                                    <p class="medium">Select Subdomains to delete</p>
-                                                    <form method="POST" action="{% url 'subdomain-delete' %}" enctype="multipart/form-data">
-                                                        {% csrf_token %}
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <div class="form-group form-group-default">
-                                                                    <ul class="list-unstyled">
-                                                                        {% for subdomain in subdomains %}
-                                                                            <li>
-                                                                                <input type="checkbox" name="{{ subdomain.title }}"
-                                                                                    value="{{ subdomain.title }}"> <span class="pl-1">{{ subdomain.title }}</span>
-                                                                            </li>
-                                                                        {% endfor %}
-                                                                    </ul>
-                                                                </div>
+                                                </h5>
+                                                <button type="button" class="close" data-dismiss="modal"
+                                                    aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <p class="medium">Select Subdomains to delete</p>
+                                                <form method="POST" action="{% url 'subdomain-delete' %}"
+                                                    enctype="multipart/form-data">
+                                                    {% csrf_token %}
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <div class="form-group form-group-default">
+                                                                <ul class="list-unstyled">
+                                                                    {% for subdomain in subdomains %}
+                                                                    <li>
+                                                                        <input type="checkbox"
+                                                                            name="{{ subdomain.title }}"
+                                                                            value="{{ subdomain.title }}"> <span
+                                                                            class="pl-1">{{ subdomain.title }}</span>
+                                                                    </li>
+                                                                    {% endfor %}
+                                                                </ul>
                                                             </div>
+                                                        </div>
 
-                                                        </div>
-                                                        <div class="modal-footer no-bd">
-                                                            <button type="submit" id="deleteSubdomainButton"
-                                                                    class="btn btn-primary">
-                                                                Delete Selected Subdomains
-                                                            </button>
-                                                            <button type="button" class="btn btn-danger"
-                                                                    data-dismiss="modal">
-                                                                Close
-                                                            </button>
-                                                        </div>
-                                                    </form>
-                                                </div>
+                                                    </div>
+                                                    <div class="modal-footer no-bd">
+                                                        <button type="submit" id="deleteSubdomainButton"
+                                                            class="btn btn-primary">
+                                                            Delete Selected Subdomains
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger"
+                                                            data-dismiss="modal">
+                                                            Close
+                                                        </button>
+                                                    </div>
+                                                </form>
                                             </div>
                                         </div>
                                     </div>
-                                    <table class="table table-hover mt-3">
-                                        <thead>
+                                </div>
+                                <table class="table table-hover mt-3">
+                                    <thead>
                                         <tr>
                                             <th scope="col">Title</th>
                                             <th scope="col">Tags</th>
                                             <th scope="col">Action</th>
                                         </tr>
-                                        </thead>
-                                        <tbody>
+                                    </thead>
+                                    <tbody>
                                         {% for practice, tag in tags.items %}
-                                            <tr>
-                                                <td><strong><a href={% url 'single-practice' practice.slug %}>{{ practice.title }}</a></strong></td>
-                                                <td>
-                                                    {% for i in tag %}
-                                                        {% if forloop.counter > 1 %}
-                                                        , {{ i.title }}
-                                                        {% else %}
-                                                            {{ i }}
-                                                        {% endif %}
+                                        <tr>
+                                            <td><strong><a
+                                                        href={% url 'single-practice' practice.slug %}>{{ practice.title }}</a></strong>
+                                            </td>
+                                            <td>
+                                                {% for i in tag %}
+                                                {% if forloop.counter > 1 %}
+                                                , {{ i.title }}
+                                                {% else %}
+                                                {{ i }}
+                                                {% endif %}
 
-                                                    {% endfor %}
-                                                </td>
-                                                <td>
-                                                    <a href="{% url 'practice-action' 'edit' practice.slug %}"
-                                                       class="btn btn-primary" style="padding: .65rem 1.2rem">
-                                                        <i class="fas fa-user-edit"></i>
-                                                    </a>
-                                                    <a href="{% url 'practice-action' 'delete' practice.slug %}"
-                                                       class="btn btn-danger">
-                                                        <i class="fas fa-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                                {% endfor %}
+                                            </td>
+                                            <td>
+                                                <a href="{% url 'practice-action' 'edit' practice.slug %}"
+                                                    class="btn btn-primary" style="padding: .65rem 1.2rem">
+                                                    <i class="fas fa-user-edit"></i>
+                                                </a>
+                                                <a href="{% url 'practice-action' 'delete' practice.slug %}"
+                                                    class="btn btn-danger">
+                                                    <i class="fas fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
                                         {% endfor %}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            {% include 'adminpanel/partials/footer.html' %}
         </div>
+        {% include 'adminpanel/partials/footer.html' %}
     </div>
+</div>
 {% endblock %}
 
 {% block scripts %}
-    <script>
-        document.getElementById('addSubdomainTitle').addEventListener("change", checker);
-        function checker(e) {
-            e.preventDefault();
-            let xhr = new XMLHttpRequest();
-            let title = document.getElementById('addSubdomainTitle').value;
-            xhr.open('GET', '{% url "subdomain-new" slug %}?title='+title, true);
-            xhr.onload = function () {
-                if (this.status == 200) {
-                    let response = JSON.parse(this.responseText);
-                    let message = '';
-                    let alert =  document.getElementById('subdomainValidMsg');
-                    alert.classList.add('alert');
-                    if (response.taken) {
-                        message = 'Title not available';
-                        alert.classList.remove('alert-success');
-                        alert.classList.add('alert-danger');
-                        alert.innerHTML = message;
-                    }
-                    else {
-                        message = 'Title available';
-                        alert.classList.remove('alert-danger');
-                        alert.classList.add('alert-success');
-                        alert.innerHTML = message;
-                    }
+<script>
+    document.getElementById('addSubdomainTitle').addEventListener("change", checker);
+
+    function checker(e) {
+        e.preventDefault();
+        let xhr = new XMLHttpRequest();
+        let title = document.getElementById('addSubdomainTitle').value;
+        xhr.open('GET', '{% url "subdomain-new" slug %}?title=' + title, true);
+        xhr.onload = function () {
+            if (this.status == 200) {
+                let response = JSON.parse(this.responseText);
+                let message = '';
+                let alert = document.getElementById('subdomainValidMsg');
+                alert.classList.add('alert');
+                if (response.taken) {
+                    message = 'Title not available';
+                    alert.classList.remove('alert-success');
+                    alert.classList.add('alert-danger');
+                    alert.innerHTML = message;
+                } else {
+                    message = 'Title available';
+                    alert.classList.remove('alert-danger');
+                    alert.classList.add('alert-success');
+                    alert.innerHTML = message;
                 }
             }
-            xhr.send();
         }
-    </script>
+        xhr.send();
+    }
+</script>
 {% endblock %}
