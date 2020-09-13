@@ -29,23 +29,23 @@
                         </ul>
                     </div>
                     <div class="row">
-                        <div class="row align-items-center">
+                        <div class="row">
                             <div class="col-md-6 col-xl-3">
-                                <img src="{% static 'adminpanel/img/user-profile.jpg' %}" class="figure-img img-fluid rounded" alt="...">
+                                <img src="{% get_media_prefix %}{{ user.profile.image }}" class="figure-img img-fluid rounded" alt="...">
                             </div>
                             <div class="col-md-12 col-xl-5">
                                 <h1 class="d-inline-block font-weight-normal">{{ user.first_name }} {{ user.last_name }}</h1>
-                                <p>Donec id elit non mi porta gravida at eget metus. Nullam id dolor id nibh ultricies vehicula ut id elit donec sed odio dui. </p>
+                                <p>{{ user.profile.about }} </p>
                                 <div class="row my-4">
                                     <div class="col-sm-6">
                                         <a href="mailto:ashoka@galactic.com">
                                         <h5 class="text-h-primary mb-3">{{ user.email }}</h5>
                                         </a>
-                                        <h5 class="mb-3">Product Design</h5>
+                                        <h5 class="mb-3">{{ user.profile.contact }}</h5>
                                     </div>
                                     <div class="col-sm-6">
-                                       <h5 class="mb-3">Chicago</h5>
-                                       <h5 class="mb-3">Administrator</h5>
+                                       <h5 class="mb-3">{{ user.profile.location }}</h5>
+                                       <h5 class="mb-3">{{ user.profile.website }}</h5>
                                     </div>
                                 </div>
                                 <button class="btn btn-primary">Send Message</button>

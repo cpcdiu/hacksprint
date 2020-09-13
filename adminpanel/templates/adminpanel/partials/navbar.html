@@ -165,7 +165,7 @@
                     <a class="dropdown-toggle profile-pic" data-toggle="dropdown" href="#"
                        aria-expanded="false">
                         <div class="avatar-sm">
-                            <img src="{% static 'adminpanel/img/profile.jpg' %}" alt="..."
+                            <img src="{% get_media_prefix %}{{ user.profile.image }}" alt="..."
                                  class="avatar-img rounded-circle">
                         </div>
                     </a>
@@ -173,7 +173,7 @@
                         <div class="dropdown-user-scroll scrollbar-outer">
                             <li>
                                 <div class="user-box">
-                                    <div class="avatar-lg"><img src="{% static 'adminpanel/img/profile.jpg' %}"
+                                    <div class="avatar-lg"><img src="{% get_media_prefix %}{{ user.profile.image }}"
                                                                 alt="image profile" class="avatar-img rounded">
                                     </div>
                                     <div class="u-text">
