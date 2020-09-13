@@ -1,0 +1,176 @@
+{% extends 'adminpanel/base.html' %} {% load static %} {% block meta %}
+<title> New Jobs | Hacksprint</title>
+{% endblock %} {% block styles %}
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<style>
+    label {
+        display: none;
+    }
+    
+    .ui-autocomplete {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        z-index: 1000;
+        display: none;
+        float: left;
+        min-width: 160px;
+        padding: 5px 0;
+        margin: 2px 0 0;
+        list-style: none;
+        font-size: 14px;
+        text-align: left;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        border-radius: 4px;
+        -webkit-box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.175);
+        background-clip: padding-box;
+    }
+    
+    .ui-autocomplete>li>div {
+        display: block;
+        padding: 3px 20px;
+        clear: both;
+        font-weight: normal;
+        line-height: 1.42857143;
+        color: #333333;
+        white-space: nowrap;
+    }
+    
+    .ui-state-hover,
+    .ui-state-active,
+    .ui-state-focus {
+        text-decoration: none;
+        color: #262626;
+        background-color: #f5f5f5;
+        cursor: pointer;
+    }
+    
+    .ui-helper-hidden-accessible {
+        border: 0;
+        clip: rect(0 0 0 0);
+        height: 1px;
+        margin: -1px;
+        overflow: hidden;
+        padding: 0;
+        position: absolute;
+        width: 1px;
+    }
+</style>
+{% endblock %} {% block body %}
+<div class="wrapper">
+    {% include 'adminpanel/partials/navbar.html' %} {% include 'adminpanel/partials/sidebar.html' %}
+    <div class="main-panel">
+        <div class="content">
+            <div class="page-inner">
+                <div class="page-header">
+                    <h4 class="page-title">Update Job</h4>
+                </div>
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="mb-3">
+                                {# {% for job in jobs %}#}
+
+
+                                <input value="{{ job.title }}" type="text" name="title" class="form-control" placeholder="This is title" id="inpt1">
+                            </div>
+                            {{ form.media }} {{ form }}
+
+
+                            <div class="mb-3 mt-3">
+                                <textarea rows="5" name="education_requirements" class="form-control" placeholder="This is our Educational Requirements" id="inpt5">{{ job.education_requirements }}</textarea>
+                            </div>
+                            <div>
+                                <textarea rows="5" name="experience_requirements" class="form-control" placeholder="This is our Experience Requirements" id="inpt6">{{ job.experience_requirements }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3">
+                                <div>
+                                    <strong class="mb-2 d-inline-block">Job Location:</strong>
+                                    <input value="{{ job.location }}" type="text" name="location" class="form-control" placeholder="Job Location" id="inpt7">
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Max Salary:</strong>
+                                    <input value="{{ job.salary_max }}" type="text" name="salary_max" class="form-control" placeholder="Max Salary" id="inpt8">
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Min Salary:</strong>
+                                    <input value="{{ job.salary_min }}" type="text" name="salary_min" class="form-control" placeholder="Min Salary" id="inpt9">
+                                </div>
+
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Vacancy:</strong>
+                                    <input value="{{ job.vacancy }}" type="text" name="vacancy" class="form-control" placeholder="vacancy" id="inpt10">
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Employment Status:</strong>
+                                    <select name="employment_status" class="form-control" id="e_status">
+                                        <option value="1" {% if job.employment_status == "1" %}selected{% endif %}>Part Time</option>
+                                        <option value="2" {% if job.employment_status == "2" %}selected{% endif %}>Full Time</option>
+                                        <option value="3" {% if job.employment_status == "3" %}selected{% endif %}>Internship</option>
+                                    </select>
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Office Time:</strong>
+                                    <input value="{{ job.office_time }}" type="text" name="office_time" class="form-control" id="inpt12">
+                                </div>
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Deadline:</strong>
+                                    <input type="datetime-local" name="deadline" class="form-control" id="inpt15">
+                                </div>
+
+                                <div class="mt-2">
+                                    <strong class="mb-2 d-inline-block">Company:</strong>
+                                    <input value="{{ job.company.user.first_name}}" type="text" name="company" class="form-control" id="searchcompany" placeholder="Search Company Name">
+                                </div>
+
+                                <div class="mt-2">
+                                    <input type="submit" value="Save" class="btn btn-primary w-100">
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+
+        </div>
+        {% include 'adminpanel/partials/footer.html' %}
+    </div>
+</div>
+{% endblock %} {% block scripts %}
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
+    $(document).ready(function() {
+        let dt = "{{ job.deadline|date:'Y-m-d H:i' }}"
+        let newdt = dt.replace(" ", "T")
+        $("#inpt15").val(newdt)
+
+        // FOR SEARCH COMPANY
+        $("#searchcompany").on('keyup', function() {
+            $.ajax({
+                url: "{% url 'job-search' %}",
+                type: 'get',
+                data: {
+                    type: 'company',
+                    query: $("#searchcompany").val()
+                },
+                success: function(res) {
+                    availableTags = res.companies
+                    $("#searchcompany").autocomplete({
+                        source: availableTags
+                    });
+                },
+                error: function(err) {
+                    console.log(err)
+                }
+            })
+        })
+    })
+</script>
+{% endblock %}

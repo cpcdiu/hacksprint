@@ -26,6 +26,7 @@ urlpatterns = [
     path('api/addeducation/', user_views.AddEducationView.as_view()),
     path('api/profile/<int:pid>', user_views.PublicProfileView.as_view()),
     path('api/settings/', user_views.SettingsView.as_view()),
+    path('api/jobs/', include('job.endpoints')),
 
     path('admin/', include('adminpanel.urls')),
     path('confirm/', main_views.verify_email, name='verify-email'),

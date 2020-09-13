@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'job',
 ]
 
 REST_FRAMEWORK = {
@@ -58,6 +59,14 @@ CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
     "http://localhost:8000"
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        # 'toolbar': 'full',
+        # 'height': 300,
+        'width': '100%',
+    },
+}
 
 ROOT_URLCONF = 'hacksprint.urls'
 

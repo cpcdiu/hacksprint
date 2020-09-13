@@ -1,0 +1,96 @@
+{% extends 'adminpanel/base.html' %}
+{% load static %}
+
+{% block meta %}
+    <title> New Jobs | Hacksprint</title>
+{% endblock %}
+
+{% block styles %}
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <style>
+
+         #notifDropdown {
+
+             align: right;
+          }
+
+    </style>
+{% endblock %}
+
+{% block body %}
+    <div class="wrapper">
+        {% include 'adminpanel/partials/navbar.html' %}
+        {% include 'adminpanel/partials/sidebar.html' %}
+        <div class="main-panel">
+            <div class="content">
+                <div class="page-inner">
+                    <div class="page-header">
+                        <h4 class="page-title">Job Details</h4>
+                      {% if user.is_superuser %}
+                        {% for detail in details%}
+                         <a href="{% url 'job_cvs' detail.slug %}" class="btn btn-primary" style="position: absolute; right: 0; margin-right: 5px">
+                          View CV <span class="badge badge-light ml-2">{{app_no}}</span>
+                        </a>
+                        {% endfor %}
+                      {% endif %}
+                    </div>
+                    <div class="col-md-12 ml-2">
+                        {% for detail in details %}
+                        <div class="mb-3">
+                            <label><h3><b>Title</b></h3></label><br>
+                            <h5>{{detail.title}}</h5>
+                        </div>
+                        <div class="mb-3">
+                            <label><h3><b>Description</b></h3></label><br>
+                            <h5>{{detail.description|striptags}}</h5>
+                        </div>
+                        <div class="mb-3">
+                            <label><h3><b>Education Requirements</b></h3></label><br>
+                            <h5>{{detail.education_requirements}}</h5>
+                        </div>
+                        <div class="mb-3">
+                            <label><h3><b>Experience Requirements</b></h3></label><br>
+                            <h5>{{detail.experience_requirements}}</h5>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label><h3><b>Location</b></h3></label><br>
+                                <h5>{{detail.location}}</h5>
+                            </div>
+
+                            <div class="col-md-4 mb-3">
+                                <label><h3><b>Salary</b></h3></label><br>
+                                <h5>{{detail.salary_min}}-{{detail.salary_max}}</h5>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label><h3><b>Vacancy</b></h3></label><br>
+                                <h5>{{detail.vacancy}}</h5>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label><h3><b>Employment Status</b></h3></label><br>
+                                <h5>{{detail.employment_status}}</h5>
+                            </div>
+                            <div class="col-md-4  mb-3">
+                                <label><h3><b>Office Time</b></h3></label><br>
+                                <h5><h5>{{detail.office_time}}</h5></h5>
+                            </div>
+                            <div class="col-md-4  mb-3">
+                                <label><h3><b>Deadline</b></h3></label><br>
+                                <h5>{{detail.deadline}}</h5>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% include 'adminpanel/partials/footer.html' %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+{% endblock %}
