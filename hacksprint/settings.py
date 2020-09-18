@@ -1,5 +1,4 @@
 import os
-import cloudinary
 from env import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -8,22 +7,11 @@ SECRET_KEY = SECRET_KEY
 
 DEBUG = DEBUG
 
-cloudinary.config(
-    cloud_name=CLOUDINARY_CLOUD_NAME,
-    api_key=CLOUDINARY_API_KEY,
-    api_secret=CLOUDINARY_API_SECRET
-)
-
 LOGIN_URL = '/admin/login/'
 
 ALLOWED_HOSTS = ALLOWED_HOSTS
 
 INSTALLED_APPS = [
-    'main.apps.MainConfig',
-    'adminpanel.apps.AdminpanelConfig',
-    'userpanel.apps.UserpanelConfig',
-    'challenge.apps.ChallengeConfig',
-    'cloudinary',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -34,7 +22,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'challenge',
+    'practice',
     'job',
+    'account',
+    'misc'
 ]
 
 REST_FRAMEWORK = {
@@ -62,8 +54,6 @@ CORS_ORIGIN_WHITELIST = [
 
 CKEDITOR_CONFIGS = {
     'default': {
-        # 'toolbar': 'full',
-        # 'height': 300,
         'width': '100%',
     },
 }
