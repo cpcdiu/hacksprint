@@ -6,11 +6,6 @@ schema.txt
 __pycache__
 media
 env.py
-dd
+.env
 venv
 *.sqlite3
-env
-.env
-.env.*
-tst
-client
