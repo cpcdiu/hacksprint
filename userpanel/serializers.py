@@ -105,8 +105,3 @@ class PublicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
-
-
-class PracticeFilterSerializer(serializers.Serializer):
-    difficulty = serializers.CharField(max_length=100, allow_blank=True)
-    subdomains = serializers.ListField(child=serializers.IntegerField(), allow_empty=True, allow_null=True)
