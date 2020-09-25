@@ -24,5 +24,5 @@ class Practice(models.Model):
     track = models.ForeignKey(Track, on_delete=models.CASCADE)
     body = RichTextField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    difficulty = models.CharField(max_length=100)
+    difficulty = models.IntegerField()
     subdomain = models.ManyToManyField(SubDomain)

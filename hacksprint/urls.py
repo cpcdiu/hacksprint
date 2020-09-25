@@ -14,6 +14,7 @@ urlpatterns = [
     path('api/tracks/', user_views.TrackView.as_view()),
     path('api/tracks/<slug:track_slug>/', user_views.SingleTrackView.as_view()),
     path('api/tracks/<slug:track_slug>/<slug:practice_slug>/', user_views.SinglePracticeView.as_view()),
+    path('api/practices/', user_views.PracticeView.as_view()),
 
     path('api/jobs/', user_views.JobsView.as_view()),
     path('api/notifications/', user_views.NotificationView.as_view()),
