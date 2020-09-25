@@ -69,27 +69,27 @@ class ProfileSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Profile
-        fields = ['location', 'contact', 'website', 'user', 'image']
+        fields = ['location', 'phone_no', 'website', 'user', 'image']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
         location = validated_data.pop('location')
-        contact = validated_data.pop('contact')
+        phone_no = validated_data.pop('phone_no')
         website = validated_data.pop('website')
         image = validated_data.pop('image')
         user = User.objects.create(user_data)
-        profile = Profile.objects.create(user=user, location=location, contact=contact, website=website)
+        profile = Profile.objects.create(user=user, location=location, phone_no=phone_no, website=website)
         return profile
 
     def update(self, instance, validated_data):
         location = validated_data.pop('location')
-        contact = validated_data.pop('contact')
+        phone_no = validated_data.pop('phone_no')
         website = validated_data.pop('website')
         image = validated_data.pop('image')
 
         # profile = instance.profile
         instance.location = location
-        instance.contact = contact
+        instance.phone_no = phone_no
         instance.website = website
         instance.image = image
 

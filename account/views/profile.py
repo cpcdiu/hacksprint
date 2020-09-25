@@ -6,7 +6,8 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-from account.serializers import ProfileSerializer, EducationSerializer, WorkExperienceSerializer
+from account.serializers import ProfileSerializer, EducationSerializer, WorkExperienceSerializer, UserSerializer, \
+    PublicProfileSerializer
 from practice.models import Track, Practice, Subdomain
 from account.models import Profile, WorkExperience, Education
 from practice.serializers import TrackSerializer, PracticeSerializer, PracticeFilterSerializer
@@ -29,7 +30,7 @@ class TrackView(APIView):
 
     def get(self, request):
         tracks = Track.objects.all()
-        serializer = TrackSerializer(tracks, many=True)
+        serializer = TrackSerializer(tracks, many=True, context={'request': request})
         return Response(serializer.data)
 
 
