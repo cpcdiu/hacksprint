@@ -19,7 +19,7 @@ class UserSerializer(ModelSerializer):
         password = validated_data.pop('password')
 
         user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
-                                        password=password, is_active=True)
+                                        password=password, is_active=False)
         Profile.objects.create(user=user)
         return 
         
