@@ -3,7 +3,6 @@ from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
 from account.models import Profile, WorkExperience, Education
-from practice.models import Track, Practice
 
 
 class UserSerializer(ModelSerializer):
@@ -21,19 +20,13 @@ class UserSerializer(ModelSerializer):
         user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
                                         password=password, is_active=False)
         Profile.objects.create(user=user)
-        return 
+        return user
         
 
 class ChangePasswordSerializer(serializers.Serializer):
     model = User
     old_password = serializers.CharField(required=True)
     new_password = serializers.CharField(required=True)
-
-
-class UserSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'username']
 
 
 class WorkExperienceSerializer(serializers.ModelSerializer):
