@@ -36,9 +36,9 @@ class SignUpView(APIView):
         serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            serializer.create(validated_data=serializer.data)
             return Response({"msg": "success"})
-        return Response({"msg": "error"})
+        return Response(serializer.errors))
 
 
 class AccountActivationTokenGenerator(PasswordResetTokenGenerator):
