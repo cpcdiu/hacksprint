@@ -6,7 +6,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from challenge.models import Challenge, Subdomain, Domain, ChallengesParticipation
-from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer, DomainSerializer, ParticipationSerializer
+from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer, DomainSerializer, \
+    ParticipationSerializer, EndParticipationSerializer
+import datetime
 
 
 class ChallengeView(APIView):
@@ -44,11 +46,67 @@ class JoinChallengeView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, challenge_slug):
+        print(challenge_slug)
         challenge = Challenge.objects.get(slug=challenge_slug)
         participation = ChallengesParticipation.objects.create(name=request.user.username, challenge=challenge)
         participation.member.add(request.user)
         challenge_serializer = ChallengeSerializer(challenge, context={'user': request.user})
         return Response(challenge_serializer.data, status=status.HTTP_200_OK)
+
+
+class EndChallengeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, challenge_slug):
+        is_challenge = Challenge.objects.filter(slug=challenge_slug).exists()
+        if is_challenge:
+            is_participate = ChallengesParticipation.objects.filter(name=request.user.username).exists()
+            participation_obj = ChallengesParticipation.objects.get(name=request.user.username)
+            if is_participate and participation_obj.submission_time is None:
+
+                serializer = EndParticipationSerializer(data=request.data)
+                if serializer.is_valid():
+                    feedback = serializer.data['feedback']
+                    participation_obj.feedback = feedback
+                    participation_obj.submission_time = datetime.datetime.now()
+                    participation_obj.save()
+                    participation_serializer = EndParticipationSerializer(participation_obj)
+
+                    return Response(participation_serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"msg": "Sorry you have no participation or the challenge is over"},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"msg": "Sorry invalid challenge"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class SubmissionLinkChallengeView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request, challenge_slug):
+        is_challenge = Challenge.objects.filter(slug=challenge_slug).exists()
+        if is_challenge:
+            is_participate = ChallengesParticipation.objects.filter(name=request.user.username).exists()
+            participation_obj = ChallengesParticipation.objects.get(name=request.user.username)
+            if is_participate and participation_obj.submission_time is None:
+
+                serializer = EndParticipationSerializer(data=request.data)
+                if serializer.is_valid():
+                    submission_link = serializer.data['submission_link']
+                    participation_obj.submission_link = submission_link
+                    participation_obj.save()
+                    participation_serializer = EndParticipationSerializer(participation_obj)
+
+                    return Response(participation_serializer.data, status=status.HTTP_200_OK)
+                else:
+                    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"msg": "Sorry you have no participation or the challenge is over"},
+                                status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"msg": "Sorry invalid challenge"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class MyTeamView(APIView):
