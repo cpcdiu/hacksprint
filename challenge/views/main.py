@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
 from rest_framework import status
 from rest_framework.parsers import JSONParser
@@ -5,17 +6,10 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
-<<<<<<< HEAD
-from account.serializers import UserSerializer
-from challenge.models import Challenge, Subdomain, Domain, ChallengesParticipation, User
-from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer, DomainSerializer, \
-    ParticipationSerializer
-=======
 from challenge.models import Challenge, Subdomain, Domain, ChallengesParticipation
 from challenge.serializers import ChallengeSerializer, ChallengeFilterSerializer, DomainSerializer, \
     ParticipationSerializer, EndParticipationSerializer
 import datetime
->>>>>>> cefab62c1640f6ff59e435550667059a572c6c21
 
 
 class ChallengeView(APIView):

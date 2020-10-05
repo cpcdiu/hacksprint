@@ -57,6 +57,15 @@ class EndParticipationSerializer(serializers.ModelSerializer):
         extra_kwargs = {'name': {'required': False}, 'challenge': {'required': False}}
 
 
+class EndParticipationSerializer(serializers.ModelSerializer):
+    member = UserSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ChallengesParticipation
+        fields = '__all__'
+        extra_kwargs = {'name': {'required': False}, 'challenge': {'required': False}}
+
+
 class ChallengeFilterSerializer(serializers.Serializer):
     domain = serializers.CharField(max_length=100)
     subdomain = serializers.ListField(child=serializers.IntegerField(), allow_empty=True, allow_null=True)
