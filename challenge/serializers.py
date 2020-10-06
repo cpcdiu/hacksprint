@@ -40,10 +40,21 @@ class ChallengeSerializer(serializers.ModelSerializer):
 
 class ParticipationSerializer(serializers.ModelSerializer):
     member = UserSerializer(many=True, read_only=True)
+    leader = UserSerializer(read_only=True)
 
     class Meta:
         model = ChallengesParticipation
         fields = '__all__'
+        # extra_kwargs = {'name': {'required': False}, 'challenge': {'required': False}}
+
+
+class EndParticipationSerializer(serializers.ModelSerializer):
+    member = UserSerializer(many=True, read_only=True)
+
+    class Meta:
+        model = ChallengesParticipation
+        fields = '__all__'
+        extra_kwargs = {'name': {'required': False}, 'challenge': {'required': False}}
 
 
 class EndParticipationSerializer(serializers.ModelSerializer):

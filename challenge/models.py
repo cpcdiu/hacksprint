@@ -58,7 +58,8 @@ class ChallengesParticipation(models.Model):
     feedback = models.TextField(blank=True)
     submission_link = models.CharField(max_length=300, null=True)
     challenge = models.ForeignKey(Challenge, on_delete=models.CASCADE)
-    member = models.ManyToManyField(User)
+    member = models.ManyToManyField(User, related_name="member")
+    leader = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.name
