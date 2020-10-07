@@ -10,4 +10,5 @@ urlpatterns = [
     path('<slug:slug>/', views.ChallengeDetailView.as_view()),
     path('<slug:challenge_slug>/end/', views.EndChallengeView.as_view()),
     path('<slug:challenge_slug>/submission_link/', views.SubmissionLinkChallengeView.as_view()),
+    path('user/dashboard/', views.UserDashboardView.as_view()),
 ]

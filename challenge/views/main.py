@@ -169,3 +169,25 @@ class DomainView(APIView):
         domain = Domain.objects.all()
         domain_serializer = DomainSerializer(domain, many=True)
         return Response(domain_serializer.data, status=status.HTTP_200_OK)
+
+
+class UserDashboardView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        is_user = User.objects.filter(username=request.user.username).exists()
+        if is_user:
+            is_member = ChallengesParticipation.objects.filter(member=request.user).exists()
+            if is_member:
+                all_participations = ChallengesParticipation.objects.filter(member=request.user)
+                final = []
+                for participations in all_participations:
+                    if participations.submission_time is None:
+                        final.append(participations)
+                serializer = ParticipationSerializer(final, many=True)
+
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            else:
+                return Response({"msg": "This user have no participation"})
+        else:
+            return Response({"msg": "Invalid user"})
