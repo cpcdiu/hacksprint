@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
 
-from account.models import Profile, WorkExperience, Education
+from account.models import Profile, WorkExperience, Education, Company
 
 
 class UserSerializer(ModelSerializer):
@@ -21,6 +21,12 @@ class UserSerializer(ModelSerializer):
                                         password=password, is_active=False)
         Profile.objects.create(user=user)
         return user
+
+
+class PublicUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'email', 'username']
         
 
 class ChangePasswordSerializer(serializers.Serializer):
@@ -99,3 +105,11 @@ class PublicProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['first_name', 'last_name']
+
+
+class CompanySerializer(serializers.ModelSerializer):
+    user = PublicUserSerializer(read_only=True)
+
+    class Meta:
+        model = Company
+        fields = '__all__'
