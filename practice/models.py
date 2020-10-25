@@ -35,10 +35,17 @@ class Practice(models.Model):
     body = RichTextField()
     difficulty = models.IntegerField()
     timestamp = models.DateTimeField(auto_now_add=True)
-    subdomain = models.ManyToManyField(Subdomain)
+    subdomain = models.ManyToManyField(Subdomain, related_name='subdomain')
+    solutions = models.ManyToManyField(User, through='PracticeSolution', related_name='solutions')
 
     def __str__(self):
         return self.title
+
+
+class PracticeSolution(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    practice = models.ForeignKey(Practice, on_delete=models.CASCADE)
+    timestamp = models.DateTimeField(auto_now_add=True)
 
 
 def generate_slug_from_title(sender, instance, *args, **kwargs):
