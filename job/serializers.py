@@ -1,8 +1,12 @@
 from rest_framework import serializers
+
+from account.serializers import CompanySerializer
 from job.models import Job, Application
 
 
 class JobSerializer(serializers.ModelSerializer):
+    company = CompanySerializer()
+
     class Meta:
         model = Job
         fields = '__all__'
