@@ -8,7 +8,7 @@ from rest_framework.views import APIView
 
 from account.serializers import ProfileSerializer, EducationSerializer, WorkExperienceSerializer, UserSerializer, \
     PublicProfileSerializer
-from practice.models import Track, Practice, Subdomain
+from practice.models import Track, Practice, Subdomain, PracticeSolution
 from account.models import Profile, WorkExperience, Education
 from practice.serializers import TrackSerializer, PracticeSerializer, PracticeFilterSerializer
 
@@ -67,7 +67,19 @@ class SinglePracticeView(APIView):
     def get(self, request, track_slug, practice_slug):
         practice = Practice.objects.get(slug=practice_slug)
         serializer = PracticeSerializer(practice)
-        return Response(serializer.data)
+        solved = PracticeSolution.objects.filter(practice=practice).filter(user=request.user).exists()
+        data = {'solved': solved}
+        data.update(serializer.data)
+        return Response(data)
+
+    def post(self, request, track_slug, practice_slug):
+        practice = Practice.objects.get(slug=practice_slug)
+        user = request.user
+        solution = PracticeSolution.objects.get_or_create(user_id=user.id, practice_id=practice.id)
+        msg = {
+            'message': 'Solution submitted successfully'
+        }
+        return Response(msg)
 
 
 class JobsView(APIView):
