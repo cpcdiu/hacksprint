@@ -9,7 +9,8 @@ urlpatterns = [
     path('api/challenges/', include('challenge.urls')),
     path('api/practices/', include('practice.urls')),
     path('api/jobs/', include('job.urls')),
-    path('api/testing/', misc_views.testing)
+    path('api/testing/', misc_views.testing),
+    path('admin/', admin.site.urls)
 ]
 
 if settings.DEBUG:

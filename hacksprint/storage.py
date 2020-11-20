@@ -1,5 +1,5 @@
 from storages.backends.azure_storage import AzureStorage
-from env_prod import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY
+from hacksprint.settings import AZURE_ACCOUNT_NAME, AZURE_ACCOUNT_KEY
 
 
 class AzureMediaStorage(AzureStorage):

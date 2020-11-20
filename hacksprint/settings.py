@@ -49,7 +49,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "http://localhost:8000"
+    "http://localhost:8000",
+    "http://localhost:5000",
 ]
 
 CKEDITOR_CONFIGS = {
@@ -122,12 +123,20 @@ STATIC_URL = '/staticfiles/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 EMAIL_HOST = config('EMAIL_HOST', default='emailhost')
 EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
 EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='hostuser')
 EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='hostpassword')
 EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True)
 EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False)
+
+if not DEBUG:
+    DEFAULT_FILE_STORAGE = 'hacksprint.storage.AzureMediaStorage'
+
+    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME', default='azureaccountname')
+    AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY', default='azureaccountkey')
+
+    MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/'
+else:
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

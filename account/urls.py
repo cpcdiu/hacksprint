@@ -14,5 +14,4 @@ urlpatterns = [
     path('settings/', views.SettingsView.as_view()),
     path('confirm/', views.verify_email, name='verify-email'),
     path('reset-password/', views.reset_password, name='reset-password'),
-    path('test/', views.test)
 ]

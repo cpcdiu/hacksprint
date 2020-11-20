@@ -1,7 +1,7 @@
 .idea
 .vscode
 venv
-allstaticfiles
+staticfiles
 schema.txt
 __pycache__
 media

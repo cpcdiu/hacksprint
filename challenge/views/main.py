@@ -17,7 +17,8 @@ class ChallengeView(APIView):
 
     def get(self, request):
         challenges = Challenge.objects.filter(domain__default_selected=True)
-        serializer = ChallengeSerializer(challenges, many=True, context={'user': request.user})
+        serializer = ChallengeSerializer(
+            challenges, many=True, context={'user': request.user})
         return Response(serializer.data, status=status.HTTP_200_OK)
 
     def post(self, request):
@@ -25,9 +26,12 @@ class ChallengeView(APIView):
         if serializer.is_valid():
             domain = serializer.data['domain']
             subdomain = serializer.data['subdomain']
-            subdomain = [sub.id for sub in Subdomain.objects.filter(domain=domain)] if not subdomain else subdomain
-            filtered_challenges = Challenge.objects.filter(domain=domain).filter(subdomain__in=subdomain).distinct()
-            challenge_serializer = ChallengeSerializer(filtered_challenges, many=True, context={'user': request.user})
+            subdomain = [sub.id for sub in Subdomain.objects.filter(
+                domain=domain)] if not subdomain else subdomain
+            filtered_challenges = Challenge.objects.filter(
+                domain=domain).filter(subdomain__in=subdomain).distinct()
+            challenge_serializer = ChallengeSerializer(
+                filtered_challenges, many=True, context={'user': request.user})
 
             return Response(challenge_serializer.data, status=status.HTTP_200_OK)
         else:
@@ -39,7 +43,8 @@ class ChallengeDetailView(APIView):
 
     def get(self, request, slug):
         challenge = Challenge.objects.get(slug=slug)
-        serialized_challenge = ChallengeSerializer(challenge, context={'user': request.user})
+        serialized_challenge = ChallengeSerializer(
+            challenge, context={'user': request.user})
         return Response(serialized_challenge.data, status=status.HTTP_200_OK)
 
 
@@ -52,7 +57,8 @@ class JoinChallengeView(APIView):
         participation = ChallengesParticipation.objects.create(name=request.user.username, challenge=challenge,
                                                                leader=request.user)
         participation.member.add(request.user)
-        challenge_serializer = ChallengeSerializer(challenge, context={'user': request.user})
+        challenge_serializer = ChallengeSerializer(
+            challenge, context={'user': request.user})
         return Response(challenge_serializer.data, status=status.HTTP_200_OK)
 
 
@@ -62,8 +68,10 @@ class EndChallengeView(APIView):
     def post(self, request, challenge_slug):
         is_challenge = Challenge.objects.filter(slug=challenge_slug).exists()
         if is_challenge:
-            is_participate = ChallengesParticipation.objects.filter(name=request.user.username).exists()
-            participation_obj = ChallengesParticipation.objects.get(name=request.user.username)
+            is_participate = ChallengesParticipation.objects.filter(
+                name=request.user.username).exists()
+            participation_obj = ChallengesParticipation.objects.get(
+                name=request.user.username)
             if is_participate and participation_obj.submission_time is None:
 
                 serializer = EndParticipationSerializer(data=request.data)
@@ -72,7 +80,8 @@ class EndChallengeView(APIView):
                     participation_obj.feedback = feedback
                     participation_obj.submission_time = datetime.datetime.now()
                     participation_obj.save()
-                    participation_serializer = EndParticipationSerializer(participation_obj)
+                    participation_serializer = EndParticipationSerializer(
+                        participation_obj)
 
                     return Response(participation_serializer.data, status=status.HTTP_200_OK)
                 else:
@@ -90,8 +99,10 @@ class SubmissionLinkChallengeView(APIView):
     def post(self, request, challenge_slug):
         is_challenge = Challenge.objects.filter(slug=challenge_slug).exists()
         if is_challenge:
-            is_participate = ChallengesParticipation.objects.filter(name=request.user.username).exists()
-            participation_obj = ChallengesParticipation.objects.get(name=request.user.username)
+            is_participate = ChallengesParticipation.objects.filter(
+                name=request.user.username).exists()
+            participation_obj = ChallengesParticipation.objects.get(
+                name=request.user.username)
             if is_participate and participation_obj.submission_time is None:
 
                 serializer = EndParticipationSerializer(data=request.data)
@@ -99,7 +110,8 @@ class SubmissionLinkChallengeView(APIView):
                     submission_link = serializer.data['submission_link']
                     participation_obj.submission_link = submission_link
                     participation_obj.save()
-                    participation_serializer = EndParticipationSerializer(participation_obj)
+                    participation_serializer = EndParticipationSerializer(
+                        participation_obj)
 
                     return Response(participation_serializer.data, status=status.HTTP_200_OK)
                 else:
@@ -114,7 +126,8 @@ class SubmissionLinkChallengeView(APIView):
 class MyTeamView(APIView):
     def get(self, request, challenge_slug):
         challenge = Challenge.objects.get(slug=challenge_slug)
-        user = request.user.challengesparticipation_set.get(challenge=challenge)
+        user = request.user.challengesparticipation_set.get(
+            challenge=challenge)
         # user = ChallengesParticipation.objects.get(challenge__slug=challenge_slug,member__username=request.user.username)
         participation_serializer = ParticipationSerializer(user)
 
@@ -133,7 +146,8 @@ class MyTeamView(APIView):
         p_challenge.leader = selected_leader
         p_challenge.save()
 
-        serializer = ParticipationSerializer(p_challenge, data=request.data, partial=True)
+        serializer = ParticipationSerializer(
+            p_challenge, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -156,7 +170,8 @@ class ChallengeTeamView(APIView):
 
     def get(self, request, challenge_slug):
         challenge = Challenge.objects.get(slug=challenge_slug)
-        participations = ChallengesParticipation.objects.filter(challenge=challenge)
+        participations = ChallengesParticipation.objects.filter(
+            challenge=challenge)
         serializer = ParticipationSerializer(participations, many=True)
 
         return Response(serializer.data, status=status.HTTP_200_OK)
@@ -177,9 +192,11 @@ class UserDashboardView(APIView):
     def get(self, request):
         is_user = User.objects.filter(username=request.user.username).exists()
         if is_user:
-            is_member = ChallengesParticipation.objects.filter(member=request.user).exists()
+            is_member = ChallengesParticipation.objects.filter(
+                member=request.user).exists()
             if is_member:
-                all_participations = ChallengesParticipation.objects.filter(member=request.user)
+                all_participations = ChallengesParticipation.objects.filter(
+                    member=request.user)
                 final = []
                 for participations in all_participations:
                     if participations.submission_time is None:
