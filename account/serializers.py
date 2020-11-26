@@ -5,9 +5,12 @@ from account.models import User, Profile, WorkExperience, Education, Company
 
 
 class UserSerializer(ModelSerializer):
+    name = serializers.SerializerMethodField('get_name')
+
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'username', 'password']
+        fields = ['first_name', 'last_name',
+                  'email', 'username', 'password', 'name', 'id']
 
     def create(self, validated_data):
         first_name = validated_data.pop('first_name', '')
@@ -19,6 +22,9 @@ class UserSerializer(ModelSerializer):
         user = User.objects.create_user(first_name=first_name, last_name=last_name, username=username, email=email,
                                         password=password, is_active=False)
         return user
+
+    def get_name(self, user):
+        return user.username
 
 
 class PublicUserSerializer(serializers.ModelSerializer):

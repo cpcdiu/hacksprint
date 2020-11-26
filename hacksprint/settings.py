@@ -26,7 +26,8 @@ INSTALLED_APPS = [
     'practice.apps.PracticeConfig',
     'job.apps.JobConfig',
     'account.apps.AccountConfig',
-    'misc.apps.MiscConfig'
+    'misc.apps.MiscConfig',
+    'search.apps.SearchConfig'
 ]
 
 REST_FRAMEWORK = {
@@ -133,7 +134,8 @@ EMAIL_USE_SSL = config('EMAIL_USE_SSL', default=False)
 if not DEBUG:
     DEFAULT_FILE_STORAGE = 'hacksprint.storage.AzureMediaStorage'
 
-    AZURE_ACCOUNT_NAME = config('AZURE_ACCOUNT_NAME', default='azureaccountname')
+    AZURE_ACCOUNT_NAME = config(
+        'AZURE_ACCOUNT_NAME', default='azureaccountname')
     AZURE_ACCOUNT_KEY = config('AZURE_ACCOUNT_KEY', default='azureaccountkey')
 
     MEDIA_URL = f'https://{AZURE_ACCOUNT_NAME}.blob.core.windows.net/media/'

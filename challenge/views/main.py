@@ -134,20 +134,22 @@ class MyTeamView(APIView):
         return Response(participation_serializer.data, status=status.HTTP_200_OK)
 
     def put(self, request, challenge_slug):
-
         p_challenge = ChallengesParticipation.objects.get(challenge__slug=challenge_slug,
                                                           member__username=request.user.username,
                                                           leader__username=request.user.username)
-        for member in request.data["member"]:
-            selected_member = User.objects.get(username=member["username"])
-            p_challenge.member.add(selected_member)
 
-        selected_leader = User.objects.get(username=request.data["leader"])
-        p_challenge.leader = selected_leader
-        p_challenge.save()
+        if "member" in request.data:
+            for member in request.data["member"]:
+                selected_member = User.objects.get(username=member["username"])
+                p_challenge.member.add(selected_member)
+
+        # selected_leader = User.objects.get(username=request.data["leader"])
+        # p_challenge.leader = selected_leader
+        # p_challenge.save()
 
         serializer = ParticipationSerializer(
             p_challenge, data=request.data, partial=True)
+
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

@@ -9,12 +9,14 @@ urlpatterns = [
     path('api/challenges/', include('challenge.urls')),
     path('api/practices/', include('practice.urls')),
     path('api/jobs/', include('job.urls')),
-    path('api/testing/', misc_views.testing),
+    path('api/search/', include('search.urls')),
+    path('api/misc/', include('misc.urls')),
     path('admin/', admin.site.urls)
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)
     urlpatterns += [path('dev-admin/', admin.site.urls)]
 # else:
 #     urlpatterns += [re_path('.*', misc_views.index, name='index')]
